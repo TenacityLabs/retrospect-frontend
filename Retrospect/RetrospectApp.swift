@@ -11,7 +11,7 @@ import SwiftUI
 struct RetrospectApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            IconSelect()
         }
     }
 }
