@@ -1,0 +1,6 @@
+framework module Pods_Retrospect_RetrospectUITests {
+  umbrella header "Pods-Retrospect-RetrospectUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}

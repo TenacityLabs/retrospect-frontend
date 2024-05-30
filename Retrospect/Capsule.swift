@@ -11,5 +11,6 @@ import Combine
 class DataStore: ObservableObject {
     @Published var selectedIcon: Int?
     @Published var collab: Bool?
+    @Published var songs: [Track] = []
 }
  

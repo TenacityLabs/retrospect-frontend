@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct RetrospectApp: App {
+    @StateObject private var spotifyManager = SpotifyManager()
+    @StateObject private var dataStore = DataStore()
+    
     var body: some Scene {
         WindowGroup {
             IconSelect()
+                .environmentObject(spotifyManager)
+                .environmentObject(dataStore)
         }
     }
 }
