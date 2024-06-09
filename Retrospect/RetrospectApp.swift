@@ -11,12 +11,13 @@ import SwiftUI
 struct RetrospectApp: App {
     @StateObject private var spotifyManager = SpotifyManager()
     @StateObject private var dataStore = DataStore()
+    @StateObject private var selectedImages = SelectedImages()
     
     var body: some Scene {
         WindowGroup {
-            IconSelect()
-                .environmentObject(spotifyManager)
+            PhotoSelect()
                 .environmentObject(dataStore)
+                .environmentObject(selectedImages)
         }
     }
 }
