@@ -41,7 +41,9 @@ struct SongSelect: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .onChange(of: query) {
-                            spotifyManager.searchTracks(query: query)
+                            if !(query.count == 0) {
+                                spotifyManager.searchTracks(query: query)
+                            }
                         }
                     
                     List(spotifyManager.searchResults) { track in
