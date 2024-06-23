@@ -15,9 +15,7 @@ struct RetrospectApp: App {
     
     var body: some Scene {
         WindowGroup {
-            PhotoSelect()
-                .environmentObject(dataStore)
-                .environmentObject(selectedImages)
-        }
+            ChooseName()
+        } 
     }
 }

@@ -22,6 +22,7 @@
 		9DEA75202C00E8CA0027AB4A /* IconSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA751F2C00E8CA0027AB4A /* IconSelect.swift */; };
 		9DEA75222C00EC260027AB4A /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA75212C00EC260027AB4A /* Capsule.swift */; };
 		9DEA75242C0171470027AB4A /* SongSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA75232C0171470027AB4A /* SongSelect.swift */; };
+		F784F1072C1D238100E1123F /* ChooseName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F784F1062C1D238100E1123F /* ChooseName.swift */; };
 		F7D40E0A2C16258B006195E7 /* SelectedImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D40E092C16258B006195E7 /* SelectedImages.swift */; };
 		FB2E2D9B0031A4CD2034FCBB /* Pods_Retrospect_RetrospectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EEB07D32392C1EFF3945E4 /* Pods_Retrospect_RetrospectUITests.framework */; };
 /* End PBXBuildFile section */
@@ -68,6 +69,7 @@
 		EF90D033CB818D3BED07713C /* Pods-Retrospect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Retrospect.debug.xcconfig"; path = "Target Support Files/Pods-Retrospect/Pods-Retrospect.debug.xcconfig"; sourceTree = "<group>"; };
 		F0EEB07D32392C1EFF3945E4 /* Pods_Retrospect_RetrospectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Retrospect_RetrospectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F330EAF9F15CC79075C10147 /* Pods-Retrospect-RetrospectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Retrospect-RetrospectUITests.debug.xcconfig"; path = "Target Support Files/Pods-Retrospect-RetrospectUITests/Pods-Retrospect-RetrospectUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F784F1062C1D238100E1123F /* ChooseName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseName.swift; sourceTree = "<group>"; };
 		F7D40E092C16258B006195E7 /* SelectedImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImages.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -158,6 +160,7 @@
 				9DEA74F92BFFF9490027AB4A /* Preview Content */,
 				9D0696662C04122D00AB1098 /* PhotoSelect.swift */,
 				F7D40E092C16258B006195E7 /* SelectedImages.swift */,
+				F784F1062C1D238100E1123F /* ChooseName.swift */,
 			);
 			path = Retrospect;
 			sourceTree = "<group>";
@@ -396,6 +399,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D0696652C040F9600AB1098 /* SpotifyManager.swift in Sources */,
+				F784F1072C1D238100E1123F /* ChooseName.swift in Sources */,
 				9DEA74F42BFFF9470027AB4A /* RetrospectApp.swift in Sources */,
 				9DEA75222C00EC260027AB4A /* Capsule.swift in Sources */,
 				9DEA75242C0171470027AB4A /* SongSelect.swift in Sources */,
