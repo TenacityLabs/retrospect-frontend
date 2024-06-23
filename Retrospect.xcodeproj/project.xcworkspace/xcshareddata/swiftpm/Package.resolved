@@ -23,8 +23,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/Peter-Schorn/SpotifyAPI",
       "state" : {
-        "revision" : "4297eb6f4161fc0f813bf76ce9d4cf8d5cc13f7c",
-        "version" : "3.0.1"
+        "revision" : "d367f6003ffd8853f2ff244a99168fcd83b835b2",
+        "version" : "3.0.2"
       }
     },
     {

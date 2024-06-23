@@ -41,55 +41,64 @@ struct SongSelect: View {
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding()
                         .onChange(of: query) {
-                            spotifyManager.searchTracks(query: query)
+                            if !query.isEmpty {
+                                spotifyManager.searchTracks(query: query)
+                            }
                         }
                     
-                    List(spotifyManager.searchResults) { track in
-                        HStack {
-                            if let albumArtURL = track.albumArtURL {
-                                AsyncImage(url: albumArtURL) { phase in
-                                    switch phase {
-                                    case .empty:
-                                        ProgressView()
-                                    case .success(let image):
-                                        image
-                                            .resizable()
-                                            .frame(width: 50, height: 50)
-                                            .cornerRadius(8)
-                                    case .failure:
-                                        Image(systemName: "photo")
-                                            .resizable()
-                                            .frame(width: 50, height: 50)
-                                            .cornerRadius(8)
-                                    @unknown default:
-                                        EmptyView()
+                    if query.isEmpty && !dataStore.songs.isEmpty {
+                        SongCarouselView()
+                            .environmentObject(dataStore)
+                    } else {
+                        List(spotifyManager.searchResults) { track in
+                            HStack {
+                                if let albumArtURL = track.albumArtURL {
+                                    AsyncImage(url: albumArtURL) { phase in
+                                        switch phase {
+                                        case .empty:
+                                            ProgressView()
+                                                .frame(width: 50, height: 50)
+                                                .cornerRadius(8)
+                                        case .success(let image):
+                                            image
+                                                .resizable()
+                                                .frame(width: 50, height: 50)
+                                                .cornerRadius(8)
+                                        case .failure:
+                                            Image(systemName: "photo")
+                                                .resizable()
+                                                .frame(width: 50, height: 50)
+                                                .cornerRadius(8)
+                                        @unknown default:
+                                            EmptyView()
+                                        }
                                     }
+                                } else {
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .frame(width: 50, height: 50)
+                                        .cornerRadius(8)
                                 }
-                            } else {
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .frame(width: 50, height: 50)
-                                    .cornerRadius(8)
+                                VStack(alignment: .leading) {
+                                    Text(track.name)
+                                        .font(.headline)
+                                    Text(track.artistName)
+                                        .font(.subheadline)
+                                        .foregroundColor(.gray)
+                                }
+                                Spacer()
+                                if selectedTracks.contains(track) {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(.blue)
+                                }
                             }
-                            VStack(alignment: .leading) {
-                                Text(track.name)
-                                    .font(.headline)
-                                Text(track.artistName)
-                                    .font(.subheadline)
-                                    .foregroundColor(.gray)
-                            }
-                            Spacer()
-                            if selectedTracks.contains(track) {
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.blue)
-                            }
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            if selectedTracks.contains(track) {
-                                selectedTracks.remove(track)
-                            } else {
-                                selectedTracks.insert(track)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                if selectedTracks.contains(track) {
+                                    selectedTracks.remove(track)
+                                } else {
+                                    selectedTracks.insert(track)
+                                }
                             }
                         }
                     }
@@ -99,6 +108,7 @@ struct SongSelect: View {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
                     if !selectedTracks.isEmpty {
                         Button(action: {
+                            query = ""
                             dataStore.songs.append(contentsOf: selectedTracks)
                             selectedTracks.removeAll()
                         }) {
@@ -107,7 +117,6 @@ struct SongSelect: View {
                     } else if selectedTracks.isEmpty && !dataStore.songs.isEmpty {
                         NavigationLink(destination: {
                             PhotoSelect()
-                                .environmentObject(dataStore)
                         }) {
                             Text("Done")
                         }
@@ -131,9 +140,82 @@ struct SongSelect: View {
     }
 }
 
+struct SongCarouselView: View {
+    @State private var allIndices: [Int] = []
+    @State private var selectedIndex: Int = 0
+    @EnvironmentObject var dataStore: DataStore
+    
+    var body: some View {
+        VStack {
+            TabView(selection: $selectedIndex) {
+                ForEach(dataStore.songs.indices, id: \.self) { index in
+                    GeometryReader { geometry in
+                        VStack {
+                            if let albumArtURL = dataStore.songs[index].albumArtURL {
+                                AsyncImage(url: albumArtURL) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.8)
+                                            .background(Color.gray.opacity(0.3))
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.8)
+                                    case .failure:
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.8)
+                                            .background(Color.gray.opacity(0.3))
+                                    @unknown default:
+                                        EmptyView()
+                                    }
+                                }
+                            } else {
+                                Image(systemName: "photo")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.8)
+                                    .background(Color.gray.opacity(0.3))
+                            }
+                            Text(dataStore.songs[index].name)
+                                .font(.headline)
+                            Text(dataStore.songs[index].artistName)
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
+                        .scaleEffect(geometry.frame(in: .global).minX == 0 ? 1 : 0.8)
+                    }
+                    .padding(.horizontal, 10)
+                    .tag(index) // Ensure tags are set for selection
+                }
+            }
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .frame(height: 400)
+            
+            // Custom page control indicator
+            HStack {
+                ForEach(0..<allIndices.count, id: \.self) { index in
+                    Circle()
+                        .fill(index == selectedIndex ? Color.black : Color.gray)
+                        .frame(width: 8, height: 8)
+                        .animation(.easeInOut, value: selectedIndex)
+                }
+            }
+            .padding(.top, 10)
+        }
+        .frame(width: UIScreen.main.bounds.width)
+        .onAppear {
+            allIndices = Array(dataStore.songs.indices)
+        }
+    }
+}
+
 #Preview {
     SongSelect()
         .environmentObject(SpotifyManager())
         .environmentObject(DataStore())
 }
-
