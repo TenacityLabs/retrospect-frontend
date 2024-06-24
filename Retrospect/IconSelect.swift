@@ -10,7 +10,7 @@ import SwiftUI
 struct IconSelect: View {
     @StateObject private var dataStore = DataStore()
     
-    var body: some View {
+    var body: some View { 
         NavigationStack {
             VStack {
                 Text("Pick a container worthy of your selection:")

@@ -9,14 +9,12 @@
 /* Begin PBXBuildFile section */
 		8F6F1D4569D93F6E03586515 /* Pods_Retrospect.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A092036390B9E01B7E1A5EA /* Pods_Retrospect.framework */; };
 		943200A837878C67806FFE75 /* Pods_RetrospectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E100C6EF4A9DFE4CDCFAE36C /* Pods_RetrospectTests.framework */; };
-		9D0696632C03FBA800AB1098 /* SpotifyAPI in Frameworks */ = {isa = PBXBuildFile; productRef = 9D0696622C03FBA800AB1098 /* SpotifyAPI */; };
 		9D0696652C040F9600AB1098 /* SpotifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0696642C040F9600AB1098 /* SpotifyManager.swift */; };
 		9D0696672C04122D00AB1098 /* PhotoSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0696662C04122D00AB1098 /* PhotoSelect.swift */; };
 		9D4598832C2760DA00B34494 /* AddText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4598822C2760DA00B34494 /* AddText.swift */; };
 		9D4598852C27613600B34494 /* CreateDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4598842C27613600B34494 /* CreateDrawing.swift */; };
 		9D4598892C2761C700B34494 /* AddAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4598882C2761C700B34494 /* AddAudio.swift */; };
 		9D45988D2C27626600B34494 /* AddFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D45988C2C27626600B34494 /* AddFile.swift */; };
-		9D4598942C27649F00B34494 /* CarouselView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4598932C27649F00B34494 /* CarouselView.swift */; };
 		9D738D1D2C1D2B500019109E /* AnswerPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D738D1C2C1D2B500019109E /* AnswerPrompt.swift */; };
 		9D738D1F2C1D2C820019109E /* AdditionalGoodies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D738D1E2C1D2C820019109E /* AdditionalGoodies.swift */; };
 		9DEA74F42BFFF9470027AB4A /* RetrospectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA74F32BFFF9470027AB4A /* RetrospectApp.swift */; };
@@ -29,6 +27,10 @@
 		9DEA75202C00E8CA0027AB4A /* IconSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA751F2C00E8CA0027AB4A /* IconSelect.swift */; };
 		9DEA75222C00EC260027AB4A /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA75212C00EC260027AB4A /* Capsule.swift */; };
 		9DEA75242C0171470027AB4A /* SongSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA75232C0171470027AB4A /* SongSelect.swift */; };
+		F77347C02C28C1B00048E3C7 /* SpotifyAPI in Frameworks */ = {isa = PBXBuildFile; productRef = F77347BF2C28C1B00048E3C7 /* SpotifyAPI */; };
+		F77347C62C28C9C50048E3C7 /* LandingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C52C28C9C50048E3C7 /* LandingPage.swift */; };
+		F77347C82C2906760048E3C7 /* ShareWithFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C72C2906760048E3C7 /* ShareWithFriends.swift */; };
+		F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C92C290B0D0048E3C7 /* Tutorial.swift */; };
 		F784F1072C1D238100E1123F /* ChooseName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F784F1062C1D238100E1123F /* ChooseName.swift */; };
 		F7D40E0A2C16258B006195E7 /* SelectedImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D40E092C16258B006195E7 /* SelectedImages.swift */; };
 		FB2E2D9B0031A4CD2034FCBB /* Pods_Retrospect_RetrospectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EEB07D32392C1EFF3945E4 /* Pods_Retrospect_RetrospectUITests.framework */; };
@@ -63,7 +65,6 @@
 		9D4598842C27613600B34494 /* CreateDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateDrawing.swift; sourceTree = "<group>"; };
 		9D4598882C2761C700B34494 /* AddAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAudio.swift; sourceTree = "<group>"; };
 		9D45988C2C27626600B34494 /* AddFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFile.swift; sourceTree = "<group>"; };
-		9D4598932C27649F00B34494 /* CarouselView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarouselView.swift; sourceTree = "<group>"; };
 		9D738D1C2C1D2B500019109E /* AnswerPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerPrompt.swift; sourceTree = "<group>"; };
 		9D738D1E2C1D2C820019109E /* AdditionalGoodies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalGoodies.swift; sourceTree = "<group>"; };
 		9DEA74F02BFFF9470027AB4A /* Retrospect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retrospect.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -83,6 +84,9 @@
 		EF90D033CB818D3BED07713C /* Pods-Retrospect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Retrospect.debug.xcconfig"; path = "Target Support Files/Pods-Retrospect/Pods-Retrospect.debug.xcconfig"; sourceTree = "<group>"; };
 		F0EEB07D32392C1EFF3945E4 /* Pods_Retrospect_RetrospectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Retrospect_RetrospectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F330EAF9F15CC79075C10147 /* Pods-Retrospect-RetrospectUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Retrospect-RetrospectUITests.debug.xcconfig"; path = "Target Support Files/Pods-Retrospect-RetrospectUITests/Pods-Retrospect-RetrospectUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		F77347C52C28C9C50048E3C7 /* LandingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPage.swift; sourceTree = "<group>"; };
+		F77347C72C2906760048E3C7 /* ShareWithFriends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareWithFriends.swift; sourceTree = "<group>"; };
+		F77347C92C290B0D0048E3C7 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		F784F1062C1D238100E1123F /* ChooseName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseName.swift; sourceTree = "<group>"; };
 		F7D40E092C16258B006195E7 /* SelectedImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImages.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -92,7 +96,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D0696632C03FBA800AB1098 /* SpotifyAPI in Frameworks */,
+				F77347C02C28C1B00048E3C7 /* SpotifyAPI in Frameworks */,
 				8F6F1D4569D93F6E03586515 /* Pods_Retrospect.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -197,7 +201,9 @@
 				9D4598912C27631D00B34494 /* AdditionalGoodies */,
 				9DEA74F72BFFF9490027AB4A /* Assets.xcassets */,
 				9DEA74F92BFFF9490027AB4A /* Preview Content */,
-				9D4598932C27649F00B34494 /* CarouselView.swift */,
+				F77347C52C28C9C50048E3C7 /* LandingPage.swift */,
+				F77347C72C2906760048E3C7 /* ShareWithFriends.swift */,
+				F77347C92C290B0D0048E3C7 /* Tutorial.swift */,
 			);
 			path = Retrospect;
 			sourceTree = "<group>";
@@ -245,7 +251,7 @@
 			);
 			name = Retrospect;
 			packageProductDependencies = (
-				9D0696622C03FBA800AB1098 /* SpotifyAPI */,
+				F77347BF2C28C1B00048E3C7 /* SpotifyAPI */,
 			);
 			productName = Retrospect;
 			productReference = 9DEA74F02BFFF9470027AB4A /* Retrospect.app */;
@@ -436,17 +442,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				9D0696652C040F9600AB1098 /* SpotifyManager.swift in Sources */,
+				F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */,
 				F784F1072C1D238100E1123F /* ChooseName.swift in Sources */,
 				9D45988D2C27626600B34494 /* AddFile.swift in Sources */,
 				9DEA74F42BFFF9470027AB4A /* RetrospectApp.swift in Sources */,
 				9DEA75222C00EC260027AB4A /* Capsule.swift in Sources */,
 				9D738D1F2C1D2C820019109E /* AdditionalGoodies.swift in Sources */,
+				F77347C62C28C9C50048E3C7 /* LandingPage.swift in Sources */,
 				9D738D1D2C1D2B500019109E /* AnswerPrompt.swift in Sources */,
 				9D4598892C2761C700B34494 /* AddAudio.swift in Sources */,
 				9DEA75242C0171470027AB4A /* SongSelect.swift in Sources */,
 				9D0696672C04122D00AB1098 /* PhotoSelect.swift in Sources */,
 				9DEA751E2C00E87A0027AB4A /* Collab.swift in Sources */,
-				9D4598942C27649F00B34494 /* CarouselView.swift in Sources */,
+				F77347C82C2906760048E3C7 /* ShareWithFriends.swift in Sources */,
 				9D4598852C27613600B34494 /* CreateDrawing.swift in Sources */,
 				F7D40E0A2C16258B006195E7 /* SelectedImages.swift in Sources */,
 				9D4598832C2760DA00B34494 /* AddText.swift in Sources */,
@@ -799,7 +807,7 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		9D0696622C03FBA800AB1098 /* SpotifyAPI */ = {
+		F77347BF2C28C1B00048E3C7 /* SpotifyAPI */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 9D0696612C03FBA800AB1098 /* XCRemoteSwiftPackageReference "SpotifyAPI" */;
 			productName = SpotifyAPI;
