@@ -27,8 +27,6 @@ struct LandingPage: View {
                     .animation(.easeInOut)
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
     }
 }
 
@@ -39,7 +37,7 @@ struct BasicLanding: View {
     var body: some View {
         VStack {
             Text("Retrospect")
-                .font(.system(size: 28))
+                .font(.custom("IvyOraDisplay-Regular", size: 28))
                 .foregroundColor(.white)
             Spacer().frame(height: 20)
             Image("Logo White")
@@ -216,7 +214,10 @@ private func DarkStyledButton(title: String, action: @escaping () -> Void) -> so
 }
 
 #Preview {
-    LandingPage();
+    ZStack {
+        BackgroundImageView()
+        LandingPage()
+    }
 }
 
 

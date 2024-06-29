@@ -7,23 +7,18 @@
 
 import SwiftUI
 
-struct ControlledInput: View {
-    @Binding var text: String
-    var placeholder: String
-    
-    var body: some View {
-        TextField(placeholder, text: $text)
-            .padding()
-            .border(Color.gray, width: 1)
-            .padding(.horizontal)
-    }
-}
-
 struct ChooseName: View {
-    var body: some View {
-        Text("Choose Name")
+    @State private var name: String = ""
+        @State private var selectedDate: Date = Date()
         
-    }
+        var body: some View {
+            VStack {
+                Text("Choose Name").font(.system(size: 18))
+                TextField("Name", text: $name)
+                DatePicker("Date", selection: $selectedDate, displayedComponents: .date)
+                    .datePickerStyle(GraphicalDatePickerStyle())
+            }.padding(.horizontal, 20)
+        }
 }
 
 #Preview {
