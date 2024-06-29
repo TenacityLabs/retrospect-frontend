@@ -22,6 +22,9 @@ struct ChooseName: View {
 }
 
 #Preview {
-    ChooseName()
+    ZStack {
+        BackgroundImageView()
+        ChooseName()
+    }
 }
 

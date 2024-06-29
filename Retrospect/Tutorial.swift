@@ -106,8 +106,6 @@ struct Tutorial: View {
                 }
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
         .gesture(
            DragGesture()
                .onEnded { value in
@@ -126,5 +124,8 @@ struct Tutorial: View {
 }
 
 #Preview {
-    Tutorial()
+    ZStack {
+        BackgroundImageView()
+        Tutorial()
+    }
 }

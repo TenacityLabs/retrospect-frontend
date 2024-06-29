@@ -81,11 +81,12 @@ struct ShareWithFriends: View {
             .listStyle(PlainListStyle())
             .background(Color.black)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black)
     }
 }
 
 #Preview {
-    ShareWithFriends()
+    ZStack {
+        BackgroundImageView()
+        ShareWithFriends()
+    }
 }
