@@ -3,6 +3,7 @@ import SwiftUI
 struct AddText: View {
     @State private var selectedIndex: Int = 0
     @EnvironmentObject var dataStore: DataStore
+    @Binding var AGstate: String
     
     var body: some View {
         VStack {
@@ -89,9 +90,8 @@ struct AddText: View {
             .opacity(dataStore.texts.count <= 1 || selectedIndex == dataStore.texts.count ? 0.5 : 1.0)
             .disabled(dataStore.texts.count <= 1 || selectedIndex == dataStore.texts.count)
             
-            // FIXME: action: go back to additional goodies
             Button(action: {
-                
+                AGstate = "AdditionalGoodies"
             }) {
                 Text("I'm Done!")
                     .foregroundColor(.white)
@@ -115,6 +115,6 @@ struct AddText: View {
 }
 
 #Preview {
-    AddText()
+    AddText(AGstate: .constant(""))
         .environmentObject(DataStore())
 }

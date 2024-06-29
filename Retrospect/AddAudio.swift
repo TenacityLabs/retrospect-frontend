@@ -15,6 +15,7 @@ struct AddAudio: View {
     @State private var isRecording = false
     @State private var audioURL: URL?
     @State private var showDocumentPicker = false
+    @Binding var AGstate: String
 
     var body: some View {
         VStack {
@@ -60,7 +61,21 @@ struct AddAudio: View {
                 .padding()
             }
 
-            Spacer()
+            Button(action: {
+                AGstate = "AdditionalGoodies"
+            }) {
+                Text("I'm Done!")
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(width: 300)
+                    .background(Color.gray)
+                    .cornerRadius(25)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.black, lineWidth: 1)
+                    )
+            }
+            .padding(.horizontal, 20)
         }
         .sheet(isPresented: $showDocumentPicker) {
             DocumentPicker(audioURL: $audioURL)
@@ -153,6 +168,6 @@ struct DocumentPicker: UIViewControllerRepresentable {
 }
 
 #Preview {
-    AddAudio()
+    AddAudio(AGstate: .constant(""))
         .environmentObject(DataStore())
 }

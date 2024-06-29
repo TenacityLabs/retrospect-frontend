@@ -29,6 +29,7 @@
 		9DEA75242C0171470027AB4A /* SongSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA75232C0171470027AB4A /* SongSelect.swift */; };
 		9DEDA4552C3092E60078F42F /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEDA4542C3092E60078F42F /* Router.swift */; };
 		9DEDA4572C30A0140078F42F /* SealBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEDA4562C30A0140078F42F /* SealBox.swift */; };
+		9DEDA4592C30C0A60078F42F /* AdditionalGoodiesRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEDA4582C30C0A60078F42F /* AdditionalGoodiesRouter.swift */; };
 		F74681462C2FCBAB003A3F91 /* IvyOraDisplay-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F746813C2C2FCBAA003A3F91 /* IvyOraDisplay-Thin.ttf */; };
 		F74681472C2FCBAB003A3F91 /* IvyOraDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F746813D2C2FCBAA003A3F91 /* IvyOraDisplay-Bold.ttf */; };
 		F74681482C2FCBAB003A3F91 /* IvyOraDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F746813E2C2FCBAA003A3F91 /* IvyOraDisplay-BoldItalic.ttf */; };
@@ -95,6 +96,7 @@
 		9DEA75232C0171470027AB4A /* SongSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSelect.swift; sourceTree = "<group>"; };
 		9DEDA4542C3092E60078F42F /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
 		9DEDA4562C30A0140078F42F /* SealBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SealBox.swift; sourceTree = "<group>"; };
+		9DEDA4582C30C0A60078F42F /* AdditionalGoodiesRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalGoodiesRouter.swift; sourceTree = "<group>"; };
 		E100C6EF4A9DFE4CDCFAE36C /* Pods_RetrospectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RetrospectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF90D033CB818D3BED07713C /* Pods-Retrospect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Retrospect.debug.xcconfig"; path = "Target Support Files/Pods-Retrospect/Pods-Retrospect.debug.xcconfig"; sourceTree = "<group>"; };
 		F0EEB07D32392C1EFF3945E4 /* Pods_Retrospect_RetrospectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Retrospect_RetrospectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -177,6 +179,7 @@
 				9D4598842C27613600B34494 /* CreateDrawing.swift */,
 				9D4598882C2761C700B34494 /* AddAudio.swift */,
 				9D45988C2C27626600B34494 /* AddFile.swift */,
+				9DEDA4582C30C0A60078F42F /* AdditionalGoodiesRouter.swift */,
 			);
 			name = AdditionalGoodies;
 			sourceTree = "<group>";
@@ -512,6 +515,7 @@
 				9D738D1D2C1D2B500019109E /* AnswerPrompt.swift in Sources */,
 				9D4598892C2761C700B34494 /* AddAudio.swift in Sources */,
 				9DEA75242C0171470027AB4A /* SongSelect.swift in Sources */,
+				9DEDA4592C30C0A60078F42F /* AdditionalGoodiesRouter.swift in Sources */,
 				9D0696672C04122D00AB1098 /* PhotoSelect.swift in Sources */,
 				9DEA751E2C00E87A0027AB4A /* Collab.swift in Sources */,
 				F77347C82C2906760048E3C7 /* ShareWithFriends.swift in Sources */,
