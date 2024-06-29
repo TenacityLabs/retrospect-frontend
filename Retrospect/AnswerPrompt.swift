@@ -10,7 +10,7 @@ import SwiftUI
 struct AnswerPrompt: View {
     @State private var response: String = ""
     @State private var prompt: String = "What item would you bring to a deserted island?"
-
+    @Binding var state: String
     
     var body: some View {
         VStack {
@@ -28,6 +28,9 @@ struct AnswerPrompt: View {
                 .autocapitalization(.none)
                 .disableAutocorrection(true)
         }
+        Button("Done") {
+            state = "AdditionalGoodies"
+        }
     }
     func changePrompt() {
         prompt = "What would you do if you won the lottery?"
@@ -35,5 +38,5 @@ struct AnswerPrompt: View {
 }
 
 #Preview {
-    AnswerPrompt()
+    AnswerPrompt(state: .constant(""))
 }

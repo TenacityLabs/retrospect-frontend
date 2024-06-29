@@ -2,20 +2,21 @@ import SwiftUI
 import PhotosUI
 
 struct PhotoSelect: View {
-    @EnvironmentObject var selectedImages: SelectedImages
+    @EnvironmentObject var dataStore: DataStore
     @State private var showImagePicker = false
+    @Binding var state: String
     
     private let gridItems = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     var body: some View {
         VStack {
-            if selectedImages.images.isEmpty {
+            if dataStore.images.isEmpty {
                 Text("Select up to 9 Photos")
                     .padding()
             } else {
                 ScrollView {
                     LazyVGrid(columns: gridItems, spacing: 10) {
-                        ForEach(selectedImages.images, id: \.self) { image in
+                        ForEach(dataStore.images, id: \.self) { image in
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFit()
@@ -37,7 +38,10 @@ struct PhotoSelect: View {
                     .cornerRadius(10)
             }
             .sheet(isPresented: $showImagePicker) {
-                ImagePicker(selectedImages: self.$selectedImages.images, maxSelection: 9)
+                ImagePicker(dataStore: self._dataStore, maxSelection: 9)
+            }
+            Button("Done") {
+                state = "SongSelect"
             }
         }
         .padding()
@@ -45,7 +49,7 @@ struct PhotoSelect: View {
 }
 
 struct ImagePicker: UIViewControllerRepresentable {
-    @Binding var selectedImages: [UIImage]
+    @EnvironmentObject var dataStore: DataStore
     var maxSelection: Int
     
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
@@ -56,7 +60,7 @@ struct ImagePicker: UIViewControllerRepresentable {
         }
         
         func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-            parent.selectedImages.removeAll()
+            parent.dataStore.images.removeAll()
             
             let group = DispatchGroup()
             
@@ -67,7 +71,7 @@ struct ImagePicker: UIViewControllerRepresentable {
                     result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
                         if let image = image as? UIImage {
                             DispatchQueue.main.async {
-                                self.parent.selectedImages.append(image)
+                                self.parent.dataStore.images.append(image)
                             }
                         }
                         group.leave()
@@ -101,6 +105,6 @@ struct ImagePicker: UIViewControllerRepresentable {
 }
 
 #Preview {
-    PhotoSelect()
-        .environmentObject(SelectedImages())
+    PhotoSelect(state: .constant(""))
+        .environmentObject(DataStore())
 }

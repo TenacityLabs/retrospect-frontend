@@ -27,6 +27,8 @@
 		9DEA75202C00E8CA0027AB4A /* IconSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA751F2C00E8CA0027AB4A /* IconSelect.swift */; };
 		9DEA75222C00EC260027AB4A /* Capsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA75212C00EC260027AB4A /* Capsule.swift */; };
 		9DEA75242C0171470027AB4A /* SongSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA75232C0171470027AB4A /* SongSelect.swift */; };
+		9DEDA4552C3092E60078F42F /* Router.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEDA4542C3092E60078F42F /* Router.swift */; };
+		9DEDA4572C30A0140078F42F /* SealBox.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEDA4562C30A0140078F42F /* SealBox.swift */; };
 		F74681462C2FCBAB003A3F91 /* IvyOraDisplay-Thin.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F746813C2C2FCBAA003A3F91 /* IvyOraDisplay-Thin.ttf */; };
 		F74681472C2FCBAB003A3F91 /* IvyOraDisplay-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F746813D2C2FCBAA003A3F91 /* IvyOraDisplay-Bold.ttf */; };
 		F74681482C2FCBAB003A3F91 /* IvyOraDisplay-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F746813E2C2FCBAA003A3F91 /* IvyOraDisplay-BoldItalic.ttf */; };
@@ -40,7 +42,6 @@
 		F746816B2C2FDBEE003A3F91 /* Syne-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F74681692C2FDBEE003A3F91 /* Syne-Bold.ttf */; };
 		F746816E2C2FDBEE003A3F91 /* Syne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F746816A2C2FDBEE003A3F91 /* Syne-Regular.ttf */; };
 		F77347C02C28C1B00048E3C7 /* SpotifyAPI in Frameworks */ = {isa = PBXBuildFile; productRef = F77347BF2C28C1B00048E3C7 /* SpotifyAPI */; };
-		F77347C62C28C9C50048E3C7 /* LandingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C52C28C9C50048E3C7 /* LandingPage.swift */; };
 		F77347C82C2906760048E3C7 /* ShareWithFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C72C2906760048E3C7 /* ShareWithFriends.swift */; };
 		F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C92C290B0D0048E3C7 /* Tutorial.swift */; };
 		F784F1072C1D238100E1123F /* ChooseName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F784F1062C1D238100E1123F /* ChooseName.swift */; };
@@ -92,6 +93,8 @@
 		9DEA751F2C00E8CA0027AB4A /* IconSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconSelect.swift; sourceTree = "<group>"; };
 		9DEA75212C00EC260027AB4A /* Capsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Capsule.swift; sourceTree = "<group>"; };
 		9DEA75232C0171470027AB4A /* SongSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SongSelect.swift; sourceTree = "<group>"; };
+		9DEDA4542C3092E60078F42F /* Router.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Router.swift; sourceTree = "<group>"; };
+		9DEDA4562C30A0140078F42F /* SealBox.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SealBox.swift; sourceTree = "<group>"; };
 		E100C6EF4A9DFE4CDCFAE36C /* Pods_RetrospectTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RetrospectTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF90D033CB818D3BED07713C /* Pods-Retrospect.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Retrospect.debug.xcconfig"; path = "Target Support Files/Pods-Retrospect/Pods-Retrospect.debug.xcconfig"; sourceTree = "<group>"; };
 		F0EEB07D32392C1EFF3945E4 /* Pods_Retrospect_RetrospectUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Retrospect_RetrospectUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -108,7 +111,6 @@
 		F74681452C2FCBAB003A3F91 /* IvyOraDisplay-ThinItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IvyOraDisplay-ThinItalic.ttf"; sourceTree = "<group>"; };
 		F74681692C2FDBEE003A3F91 /* Syne-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Syne-Bold.ttf"; sourceTree = "<group>"; };
 		F746816A2C2FDBEE003A3F91 /* Syne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Syne-Regular.ttf"; sourceTree = "<group>"; };
-		F77347C52C28C9C50048E3C7 /* LandingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LandingPage.swift; sourceTree = "<group>"; };
 		F77347C72C2906760048E3C7 /* ShareWithFriends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareWithFriends.swift; sourceTree = "<group>"; };
 		F77347C92C290B0D0048E3C7 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		F784F1062C1D238100E1123F /* ChooseName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseName.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				F74681502C2FCBB5003A3F91 /* fonts */,
 				9DEA75212C00EC260027AB4A /* Capsule.swift */,
 				9DEA74F32BFFF9470027AB4A /* RetrospectApp.swift */,
+				9DEDA4542C3092E60078F42F /* Router.swift */,
 				9DEA751F2C00E8CA0027AB4A /* IconSelect.swift */,
 				9DEA751D2C00E87A0027AB4A /* Collab.swift */,
 				9D0696662C04122D00AB1098 /* PhotoSelect.swift */,
@@ -226,9 +229,9 @@
 				9D4598912C27631D00B34494 /* AdditionalGoodies */,
 				9DEA74F72BFFF9490027AB4A /* Assets.xcassets */,
 				9DEA74F92BFFF9490027AB4A /* Preview Content */,
-				F77347C52C28C9C50048E3C7 /* LandingPage.swift */,
 				F77347C72C2906760048E3C7 /* ShareWithFriends.swift */,
 				F77347C92C290B0D0048E3C7 /* Tutorial.swift */,
+				9DEDA4562C30A0140078F42F /* SealBox.swift */,
 			);
 			path = Retrospect;
 			sourceTree = "<group>";
@@ -499,12 +502,13 @@
 			files = (
 				9D0696652C040F9600AB1098 /* SpotifyManager.swift in Sources */,
 				F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */,
+				9DEDA4572C30A0140078F42F /* SealBox.swift in Sources */,
 				F784F1072C1D238100E1123F /* ChooseName.swift in Sources */,
 				9D45988D2C27626600B34494 /* AddFile.swift in Sources */,
 				9DEA74F42BFFF9470027AB4A /* RetrospectApp.swift in Sources */,
 				9DEA75222C00EC260027AB4A /* Capsule.swift in Sources */,
+				9DEDA4552C3092E60078F42F /* Router.swift in Sources */,
 				9D738D1F2C1D2C820019109E /* AdditionalGoodies.swift in Sources */,
-				F77347C62C28C9C50048E3C7 /* LandingPage.swift in Sources */,
 				9D738D1D2C1D2B500019109E /* AnswerPrompt.swift in Sources */,
 				9D4598892C2761C700B34494 /* AddAudio.swift in Sources */,
 				9DEA75242C0171470027AB4A /* SongSelect.swift in Sources */,

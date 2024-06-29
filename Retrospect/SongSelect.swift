@@ -27,6 +27,7 @@ struct SongSelect: View {
     @State private var query: String = ""
     @State private var selectedTracks: Set<Track> = []
     @EnvironmentObject var dataStore: DataStore
+    @Binding var state: String
 
     var body: some View {
         NavigationView {
@@ -115,8 +116,8 @@ struct SongSelect: View {
                             Text("Add")
                         }
                     } else if selectedTracks.isEmpty && !dataStore.songs.isEmpty {
-                        NavigationLink(destination: {
-                            PhotoSelect()
+                        Button(action: {
+                            state = "AnswerPrompt"
                         }) {
                             Text("Done")
                         }
@@ -215,7 +216,7 @@ struct SongCarouselView: View {
 }
 
 #Preview {
-    SongSelect()
+    SongSelect(state: .constant(""))
         .environmentObject(SpotifyManager())
         .environmentObject(DataStore())
 }

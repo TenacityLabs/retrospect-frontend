@@ -12,6 +12,7 @@ import UIKit
 
 struct AdditionalGoodies: View {
     @EnvironmentObject var dataStore: DataStore
+    @Binding var state: String
     
     var body: some View {
         NavigationView {
@@ -70,11 +71,11 @@ struct AdditionalGoodies: View {
                 
                 HStack {
                     Spacer()
-                    Text("check mark")
-                        .frame(width: 100, height: 100)
-                        .background(Color.gray)
-                        .foregroundColor(.black)
-                        .clipShape(Circle())
+                    Button(action: {
+                        state = "ChooseName"
+                    }) {
+                        Text("Done")
+                    }
                     Spacer()
                 }
             }
@@ -84,6 +85,6 @@ struct AdditionalGoodies: View {
 }
 
 #Preview {
-    AdditionalGoodies()
+    AdditionalGoodies(state: .constant(""))
         .environmentObject(DataStore())
 }

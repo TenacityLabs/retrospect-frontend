@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct IconSelect: View {
+    @Binding var state: String
     @StateObject private var dataStore = DataStore()
     
     var body: some View { 
@@ -25,26 +26,14 @@ struct IconSelect: View {
                 Spacer()
                 
                 if dataStore.selectedIcon != nil {
-                    NavigationLink(destination: {
-                        Collab()
-                            .environmentObject(dataStore)
-                    }, label: {
-                        HStack {
-                            Text("Next")
-                            Image(systemName: "arrow.right")
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding(.bottom, 20)
-                    })
+                    Button("Next") {
+                        state = "PhotoSelect"
+                    }
                 }
                 
                 // FIXME: Handle return to menu once menu is created
-                Button(action: {
-                }) {
-                    Text("Return to menu")
+                Button("Return to menu") {
+                    state = "Menu"
                 }
                 .padding(.bottom, 20)
             }
@@ -84,6 +73,6 @@ struct GridView: View {
 
 struct IconSelectView_Previews: PreviewProvider {
     static var previews: some View {
-        IconSelect()
+        IconSelect(state: .constant(""))
     }
 }

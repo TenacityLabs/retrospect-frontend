@@ -60,25 +60,8 @@ struct Collab: View {
                     .padding(.horizontal, 30)
                 }
                 .frame(height: 200) // Set an appropriate height for the GeometryReader
-                
                 Spacer()
-
-                if dataStore.collab != nil {
-                    NavigationLink(destination: {
-                        SongSelect()
-                            .environmentObject(dataStore)
-                    }, label: {
-                        HStack {
-                            Text("Next")
-                            Image(systemName: "arrow.right")
-                        }
-                        .padding()
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(10)
-                        .padding(.bottom, 20)
-                    })
-                }            }
+            }
         }
     }
 }
