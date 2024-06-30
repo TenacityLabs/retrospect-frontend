@@ -16,6 +16,6 @@ class DataStore: ObservableObject {
     @Published var audios: [Data] = []
     @Published var files: [URL] = []
     @Published var texts: [String] = []
-    @Published var drawing: Data?
+    @Published var drawings: [[PathWithColor]] = [[]]
 }
  

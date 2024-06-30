@@ -125,7 +125,6 @@ struct Tutorial: View {
 
 #Preview {
     ZStack {
-        BackgroundImageView()
         Tutorial()
     }
 }
