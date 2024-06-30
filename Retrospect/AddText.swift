@@ -1,63 +1,120 @@
-//
-//  AddText.swift
-//  Retrospect
-//
-//  Created by Andrew Durnford on 2024-06-22.
-//
-
 import SwiftUI
 
 struct AddText: View {
+    @State private var selectedIndex: Int = 0
     @EnvironmentObject var dataStore: DataStore
-    @State private var enteredTexts: [String] = []
-
+    @Binding var AGstate: String
+    
     var body: some View {
         VStack {
-            Text("Write sum")
+            Text("Write Something")
                 .font(.largeTitle)
-                .padding()
-
-            ScrollView {
-                VStack {
-                    ForEach(0..<enteredTexts.count, id: \.self) { index in
-                        TextField("Enter text here", text: Binding(
-                            get: { self.enteredTexts[index] },
-                            set: { self.enteredTexts[index] = $0; self.dataStore.texts[index] = $0 }
-                        ))
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal)
-                    }
-
-                    if enteredTexts.count < 10 {
-                        Button(action: addTextField) {
-                            Image(systemName: "plus")
+                .padding(.top, 20)
+            
+            TabView(selection: $selectedIndex) {
+                ForEach(dataStore.texts.indices, id: \.self) { index in
+                    GeometryReader { geometry in
+                        VStack {
+                            TextField("Write to your heart’s desire...", text: $dataStore.texts[index], axis: .vertical)
+                                .lineLimit(10, reservesSpace: true)
                                 .padding()
-                                .background(Color.gray)
-                                .foregroundColor(.white)
-                                .clipShape(Circle())
+                                .background(Color(UIColor.systemGray5))
+                                .cornerRadius(15)
+                                .padding(.horizontal, 20)
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
                         }
-                        .padding()
                     }
                 }
+                .padding(.horizontal, 10)
+                
+                // Add new text button
+                if dataStore.texts.count < 3 {
+                    VStack {
+                        Spacer()
+                        Button(action: {
+                            dataStore.texts.append("")
+                            selectedIndex = dataStore.texts.count - 1
+                        }) {
+                            VStack {
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .foregroundColor(.white)
+                                    .frame(width: 30, height: 30)
+                            }
+                            .frame(width: 325, height: 250)
+                            .background(Color(UIColor.systemGray5))
+                            .cornerRadius(15)
+                            .padding(.horizontal, 20)
+                        }
+                        Spacer()
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .padding(.horizontal, 10)
+                    .tag(dataStore.texts.count)
+                }
             }
-
-            Spacer()
+            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+            .frame(height: 400)
+            
+            // Custom page control indicator
+            HStack {
+                ForEach(0..<dataStore.texts.count + (dataStore.texts.count < 3 ? 1 : 0), id: \.self) { index in
+                    Circle()
+                        .fill(index == selectedIndex ? Color.black : Color.gray)
+                        .frame(width: 8, height: 8)
+                        .animation(.easeInOut, value: selectedIndex)
+                }
+            }
+            .padding(.top, 10)
+            
+            // Delete current text button
+            Button(action: {
+                dataStore.texts.remove(at: selectedIndex)
+                if selectedIndex != 0 {
+                    selectedIndex = selectedIndex - 1
+                }
+            }) {
+                Text("Delete Text")
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(width: 300)
+                    .background(Color.gray)
+                    .cornerRadius(25)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.black, lineWidth: 1)
+                    )
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 10)
+            .opacity(dataStore.texts.count <= 1 || selectedIndex == dataStore.texts.count ? 0.5 : 1.0)
+            .disabled(dataStore.texts.count <= 1 || selectedIndex == dataStore.texts.count)
+            
+            Button(action: {
+                AGstate = "AdditionalGoodies"
+            }) {
+                Text("I'm Done!")
+                    .foregroundColor(.white)
+                    .padding()
+                    .frame(width: 300)
+                    .background(Color.gray)
+                    .cornerRadius(25)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.black, lineWidth: 1)
+                    )
+            }
+            .padding(.horizontal, 20)
         }
-        .padding()
         .onAppear {
-            enteredTexts = dataStore.texts
-        }
-    }
-
-    private func addTextField() {
-        if enteredTexts.count < 10 {
-            enteredTexts.append("")
-            dataStore.texts.append("")
+            if dataStore.texts.isEmpty {
+                dataStore.texts.append("") // Add an empty text if the array is empty
+            }
         }
     }
 }
 
 #Preview {
-    AddText()
+    AddText(AGstate: .constant(""))
         .environmentObject(DataStore())
 }

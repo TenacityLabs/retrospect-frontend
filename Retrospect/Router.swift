@@ -31,7 +31,7 @@ struct Router: View {
                     .transition(.slide)
                     .environmentObject(dataStore)
             } else if state == "AdditionalGoodies" {
-                AdditionalGoodies(state: $state)
+                AdditionalGoodiesRouter(state: $state)
                     .transition(.slide)
                     .environmentObject(dataStore)
             } else if state == "ChooseName" {
