@@ -14,11 +14,15 @@ struct PathWithColor {
 }
 
 class DrawingView: UIView {
+    var paths: [PathWithColor] = [] {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     
     private var currentPath = UIBezierPath()
     private var startPoint: CGPoint?
     private var touchPoint: CGPoint?
-    private var paths: [PathWithColor] = []
     var strokeColor: UIColor = .black
     var strokeWidth: CGFloat = 2.0
     
@@ -87,9 +91,23 @@ struct DrawingViewRepresentable: UIViewRepresentable {
     @Binding var clear: Bool
     @Binding var color: Color
     @Binding var strokeWidth: CGFloat
+    @Binding var paths: [PathWithColor]
     
+    class Coordinator: NSObject {
+        var parent: DrawingViewRepresentable
+
+        init(parent: DrawingViewRepresentable) {
+            self.parent = parent
+        }
+    }
+
+    func makeCoordinator() -> Coordinator {
+        return Coordinator(parent: self)
+    }
+
     func makeUIView(context: Context) -> DrawingView {
-        return DrawingView()
+        let drawingView = DrawingView()
+        return drawingView
     }
     
     func updateUIView(_ uiView: DrawingView, context: Context) {
@@ -102,7 +120,9 @@ struct DrawingViewRepresentable: UIViewRepresentable {
     }
 }
 
+
 struct CreateDrawing: View {
+    @EnvironmentObject var dataStore: DataStore
     @State private var clear = false
     @State private var color = Color.black
     @State private var strokeWidth: CGFloat = 2.0
@@ -114,7 +134,7 @@ struct CreateDrawing: View {
                     .font(.largeTitle)
                     .padding()
 
-                DrawingViewRepresentable(clear: $clear, color: $color, strokeWidth: $strokeWidth)
+                DrawingViewRepresentable(clear: $clear, color: $color, strokeWidth: $strokeWidth, paths: $dataStore.drawings[0])
                     .frame(height: geometry.size.height / 2)
                     .border(Color.gray.opacity(0.25), width: 1)
 
@@ -152,5 +172,6 @@ struct CreateDrawing: View {
 struct CreateDrawing_Previews: PreviewProvider {
     static var previews: some View {
         CreateDrawing()
+            .environmentObject(DataStore())
     }
 }

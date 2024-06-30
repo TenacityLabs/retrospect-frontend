@@ -46,6 +46,7 @@
 		F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C92C290B0D0048E3C7 /* Tutorial.swift */; };
 		F784F1072C1D238100E1123F /* ChooseName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F784F1062C1D238100E1123F /* ChooseName.swift */; };
 		F7D40E0A2C16258B006195E7 /* SelectedImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D40E092C16258B006195E7 /* SelectedImages.swift */; };
+		F7D96C9C2C30C2E000BB538A /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D96C9B2C30C2E000BB538A /* Dashboard.swift */; };
 		FB2E2D9B0031A4CD2034FCBB /* Pods_Retrospect_RetrospectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EEB07D32392C1EFF3945E4 /* Pods_Retrospect_RetrospectUITests.framework */; };
 /* End PBXBuildFile section */
 
@@ -115,6 +116,7 @@
 		F77347C92C290B0D0048E3C7 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		F784F1062C1D238100E1123F /* ChooseName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseName.swift; sourceTree = "<group>"; };
 		F7D40E092C16258B006195E7 /* SelectedImages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedImages.swift; sourceTree = "<group>"; };
+		F7D96C9B2C30C2E000BB538A /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -232,6 +234,7 @@
 				F77347C72C2906760048E3C7 /* ShareWithFriends.swift */,
 				F77347C92C290B0D0048E3C7 /* Tutorial.swift */,
 				9DEDA4562C30A0140078F42F /* SealBox.swift */,
+				F7D96C9B2C30C2E000BB538A /* Dashboard.swift */,
 			);
 			path = Retrospect;
 			sourceTree = "<group>";
@@ -502,6 +505,7 @@
 			files = (
 				9D0696652C040F9600AB1098 /* SpotifyManager.swift in Sources */,
 				F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */,
+				F7D96C9C2C30C2E000BB538A /* Dashboard.swift in Sources */,
 				9DEDA4572C30A0140078F42F /* SealBox.swift in Sources */,
 				F784F1072C1D238100E1123F /* ChooseName.swift in Sources */,
 				9D45988D2C27626600B34494 /* AddFile.swift in Sources */,
