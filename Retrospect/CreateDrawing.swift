@@ -83,6 +83,7 @@ class DrawingView: UIView {
     
     func clear() {
         paths.removeAll()
+        currentPath = UIBezierPath()
         setNeedsDisplay()
     }
 }
@@ -92,7 +93,7 @@ struct DrawingViewRepresentable: UIViewRepresentable {
     @Binding var color: Color
     @Binding var strokeWidth: CGFloat
     @Binding var paths: [PathWithColor]
-    
+
     class Coordinator: NSObject {
         var parent: DrawingViewRepresentable
 
@@ -109,17 +110,18 @@ struct DrawingViewRepresentable: UIViewRepresentable {
         let drawingView = DrawingView()
         return drawingView
     }
-    
+
     func updateUIView(_ uiView: DrawingView, context: Context) {
         if clear {
             uiView.clear()
-            clear = false
+            DispatchQueue.main.async {
+                self.clear = false
+            }
         }
         uiView.strokeColor = UIColor(color)
         uiView.strokeWidth = strokeWidth
     }
 }
-
 
 struct CreateDrawing: View {
     @EnvironmentObject var dataStore: DataStore
