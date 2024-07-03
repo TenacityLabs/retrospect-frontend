@@ -12,6 +12,7 @@ class DataStore: ObservableObject {
     @Published var selectedIcon: Int?
     @Published var images: [UIImage] = []
     @Published var collab: Bool?
+    @Published var prompts: [Prompt] = []
     @Published var songs: [Track] = []
     @Published var audios: [Data] = []
     @Published var files: [URL] = []
