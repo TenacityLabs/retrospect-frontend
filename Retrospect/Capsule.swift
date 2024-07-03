@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class DataStore: ObservableObject {
-    @Published var selectedIcon: Int?
+    @Published var container: Int?
     @Published var images: [UIImage] = []
     @Published var collab: Bool?
     @Published var prompts: [Prompt] = []

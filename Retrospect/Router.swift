@@ -13,6 +13,7 @@ struct Router: View {
     
     var body: some View {
         ZStack {
+            BackgroundImageView()
             if state == "IconSelect"{
                 IconSelect(state: $state)
                     .transition(.slide)
@@ -45,7 +46,6 @@ struct Router: View {
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.white)
     }
 }
 
