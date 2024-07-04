@@ -70,7 +70,6 @@ struct IconSelect: View {
                             .stroke(Color.black, lineWidth: 1)
                     )
             }
-            .disabled(dataStore.container == nil)
             .padding(.bottom, 80)
         }
         .padding(.horizontal)

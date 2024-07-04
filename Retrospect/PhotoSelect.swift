@@ -67,7 +67,7 @@ struct PhotoSelect: View {
                             .stroke(Color.black, lineWidth: 1)
                     )
             }
-            .disabled(dataStore.images.isEmpty)
+//            .disabled(dataStore.images.isEmpty)
             .padding(.bottom, 100)
         }
     }
