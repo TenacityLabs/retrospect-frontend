@@ -81,6 +81,7 @@
 		9D4598882C2761C700B34494 /* AddAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAudio.swift; sourceTree = "<group>"; };
 		9D45988C2C27626600B34494 /* AddFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFile.swift; sourceTree = "<group>"; };
 		9D4D8C482C3626B800DB1091 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
+		9D4D8C4A2C371C9B00DB1091 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9D738D1C2C1D2B500019109E /* AnswerPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerPrompt.swift; sourceTree = "<group>"; };
 		9D738D1E2C1D2C820019109E /* AdditionalGoodies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalGoodies.swift; sourceTree = "<group>"; };
 		9DEA74F02BFFF9470027AB4A /* Retrospect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retrospect.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -246,6 +247,7 @@
 		9DEA74F22BFFF9470027AB4A /* Retrospect */ = {
 			isa = PBXGroup;
 			children = (
+				9D4D8C4A2C371C9B00DB1091 /* Info.plist */,
 				9DEA74F32BFFF9470027AB4A /* RetrospectApp.swift */,
 				F7D96C9B2C30C2E000BB538A /* Dashboard.swift */,
 				9DEDA4562C30A0140078F42F /* SealBox.swift */,
@@ -711,7 +713,7 @@
 				DEVELOPMENT_TEAM = JF4JYD8QG8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = Retrospect/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -743,7 +745,7 @@
 				DEVELOPMENT_TEAM = JF4JYD8QG8;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "";
+				INFOPLIST_FILE = Retrospect/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

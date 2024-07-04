@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDocumentTypes</key>
+	<array>
+		<dict/>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Syne-Bold.ttf</string>
+		<string>Syne-Regular.ttf</string>
+		<string>IvyOraDisplay-Bold.ttf</string>
+		<string>IvyOraDisplay-BoldItalic.ttf</string>
+		<string>IvyOraDisplay-Light.ttf</string>
+		<string>IvyOraDisplay-LightItalic.ttf</string>
+		<string>IvyOraDisplay-Medium.ttf</string>
+		<string>IvyOraDisplay-MediumItalic.ttf</string>
+		<string>IvyOraDisplay-Regular.ttf</string>
+		<string>IvyOraDisplay-RegularItalic.ttf</string>
+		<string>IvyOraDisplay-Thin.ttf</string>
+		<string>IvyOraDisplay-ThinItalic.ttf</string>
+	</array>
+</dict>
+</plist>
