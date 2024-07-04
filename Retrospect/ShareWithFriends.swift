@@ -41,6 +41,7 @@ struct ShareWithFriends: View {
                 .resizable()
                 .scaledToFit()
                 .frame(width: 75, height: 75)
+                .padding(.top, 75)
             Spacer().frame(height: 20)
             Text("Better Together")
                 .font(.system(size: 28))

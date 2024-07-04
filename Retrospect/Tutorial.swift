@@ -15,11 +15,10 @@ struct Tutorial: View {
             VStack {
                 VStack {
                     HStack(spacing: 5) {
-                       ForEach(0..<3) {
-                           index in
+                       ForEach(0..<3) { index in
                            Rectangle()
                                .fill(Color.white)
-                               .frame(width: geometry.size.width / 3 - 5, height: 4)
+                               .frame(width: (geometry.size.width - 10) / 3, height: 4)
                                .opacity(step == index ? 0.8 : 0.2)
                                .animation(.easeInOut, value: step)
                                .cornerRadius(.infinity)
@@ -109,16 +108,16 @@ struct Tutorial: View {
         .gesture(
            DragGesture()
                .onEnded { value in
-                   if value.translation.width < -50 {
+                   if value.translation.width < -30 {
                        withAnimation {
                            step = min(2, step + 1)
                        }
-                   } else if value.translation.width > 50 {
+                   } else if value.translation.width > 30 {
                        withAnimation {
                            step = max(0, step - 1)
-                    }
-                }
-            }
+                       }
+                   }
+               }
         )
     }
 }
@@ -126,5 +125,6 @@ struct Tutorial: View {
 #Preview {
     ZStack {
         Tutorial()
+            .background(Color.black.edgesIgnoringSafeArea(.all))
     }
 }
