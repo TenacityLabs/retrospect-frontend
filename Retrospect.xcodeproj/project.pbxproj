@@ -16,6 +16,8 @@
 		9D4598892C2761C700B34494 /* AddAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4598882C2761C700B34494 /* AddAudio.swift */; };
 		9D45988D2C27626600B34494 /* AddFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D45988C2C27626600B34494 /* AddFile.swift */; };
 		9D4D8C492C3626B800DB1091 /* SignUp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D8C482C3626B800DB1091 /* SignUp.swift */; };
+		9D4D8C4E2C374EC100DB1091 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D8C4D2C374EC100DB1091 /* APIClient.swift */; };
+		9D4D8C502C37559F00DB1091 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D8C4F2C37559F00DB1091 /* Login.swift */; };
 		9D738D1D2C1D2B500019109E /* AnswerPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D738D1C2C1D2B500019109E /* AnswerPrompt.swift */; };
 		9D738D1F2C1D2C820019109E /* AdditionalGoodies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D738D1E2C1D2C820019109E /* AdditionalGoodies.swift */; };
 		9DEA74F42BFFF9470027AB4A /* RetrospectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA74F32BFFF9470027AB4A /* RetrospectApp.swift */; };
@@ -82,6 +84,8 @@
 		9D45988C2C27626600B34494 /* AddFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddFile.swift; sourceTree = "<group>"; };
 		9D4D8C482C3626B800DB1091 /* SignUp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUp.swift; sourceTree = "<group>"; };
 		9D4D8C4A2C371C9B00DB1091 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		9D4D8C4D2C374EC100DB1091 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		9D4D8C4F2C37559F00DB1091 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		9D738D1C2C1D2B500019109E /* AnswerPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerPrompt.swift; sourceTree = "<group>"; };
 		9D738D1E2C1D2C820019109E /* AdditionalGoodies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalGoodies.swift; sourceTree = "<group>"; };
 		9DEA74F02BFFF9470027AB4A /* Retrospect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retrospect.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -256,6 +260,8 @@
 				F74681502C2FCBB5003A3F91 /* fonts */,
 				9DEA74F72BFFF9490027AB4A /* Assets.xcassets */,
 				9DEA74F92BFFF9490027AB4A /* Preview Content */,
+				9D4D8C4D2C374EC100DB1091 /* APIClient.swift */,
+				9D4D8C4F2C37559F00DB1091 /* Login.swift */,
 			);
 			path = Retrospect;
 			sourceTree = "<group>";
@@ -529,6 +535,7 @@
 				F7D96C9C2C30C2E000BB538A /* Dashboard.swift in Sources */,
 				9D4D8C492C3626B800DB1091 /* SignUp.swift in Sources */,
 				9DEDA4572C30A0140078F42F /* SealBox.swift in Sources */,
+				9D4D8C4E2C374EC100DB1091 /* APIClient.swift in Sources */,
 				F784F1072C1D238100E1123F /* ChooseName.swift in Sources */,
 				9D45988D2C27626600B34494 /* AddFile.swift in Sources */,
 				9DEA74F42BFFF9470027AB4A /* RetrospectApp.swift in Sources */,
@@ -540,6 +547,7 @@
 				9DEA75242C0171470027AB4A /* SongSelect.swift in Sources */,
 				9DEDA4592C30C0A60078F42F /* AdditionalGoodiesRouter.swift in Sources */,
 				9D0696672C04122D00AB1098 /* PhotoSelect.swift in Sources */,
+				9D4D8C502C37559F00DB1091 /* Login.swift in Sources */,
 				9DEA751E2C00E87A0027AB4A /* Collab.swift in Sources */,
 				F77347C82C2906760048E3C7 /* ShareWithFriends.swift in Sources */,
 				9D4598852C27613600B34494 /* CreateDrawing.swift in Sources */,
