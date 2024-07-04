@@ -21,9 +21,13 @@ struct AddFile: View {
                     GeometryReader { geometry in
                         VStack {
                             PDFPreviewView(url: dataStore.files[index])
-                                .frame(maxHeight: 300)
+                                .frame(maxHeight: 320)
                                 .cornerRadius(15)
                                 .shadow(radius: 5)
+                                .padding(.vertical, 5)
+                            Text(dataStore.files[index].lastPathComponent)
+                                .foregroundColor(.white)
+                                .padding(.vertical, 5)
                         }
                         .padding(20)
                         .background(Color.white.opacity(0.2))
