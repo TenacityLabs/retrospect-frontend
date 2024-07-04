@@ -88,6 +88,7 @@ struct AddFile: View {
             .padding(.bottom, 100)
         }
         .onChange(of: dataStore.files.count) {
+            dataStore.files = Array(Set(dataStore.files))
             selectedIndex = dataStore.files.count - 1
         }
     }
