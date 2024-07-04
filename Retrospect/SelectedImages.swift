@@ -6,8 +6,4 @@
 //
 
 import SwiftUI
-import Combine
 
-class SelectedImages: ObservableObject {
-    @Published var images: [UIImage] = []
-}

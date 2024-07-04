@@ -2,7 +2,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct AddFile: View {
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var dataStore: capsule
     @State private var isDocumentPickerPresented = false
     @Binding var AGstate: String
     
@@ -80,5 +80,5 @@ struct AddFile: View {
 
 #Preview {
     AddFile(AGstate: .constant(""))
-        .environmentObject(DataStore())
+        .environmentObject(capsule())
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct IconSelect: View {
     @Binding var state: String
-    @StateObject private var dataStore = DataStore()
+    @StateObject private var dataStore = capsule()
     @State private var selectedIndex: Int = 0
     @State private var containers = ["Box", "Suitcase", "Guitar", "Jar", "Shoe"]
     

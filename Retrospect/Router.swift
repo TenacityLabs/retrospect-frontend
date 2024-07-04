@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Router: View {
     @State private var state = "IconSelect"
-    @State private var dataStore = DataStore()
+    @State private var dataStore = capsule()
     
     var body: some View {
         ZStack {

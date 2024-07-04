@@ -9,7 +9,7 @@ import SwiftUI
 import AVFoundation
 
 struct AddAudio: View {
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var dataStore: capsule
     @State private var audioRecorder: AVAudioRecorder?
     @State private var audioPlayer: AVAudioPlayer?
     @State private var isRecording = false
@@ -135,7 +135,7 @@ struct AddAudio: View {
 
 struct DocumentPicker: UIViewControllerRepresentable {
     @Binding var audioURL: URL?
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var dataStore: capsule
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -169,5 +169,5 @@ struct DocumentPicker: UIViewControllerRepresentable {
 
 #Preview {
     AddAudio(AGstate: .constant(""))
-        .environmentObject(DataStore())
+        .environmentObject(capsule())
 }

@@ -124,7 +124,7 @@ struct DrawingViewRepresentable: UIViewRepresentable {
 }
 
 struct CreateDrawing: View {
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var dataStore: capsule
     @State private var clear = false
     @State private var color = Color.black
     @State private var strokeWidth: CGFloat = 2.0
@@ -174,6 +174,6 @@ struct CreateDrawing: View {
 struct CreateDrawing_Previews: PreviewProvider {
     static var previews: some View {
         CreateDrawing()
-            .environmentObject(DataStore())
+            .environmentObject(capsule())
     }
 }

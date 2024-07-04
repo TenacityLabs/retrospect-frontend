@@ -3,7 +3,7 @@ import SwiftUI
 @main
 struct RetrospectApp: App {
     @StateObject private var spotifyManager = SpotifyManager()
-    @StateObject private var dataStore = DataStore()
+    @StateObject private var dataStore = capsule()
 
     var body: some Scene {
         WindowGroup {

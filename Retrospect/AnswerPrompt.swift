@@ -14,7 +14,7 @@ struct Prompt {
 
 // FIXME: Fix styling, delete text kind of buggy, plus button wrong shape, prompt generation, prompt changing
 struct AnswerPrompt: View {
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var dataStore: capsule
     @State private var selectedIndex: Int = 0
     @Binding var state: String
     
@@ -149,5 +149,5 @@ struct AnswerPrompt: View {
 
 #Preview {
     AnswerPrompt(state: .constant(""))
-        .environmentObject(DataStore())
+        .environmentObject(capsule())
 }

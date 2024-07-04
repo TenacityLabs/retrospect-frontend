@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Collab: View {
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var dataStore: capsule
     @State private var showSongSelectView = false
 
     var body: some View {
@@ -69,6 +69,6 @@ struct Collab: View {
 struct Collab_Previews: PreviewProvider {
     static var previews: some View {
         Collab()
-            .environmentObject(DataStore())
+            .environmentObject(capsule())
     }
 }

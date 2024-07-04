@@ -10,7 +10,7 @@ import SwiftUI
 struct AdditionalGoodiesRouter: View {
     @Binding var state: String
     @State private var AGstate = "AdditionalGoodies"
-    @EnvironmentObject var dataStore: DataStore
+    @EnvironmentObject var dataStore: capsule
     
     var body: some View {
         ZStack {
@@ -42,5 +42,5 @@ struct AdditionalGoodiesRouter: View {
 
 #Preview {
     AdditionalGoodiesRouter(state: .constant(""))
-        .environmentObject(DataStore())
+        .environmentObject(capsule())
 }
