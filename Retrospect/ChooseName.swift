@@ -46,7 +46,6 @@ struct ChooseName: View {
             }
             Spacer()
         }
-        .padding(.horizontal, 20)
     }
 }
 
