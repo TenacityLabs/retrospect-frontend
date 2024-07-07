@@ -1,4 +1,5 @@
 {
+  "originHash" : "6c3b434960f5f64367b6a40b59d9f494a66adc8651478e2e07e8d2c91cdf02aa",
   "pins" : [
     {
       "identity" : "opencombine",
@@ -55,5 +56,5 @@
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
