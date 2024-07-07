@@ -8,7 +8,7 @@
 import SwiftUI
 import AudioToolbox
 
-struct VibrateButtonView: View {
+struct SealCapsuleView: View {
     var body: some View {
         VStack {
             Text("Remember this moment and capture it forever...")
@@ -31,9 +31,9 @@ struct VibrateButtonView: View {
     }
 }
 
-struct VibrateButtonView_Previews: PreviewProvider {
+struct SealCapsuleView_Previews: PreviewProvider {
     static var previews: some View {
-        VibrateButtonView()
+        SealCapsuleView()
     }
 }
 
