@@ -9,28 +9,63 @@ import SwiftUI
 
 struct ChooseName: View {
     @State private var name: String = ""
-    @State private var selectedDate: Date = Date()
     @Binding var state: String
         
     var body: some View {
         VStack {
-            Text("Choose Name").font(.system(size: 18))
-            TextField("Name", text: $name)
-            DatePicker("Date", selection: $selectedDate, displayedComponents: .date)
-                .datePickerStyle(GraphicalDatePickerStyle())
+            Text("Give your Capsule the perfect name")
+                .font(.custom("IvyOraDisplay-Regular", size: 48))
+                .multilineTextAlignment(.center)
+                .foregroundColor(.white)
+                .padding(.top, 50)
+            
+            TextField("", text: $name)
+                .placeholder(when: name.isEmpty) {
+                    Text("Jessica's Capsule").foregroundColor(.gray)
+                }
+                .padding()
+                .background(Color.black.opacity(0.5))
+                .cornerRadius(25)
+                .foregroundColor(.white)
+                .padding(.horizontal)
+                .padding(.bottom, 50)
+            
             Button(action: {
-                state = "SealBox"
+                state = "PhotoSelect"
             }) {
-                Text("Done")
+                Text("I'm ready to go!")
+                    .foregroundColor(Color.black)
+                    .padding()
+                    .frame(width: 300)
+                    .background(Color.white)
+                    .cornerRadius(25)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.black, lineWidth: 1)
+                    )
             }
+            Spacer()
         }
         .padding(.horizontal, 20)
     }
 }
 
+extension View {
+    func placeholder<Content: View>(
+        when shouldShow: Bool,
+        alignment: Alignment = .leading,
+        @ViewBuilder placeholder: () -> Content) -> some View {
+
+        ZStack(alignment: alignment) {
+            placeholder().opacity(shouldShow ? 1 : 0)
+            self
+        }
+    }
+}
+
 #Preview {
     ZStack {
-//        BackgroundImageView()
+        BackgroundImageView()
         ChooseName(state: .constant(""))
     }
 }

@@ -102,7 +102,7 @@ struct AdditionalGoodies: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        state = "ChooseName"
+                        state = "SetDate"
                     }) {
                         Text("Done")
                             .foregroundColor(.white)

@@ -57,7 +57,7 @@ struct IconSelect: View {
             
             Button(action: {
                 dataStore.container = selectedIndex
-                state = "PhotoSelect"
+                state = "ChooseName"
             }) {
                 Text("Confirm Selection")
                     .foregroundColor(Color.black)

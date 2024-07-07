@@ -14,8 +14,12 @@ struct Router: View {
     var body: some View {
         ZStack {
             BackgroundImageView()
-            if state == "IconSelect"{
+            if state == "IconSelect" {
                 IconSelect(state: $state)
+                    .transition(.slide)
+                    .environmentObject(dataStore)
+            } else if state == "ChooseName" {
+                ChooseName(state: $state)
                     .transition(.slide)
                     .environmentObject(dataStore)
             } else if state == "PhotoSelect" {
@@ -35,8 +39,8 @@ struct Router: View {
                 AdditionalGoodiesRouter(state: $state)
                     .transition(.slide)
                     .environmentObject(dataStore)
-            } else if state == "ChooseName" {
-                ChooseName(state: $state)
+            } else if state == "SetDate" {
+                SetDate(state: $state)
                     .transition(.slide)
                     .environmentObject(dataStore)
             } else if state == "SealBox" {

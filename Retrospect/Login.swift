@@ -11,6 +11,7 @@ struct Login: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var loginResult: String = ""
+    @State private var jwt: String = ""
     
     var body: some View {
         VStack {
@@ -46,10 +47,9 @@ struct Login: View {
                 switch result {
                 case .success(let token):
                     loginResult = "Login successful! Token: \(token)"
-                    print(loginResult)
+                    jwt = token.token
                 case .failure(let error):
                     loginResult = "Login failed: \(error)"
-                    print(loginResult)
                 }
             }
         }
