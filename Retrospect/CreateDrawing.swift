@@ -21,8 +21,7 @@ class DrawingView: UIView {
     }
     
     private var currentPath = UIBezierPath()
-    private var startPoint: CGPoint?
-    private var touchPoint: CGPoint?
+    private var points: [CGPoint] = []
     var strokeColor: UIColor = .black
     var strokeWidth: CGFloat = 2.0
     
@@ -43,33 +42,50 @@ class DrawingView: UIView {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
-        startPoint = touch.location(in: self)
+        let startPoint = touch.location(in: self)
+        points = [startPoint]
         currentPath = UIBezierPath()
         currentPath.lineWidth = strokeWidth
+        addCircle(at: startPoint)
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else { return }
-        touchPoint = touch.location(in: self)
+        let touchPoint = touch.location(in: self)
         
-        if let startPoint = startPoint, let touchPoint = touchPoint {
-            currentPath.move(to: startPoint)
-            currentPath.addLine(to: touchPoint)
-            self.startPoint = touchPoint
+        if let lastPoint = points.last {
+            let distance = hypot(touchPoint.x - lastPoint.x, touchPoint.y - lastPoint.y)
+            let numberOfSteps = Int(distance / strokeWidth) + 1
+            for i in 1..<numberOfSteps {
+                let interpolatedPoint = interpolate(from: lastPoint, to: touchPoint, with: CGFloat(i) / CGFloat(numberOfSteps))
+                addCircle(at: interpolatedPoint)
+            }
         }
+        
+        points.append(touchPoint)
+        addCircle(at: touchPoint)
         
         setNeedsDisplay()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        if let startPoint = startPoint, let touchPoint = touchPoint {
-            currentPath.move(to: startPoint)
-            currentPath.addLine(to: touchPoint)
+        for point in points {
+            addCircle(at: point)
         }
         paths.append(PathWithColor(path: currentPath, color: strokeColor))
-        startPoint = nil
-        touchPoint = nil
+        points.removeAll()
         setNeedsDisplay()
+    }
+    
+    private func addCircle(at point: CGPoint) {
+        let circlePath = UIBezierPath(arcCenter: point, radius: strokeWidth / 2, startAngle: 0, endAngle: CGFloat.pi * 2, clockwise: true)
+        currentPath.append(circlePath)
+    }
+    
+    private func interpolate(from: CGPoint, to: CGPoint, with factor: CGFloat) -> CGPoint {
+        let x = from.x + (to.x - from.x) * factor
+        let y = from.y + (to.y - from.y) * factor
+        return CGPoint(x: x, y: y)
     }
     
     override func draw(_ rect: CGRect) {

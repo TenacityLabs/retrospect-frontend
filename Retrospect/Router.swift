@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Router: View {
-    @State private var state = "IconSelect"
+    @State private var state = "SealBox"
     @State private var dataStore = capsule()
     
     var body: some View {
@@ -44,7 +44,7 @@ struct Router: View {
                     .transition(.slide)
                     .environmentObject(dataStore)
             } else if state == "SealBox" {
-                SealBox(state: $state)
+                SealCapsuleView(state: $state)
                     .transition(.slide)
                     .environmentObject(dataStore)
             }
