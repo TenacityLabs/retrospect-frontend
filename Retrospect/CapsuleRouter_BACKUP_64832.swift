@@ -7,9 +7,14 @@
 
 import SwiftUI
 
+<<<<<<< HEAD:Retrospect/CapsuleRouter.swift
 struct CapsuleRouter: View {
     @State private var capsuleState = "IconSelect"
-    @StateObject private var dataStore = capsule()
+=======
+struct Router: View {
+    @State private var state = "SealBox"
+>>>>>>> refs/remotes/origin/main:Retrospect/Router.swift
+    @State private var dataStore = capsule()
     
     var body: some View {
         ZStack {
@@ -39,12 +44,17 @@ struct CapsuleRouter: View {
                 AdditionalGoodiesRouter(capsuleState: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
+<<<<<<< HEAD:Retrospect/CapsuleRouter.swift
             } else if capsuleState == "SetDate" {
                 SetDate(state: $capsuleState)
+=======
+            } else if state == "SetDate" {
+                SetDate(state: $state)
                     .transition(.slide)
                     .environmentObject(dataStore)
-            } else if capsuleState == "SealBox" {
-                SealCapsuleView(state: $capsuleState)
+            } else if state == "SealBox" {
+                SealCapsuleView(state: $state)
+>>>>>>> refs/remotes/origin/main:Retrospect/Router.swift
                     .transition(.slide)
                     .environmentObject(dataStore)
             }

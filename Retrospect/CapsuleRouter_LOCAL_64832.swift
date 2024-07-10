@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CapsuleRouter: View {
     @State private var capsuleState = "IconSelect"
-    @StateObject private var dataStore = capsule()
+    @State private var dataStore = capsule()
     
     var body: some View {
         ZStack {
@@ -41,10 +41,6 @@ struct CapsuleRouter: View {
                     .environmentObject(dataStore)
             } else if capsuleState == "SetDate" {
                 SetDate(state: $capsuleState)
-                    .transition(.slide)
-                    .environmentObject(dataStore)
-            } else if capsuleState == "SealBox" {
-                SealCapsuleView(state: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
             }
