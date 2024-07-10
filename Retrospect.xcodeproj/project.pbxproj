@@ -11,6 +11,7 @@
 		943200A837878C67806FFE75 /* Pods_RetrospectTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E100C6EF4A9DFE4CDCFAE36C /* Pods_RetrospectTests.framework */; };
 		9D01D6442C3B494A00615767 /* Landing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D01D6432C3B494A00615767 /* Landing.swift */; };
 		9D01D6462C3B746600615767 /* CapsuleRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D01D6452C3B746600615767 /* CapsuleRouter.swift */; };
+		9D01D6482C3F098200615767 /* Launch Screen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D01D6472C3F098200615767 /* Launch Screen.storyboard */; };
 		9D0696652C040F9600AB1098 /* SpotifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0696642C040F9600AB1098 /* SpotifyManager.swift */; };
 		9D0696672C04122D00AB1098 /* PhotoSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0696662C04122D00AB1098 /* PhotoSelect.swift */; };
 		9D4598832C2760DA00B34494 /* AddText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4598822C2760DA00B34494 /* AddText.swift */; };
@@ -82,6 +83,7 @@
 		9398C53C691401933E04ABCE /* Pods-Retrospect-RetrospectUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Retrospect-RetrospectUITests.release.xcconfig"; path = "Target Support Files/Pods-Retrospect-RetrospectUITests/Pods-Retrospect-RetrospectUITests.release.xcconfig"; sourceTree = "<group>"; };
 		9D01D6432C3B494A00615767 /* Landing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Landing.swift; sourceTree = "<group>"; };
 		9D01D6452C3B746600615767 /* CapsuleRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleRouter.swift; sourceTree = "<group>"; };
+		9D01D6472C3F098200615767 /* Launch Screen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = "Launch Screen.storyboard"; sourceTree = "<group>"; };
 		9D0696642C040F9600AB1098 /* SpotifyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyManager.swift; sourceTree = "<group>"; };
 		9D0696662C04122D00AB1098 /* PhotoSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelect.swift; sourceTree = "<group>"; };
 		9D4598822C2760DA00B34494 /* AddText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddText.swift; sourceTree = "<group>"; };
@@ -273,6 +275,7 @@
 				F74681502C2FCBB5003A3F91 /* fonts */,
 				9DEA74F72BFFF9490027AB4A /* Assets.xcassets */,
 				9DEA74F92BFFF9490027AB4A /* Preview Content */,
+				9D01D6472C3F098200615767 /* Launch Screen.storyboard */,
 			);
 			path = Retrospect;
 			sourceTree = "<group>";
@@ -439,6 +442,7 @@
 				F74681482C2FCBAB003A3F91 /* IvyOraDisplay-BoldItalic.ttf in Resources */,
 				F746816B2C2FDBEE003A3F91 /* Syne-Bold.ttf in Resources */,
 				F74681472C2FCBAB003A3F91 /* IvyOraDisplay-Bold.ttf in Resources */,
+				9D01D6482C3F098200615767 /* Launch Screen.storyboard in Resources */,
 				F74681492C2FCBAB003A3F91 /* IvyOraDisplay-Medium.ttf in Resources */,
 				9DEA74FB2BFFF9490027AB4A /* Preview Assets.xcassets in Resources */,
 				F74681462C2FCBAB003A3F91 /* IvyOraDisplay-Thin.ttf in Resources */,
@@ -743,7 +747,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -780,7 +784,7 @@
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = "";
+				INFOPLIST_KEY_UILaunchStoryboardName = "Launch Screen.storyboard";
 				INFOPLIST_KEY_UIStatusBarStyle = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

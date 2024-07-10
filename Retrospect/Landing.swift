@@ -16,7 +16,7 @@ struct Landing: View {
             Spacer()
             
             Text("Retrospect")
-                .font(.custom("IvyOraDisplay-Regular", size: 64))
+                .font(.custom("IvyOraDisplay-Light", size: 64))
                 .foregroundColor(.white)
             
             Spacer()

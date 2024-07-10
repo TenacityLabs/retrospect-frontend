@@ -168,7 +168,7 @@ struct SignUp: View {
                     state = "Login"
                 }) {
                     Text("Login")
-                        .foregroundColor(Color(red: 128/255, green: 128/255, blue: 128/255))
+                        .foregroundColor(Color.white.opacity(0.5))
                         .fontWeight(.bold)
                         .underline()
                 }

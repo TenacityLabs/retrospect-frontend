@@ -11,60 +11,44 @@ struct Dashboard: View {
     @Binding var state: String
     
     var body: some View {
-        GeometryReader { geometry in
-            VStack {
+        VStack {
+            Text("Your Capsules")
+                .font(.custom("IvyOraDisplay-Regular", size: 48))
+                .foregroundColor(.white)
+                .padding(.top, 50)
+                    
+            VStack(alignment: .center) {
                 Spacer()
-                VStack {
-                    Spacer().frame(height: 50)
-                    Text("Your Capsules")
-                    Spacer().frame(height: 20)
-                    Button(action: {
-                        state = "IconSelect"
-                    }) {
-                        Text("Create a new capsule")
-                            .font(.system(size: 18))
-                            .foregroundColor(.black)
-                    }
-                    Spacer().frame(height: 20)
-                    Text("3/5 capsules in use")
-                    Spacer()
-                    HStack {
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                        Spacer()
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                    }.padding(.horizontal)
-                    HStack {
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                        Spacer()
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                    }.padding(.horizontal)
-                    HStack {
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                        Spacer()
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                    }.padding(.horizontal)
-                    HStack {
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                        Spacer()
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                    }.padding(.horizontal)
-                    HStack {
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                        Spacer()
-                        Rectangle().frame(width: max(geometry.size.width / 2 - 25, 1), height: 50).background(Color.black)
-                    }.padding(.horizontal)
-                    Spacer().frame(height: 50)
-                }
+                Image("Box")
+                    .resizable()
+                    .frame(width: 200, height: 200)
+                    .shadow(color: .pink, radius: 30, x: 0, y: 0)
+
+                Text("Create your first capsule")
+                    .foregroundColor(.white)
+                    .font(.custom("Syne-Bold", size: 24))
                 Spacer()
             }
+            .frame(width: 350, height: 290, alignment: .center)
+            .background(Color.white.opacity(0.1))
+            .overlay(
+              RoundedRectangle(cornerRadius: 10)
+                .stroke(
+                  Color(red: 1, green: 1, blue: 1).opacity(0.60), lineWidth: 0.50
+                )
+            )
+            .shadow(
+              color: Color(red: 1, green: 1, blue: 1, opacity: 0.30), radius: 20
+            )
         }
-
     }
 }
 
-struct Dashboard_Previews: PreviewProvider {
-    static var previews: some View {
+#Preview {
+    ZStack {
+        BackgroundImageView()
         Dashboard(state: .constant(""))
     }
 }
+
 

@@ -10,10 +10,9 @@ import SwiftUI
 struct CapsuleRouter: View {
     @State private var capsuleState = "IconSelect"
     @StateObject private var dataStore = capsule()
-    
+
     var body: some View {
         ZStack {
-            BackgroundImageView()
             if capsuleState == "IconSelect" {
                 IconSelect(state: $capsuleState)
                     .transition(.slide)

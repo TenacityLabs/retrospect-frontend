@@ -30,6 +30,8 @@ struct RetrospectApp: App {
                         .environmentObject(dataStore)
                 } else if globalState == "Capsule" {
                     CapsuleRouter()
+                        .transition(.slide)
+                        .environmentObject(dataStore)
                 }
             }
         }

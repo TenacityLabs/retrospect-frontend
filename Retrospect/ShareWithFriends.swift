@@ -25,6 +25,10 @@ struct ShareWithFriends: View {
         Contact(name: "Kanye East", phoneNumber: "345-123-0000"),
         Contact(name: "Queen Elizabeth", phoneNumber: "416-416-4164"),
         Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
+        Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
+        Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
+        Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
+        Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
     ]
     
     var filteredContacts: [Contact] {
@@ -69,27 +73,28 @@ struct ShareWithFriends: View {
                 .padding(.bottom, 10)
                 .padding(.horizontal, 20)
             
-            List(filteredContacts) {
-                contact in
-                HStack {
-                    VStack(alignment: .leading) {
-                        Text(contact.name)
-                            .foregroundColor(.white)
-                    }
-                    Spacer()
-                    Button(action: {
-                        // Action to invite the contact
-                    }) {
-                        Image(systemName: "person.crop.circle.badge.plus")
-                            .foregroundColor(.blue)
+            ScrollView {
+                VStack {
+                    ForEach(filteredContacts) { contact in
+                        HStack {
+                            VStack(alignment: .leading) {
+                                Text(contact.name)
+                                    .foregroundColor(.white)
+                            }
+                            Spacer()
+                            Button(action: {
+                                // Action to invite the contact
+                            }) {
+                                Image(systemName: "plus")
+                                    .foregroundColor(.white)
+                            }
+                        }
+                        .padding()
+                        .padding(.horizontal)
                     }
                 }
-                .background(Color.black)
-                .listRowBackground(Color.black)
-                
             }
-            .listStyle(PlainListStyle())
-            .background(Color.black)
+            .background(Color.clear)
         }
     }
 }
