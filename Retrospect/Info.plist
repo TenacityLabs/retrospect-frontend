@@ -10,6 +10,7 @@
 			<key>LSHandlerRank</key>
 			<string>Default</string>
 		</dict>
+		<dict/>
 	</array>
 	<key>NSAppTransportSecurity</key>
 	<dict>
@@ -31,7 +32,5 @@
 		<string>IvyOraDisplay-Thin.ttf</string>
 		<string>IvyOraDisplay-ThinItalic.ttf</string>
 	</array>
-	<key>NSMicrophoneUsageDescription</key>
-	<string>Retrospect requires access to your microphone to record audio.</string>
 </dict>
 </plist>

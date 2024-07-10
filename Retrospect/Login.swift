@@ -11,8 +11,8 @@ struct Login: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var loginResult: String = ""
-    @State private var jwt: String = ""
     @State private var isPasswordVisible: Bool = false
+    @Binding var state: String
     
     var body: some View {
         VStack {
@@ -32,10 +32,10 @@ struct Login: View {
                 
                 TextField("Email", text: $email)
                     .foregroundColor(.white)
-                    .cornerRadius(20)
                     .placeholder(when: email.isEmpty) {
                         Text("Email").foregroundColor(.gray)
                     }
+                    .autocapitalization(.none)
                     .accentColor(.white)
             }
             .padding()
@@ -52,18 +52,18 @@ struct Login: View {
                 if isPasswordVisible {
                     TextField("", text: $password)
                         .foregroundColor(.white)
-                        .cornerRadius(20)
                         .placeholder(when: password.isEmpty) {
                             Text("Password").foregroundColor(.gray)
                         }
+                        .autocapitalization(.none)
                         .accentColor(.white)
                 } else {
                     SecureField("", text: $password)
                         .foregroundColor(.white)
-                        .cornerRadius(20)
                         .placeholder(when: password.isEmpty) {
                             Text("Password").foregroundColor(.gray)
                         }
+                        .autocapitalization(.none)
                         .accentColor(.white)
                 }
                 
@@ -103,7 +103,7 @@ struct Login: View {
                 Text("Don't have an account?")
                     .foregroundColor(.white)
                 Button(action: {
-//                    state = "SignUp"
+                    state = "SignUp"
                 }) {
                     Text("Sign Up")
                         .foregroundColor(Color(red: 128/255, green: 128/255, blue: 128/255))
@@ -121,6 +121,7 @@ struct Login: View {
                 case .success(let token):
                     loginResult = "Login successful!"
                     jwt = token.token
+                    state = "Dashboard"
                 case .failure(_):
                     loginResult = "Login failed, please try again!"
                 }
@@ -133,6 +134,6 @@ struct Login: View {
 #Preview {
     ZStack {
         BackgroundImageView()
-        Login()
+        Login(state: .constant(""))
     }
 }

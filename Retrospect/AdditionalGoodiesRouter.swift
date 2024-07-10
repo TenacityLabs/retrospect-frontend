@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct AdditionalGoodiesRouter: View {
-    @Binding var state: String
+    @Binding var capsuleState: String
     @State private var AGstate = "AdditionalGoodies"
     @EnvironmentObject var dataStore: capsule
     
     var body: some View {
         ZStack {
             if AGstate == "AdditionalGoodies" {
-                AdditionalGoodies(state: $state, AGstate: $AGstate)
+                AdditionalGoodies(state: $capsuleState, AGstate: $AGstate)
                     .transition(.slide)
                     .environmentObject(dataStore)
             } else if AGstate == "AddText" {
@@ -41,6 +41,6 @@ struct AdditionalGoodiesRouter: View {
 }
 
 #Preview {
-    AdditionalGoodiesRouter(state: .constant(""))
+    AdditionalGoodiesRouter(capsuleState: .constant(""))
         .environmentObject(capsule())
 }

@@ -50,11 +50,22 @@ struct ShareWithFriends: View {
                 .foregroundColor(.white)
                 .padding(.bottom, 10)
             
-            TextField("Phone Number", text: $searchContent)
-                .padding()
-                .background(Color.gray.opacity(0.2))
+            HStack {
+                TextField("", text: $searchContent)
+                    .placeholder(when: searchContent.isEmpty) {
+                        Text("Invite a Friend")
+                            .foregroundColor(.white)
+                            .font(.custom("Syne-Regular", size: 18))
+                    }
+                    .font(.custom("Syne-Regular", size: 18))
+                Image(systemName: "plus")
+            }
+            .padding(.vertical)
+                .overlay(Rectangle()
+                            .frame(height: 2)
+                            .foregroundColor(.white), alignment: .bottom)
+                
                 .foregroundColor(.white)
-                .cornerRadius(10)
                 .padding(.bottom, 10)
                 .padding(.horizontal, 20)
             
@@ -64,8 +75,6 @@ struct ShareWithFriends: View {
                     VStack(alignment: .leading) {
                         Text(contact.name)
                             .foregroundColor(.white)
-                        Text(contact.phoneNumber)
-                            .foregroundColor(.gray)
                     }
                     Spacer()
                     Button(action: {

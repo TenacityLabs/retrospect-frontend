@@ -1,50 +1,46 @@
 //
-//  Router.swift
+//  CapsuleRouter.swift
 //  Retrospect
 //
-//  Created by Andrew Durnford on 2024-06-29.
+//  Created by Andrew Durnford on 2024-07-07.
 //
 
 import SwiftUI
 
-struct Router: View {
-    @State private var state = "IconSelect"
+struct CapsuleRouter: View {
+    @State private var capsuleState = "IconSelect"
     @State private var dataStore = capsule()
     
     var body: some View {
         ZStack {
             BackgroundImageView()
-            if state == "IconSelect" {
-                IconSelect(state: $state)
+            if capsuleState == "IconSelect" {
+                IconSelect(state: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
-            } else if state == "ChooseName" {
-                ChooseName(state: $state)
+            } else if capsuleState == "ChooseName" {
+                ChooseName(state: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
-            } else if state == "PhotoSelect" {
-                PhotoSelect(state: $state)
+            } else if capsuleState == "PhotoSelect" {
+                PhotoSelect(state: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
-            } else if state == "SongSelect" {
-                SongSelect(state: $state)
+            } else if capsuleState == "SongSelect" {
+                SongSelect(state: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
                     .environmentObject(SpotifyManager())
-            } else if state == "AnswerPrompt" {
-                AnswerPrompt(state: $state)
+            } else if capsuleState == "AnswerPrompt" {
+                AnswerPrompt(state: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
-            } else if state == "AdditionalGoodies" {
-                AdditionalGoodiesRouter(state: $state)
+            } else if capsuleState == "AdditionalGoodies" {
+                AdditionalGoodiesRouter(capsuleState: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
-            } else if state == "SetDate" {
-                SetDate(state: $state)
-                    .transition(.slide)
-                    .environmentObject(dataStore)
-            } else if state == "SealBox" {
-                SealBox(state: $state)
+            } else if capsuleState == "SetDate" {
+                SetDate(state: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
             }
@@ -54,5 +50,5 @@ struct Router: View {
 }
 
 #Preview {
-    Router()
+    CapsuleRouter()
 }

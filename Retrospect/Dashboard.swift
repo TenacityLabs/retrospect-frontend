@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Dashboard: View {
+    @Binding var state: String
+    
     var body: some View {
         GeometryReader { geometry in
             VStack {
@@ -17,7 +19,7 @@ struct Dashboard: View {
                     Text("Your Capsules")
                     Spacer().frame(height: 20)
                     Button(action: {
-                        // void
+                        state = "IconSelect"
                     }) {
                         Text("Create a new capsule")
                             .font(.system(size: 18))
@@ -62,7 +64,7 @@ struct Dashboard: View {
 
 struct Dashboard_Previews: PreviewProvider {
     static var previews: some View {
-        Dashboard()
+        Dashboard(state: .constant(""))
     }
 }
 
