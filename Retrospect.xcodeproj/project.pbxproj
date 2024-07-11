@@ -213,9 +213,12 @@
 		9D4D8C462C3625EF00DB1091 /* Onboarding */ = {
 			isa = PBXGroup;
 			children = (
+				9D01D6472C3F098200615767 /* Launch Screen.storyboard */,
+				9D01D6432C3B494A00615767 /* Landing.swift */,
+				9D4D8C482C3626B800DB1091 /* SignUp.swift */,
+				9D4D8C4F2C37559F00DB1091 /* Login.swift */,
 				F77347C72C2906760048E3C7 /* ShareWithFriends.swift */,
 				F77347C92C290B0D0048E3C7 /* Tutorial.swift */,
-				9D4D8C482C3626B800DB1091 /* SignUp.swift */,
 			);
 			name = Onboarding;
 			sourceTree = "<group>";
@@ -268,14 +271,11 @@
 				9DEA74F32BFFF9470027AB4A /* RetrospectApp.swift */,
 				F7D96C9B2C30C2E000BB538A /* Dashboard.swift */,
 				9D4D8C4D2C374EC100DB1091 /* APIClient.swift */,
-				9D01D6432C3B494A00615767 /* Landing.swift */,
-				9D4D8C4F2C37559F00DB1091 /* Login.swift */,
 				9D4D8C462C3625EF00DB1091 /* Onboarding */,
 				9D4D8C472C36268100DB1091 /* Capsule */,
 				F74681502C2FCBB5003A3F91 /* fonts */,
 				9DEA74F72BFFF9490027AB4A /* Assets.xcassets */,
 				9DEA74F92BFFF9490027AB4A /* Preview Content */,
-				9D01D6472C3F098200615767 /* Launch Screen.storyboard */,
 			);
 			path = Retrospect;
 			sourceTree = "<group>";

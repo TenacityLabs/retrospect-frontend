@@ -5,70 +5,113 @@ struct Collab: View {
     @State private var showSongSelectView = false
 
     var body: some View {
-        NavigationStack {
+        GeometryReader { geometry in
             VStack {
-                Text("Before we begin:")
-                    .font(.title)
-                    .padding(.top, 50) // Adjust top padding if needed
+                Text("How do you \n want to create \n this capsule?")
+                    .font(.custom("IvyOraDisplay-Regular", size: 48))
+                    .foregroundColor(.white)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, 60)
                 
                 Spacer()
                 
-                GeometryReader { geometry in
-                    HStack(spacing: 20) {
-                        Button(action: {
-                            dataStore.collab = false
-                            UserDefaults.standard.set(false, forKey: "collab")
-                        }) {
-                            VStack {
-                                Image(systemName: "person.crop.circle")
-                                    .resizable()
-                                    .frame(width: 100, height: 100)
-                                    .foregroundColor(dataStore.collab == false ? .blue : .gray)
-                                
-                                Text("I'm making my capsule solo")
-                                    .font(.headline)
-                                    .padding(.top, 10)
-                                    .foregroundColor(dataStore.collab == false ? .blue : .primary)
-                            }
-                            .padding()
-                            .frame(width: (geometry.size.width - 80) / 2)
-                            .background(dataStore.collab == false ? Color.blue.opacity(0.2) : Color.gray.opacity(0.2))
-                            .cornerRadius(10)
+                Button(action: {
+                    dataStore.collab = false
+                }) {
+                    VStack {
+                        if (dataStore.collab == false) {
+                            Image("Union")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
+                                .shadow(color: .white, radius: 10, x: 0, y: 0)
+                        } else {
+                            Image("Union")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
+                                .opacity(0.5)
                         }
-
-                        Button(action: {
-                            dataStore.collab = true
-                            UserDefaults.standard.set(true, forKey: "collab")
-                        }) {
-                            VStack {
-                                Image(systemName: "person.crop.circle")
-                                    .resizable()
-                                    .frame(width: 100, height: 100)
-                                    .foregroundColor(dataStore.collab == true ? .blue : .gray)
-                                
-                                Text("I'd like to collaborate")
-                                    .font(.headline)
-                                    .padding(.top, 10)
-                                    .foregroundColor(dataStore.collab == true ? .blue : .primary)
-                            }
-                            .padding()
-                            .frame(width: (geometry.size.width - 80) / 2)
-                            .background(dataStore.collab == true ? Color.blue.opacity(0.2) : Color.gray.opacity(0.2))
-                            .cornerRadius(10)
-                        }
+                        
+                        Text("I'm Creating Solo")
+                            .font(.custom("Syne-Regular", size: 24))
+                            .padding(.top, 10)
+                            .foregroundColor(.white)
+                            .opacity(dataStore.collab ?? true ? 0.5 : 1)
                     }
-                    .padding(.horizontal, 30)
+                    .padding()
+                    .frame(width: (geometry.size.width - 60),  height: 210)
+                    .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
+                    .cornerRadius(10)
+                    .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                    .inset(by: 0.5)
+                    .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                    )
                 }
-                .frame(height: 200) // Set an appropriate height for the GeometryReader
+                .padding(.bottom, 10)
+
+                Button(action: {
+                    dataStore.collab = true
+                }) {
+                    VStack {
+                        if (dataStore.collab == true) {
+                            Image("Group")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 100)
+                                .shadow(color: .white, radius: 10, x: 0, y: 0)
+                        } else {
+                            Image("Group")
+                                .resizable()
+                                .scaledToFit()
+                                .opacity(0.5)
+                                .frame(height: 100)
+                        }
+                        
+                        Text("I'm Creating \n Collaboratively")
+                            .font(.custom("Syne-Regular", size: 24))
+                            .padding(.top, 10)
+                            .foregroundColor(.white)
+                            .opacity(dataStore.collab ?? false ? 1 : 0.5)
+                    }
+                    .padding()
+                    .frame(width: (geometry.size.width - 60), height: 210)
+                    .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
+                    .cornerRadius(10)
+                    .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                    .inset(by: 0.5)
+                    .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                    )
+                }
+                
                 Spacer()
+                
+                Button(action: {
+//                    state = ""
+                }) {
+                    Text("I'm Ready to Go!")
+                        .font(.custom("Syne-Regular", size: 18))
+                        .foregroundColor(Color.black)
+                }
+                .padding()
+                .frame(maxWidth: .infinity, maxHeight: 60)
+                .background(Color.white)
+                .cornerRadius(30)
+                .padding(.horizontal, 30)
+                .padding(.bottom, 60)
             }
+            .padding(.horizontal)
         }
     }
 }
 
-struct Collab_Previews: PreviewProvider {
-    static var previews: some View {
-        Collab()
-            .environmentObject(capsule())
-    }
+#Preview {
+        ZStack {
+            BackgroundImageView()
+            Collab()
+                .environmentObject(capsule())
+        }
+    
 }
