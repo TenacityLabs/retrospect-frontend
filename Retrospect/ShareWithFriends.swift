@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Contacts
 
 struct Contact: Identifiable {
     let id = UUID()
@@ -15,21 +16,7 @@ struct Contact: Identifiable {
 
 struct ShareWithFriends: View {
     @State private var searchContent = ""
-    
-    let contacts: [Contact] = [
-        Contact(name: "lowercase larry", phoneNumber: "000-000-0000"),
-        Contact(name: "PEACH_COBBLER123", phoneNumber: "456-545-6544"),
-        Contact(name: "Sonia Joseph", phoneNumber: "123-456-7890"),
-        Contact(name: "Aubrey Drake Graham", phoneNumber: "222-222-2222"),
-        Contact(name: "Silly Snail", phoneNumber: "987-654-3210"),
-        Contact(name: "Kanye East", phoneNumber: "345-123-0000"),
-        Contact(name: "Queen Elizabeth", phoneNumber: "416-416-4164"),
-        Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
-        Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
-        Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
-        Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
-        Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
-    ]
+    @State private var contacts: [Contact] = []
     
     var filteredContacts: [Contact] {
         if searchContent.isEmpty {
@@ -96,12 +83,67 @@ struct ShareWithFriends: View {
             }
             .background(Color.clear)
         }
+        .onAppear(perform: loadContacts)
+    }
+    
+    private func loadContacts() {
+        #if DEBUG
+        self.contacts = [
+            Contact(name: "lowercase larry", phoneNumber: "000-000-0000"),
+            Contact(name: "PEACH_COBBLER123", phoneNumber: "456-545-6544"),
+            Contact(name: "Sonia Joseph", phoneNumber: "123-456-7890"),
+            Contact(name: "Aubrey Drake Graham", phoneNumber: "222-222-2222"),
+            Contact(name: "Silly Snail", phoneNumber: "987-654-3210"),
+            Contact(name: "Kanye East", phoneNumber: "345-123-0000"),
+            Contact(name: "Queen Elizabeth", phoneNumber: "416-416-4164"),
+            Contact(name: "BLACKMAMBA447", phoneNumber: "447-123-2313"),
+        ]
+        #else
+        let store = CNContactStore()
+        store.requestAccess(for: .contacts) { (granted, error) in
+            if granted {
+                fetchContacts(store: store)
+            } else {
+                print("Access denied")
+            }
+        }
+        #endif
+    }
+    
+    private func fetchContacts(store: CNContactStore) {
+        let keysToFetch = [
+            CNContactGivenNameKey,
+            CNContactFamilyNameKey,
+            CNContactPhoneNumbersKey
+        ] as [CNKeyDescriptor]
+        
+        let request = CNContactFetchRequest(keysToFetch: keysToFetch)
+        
+        var fetchedContacts: [Contact] = []
+        
+        do {
+            try store.enumerateContacts(with: request) { (contact, stop) in
+                let name = "\(contact.givenName) \(contact.familyName)"
+                let phoneNumbers = contact.phoneNumbers.map { $0.value.stringValue }
+                
+                for phoneNumber in phoneNumbers {
+                    fetchedContacts.append(Contact(name: name, phoneNumber: phoneNumber))
+                }
+            }
+            DispatchQueue.main.async {
+                self.contacts = fetchedContacts
+            }
+        } catch {
+            print("Failed to fetch contact, error: \(error)")
+        }
     }
 }
 
-#Preview {
-    ZStack {
-        BackgroundImageView()
-        ShareWithFriends()
+struct ShareWithFriends_Previews: PreviewProvider {
+    static var previews: some View {
+        ZStack {
+            Color.black.ignoresSafeArea() // Replace with BackgroundImageView() if you have one
+            ShareWithFriends()
+        }
     }
 }
