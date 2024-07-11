@@ -46,3 +46,12 @@ struct BackgroundImageView: View {
             .ignoresSafeArea()
     }
 }
+
+struct ColorImageView: View {
+    var body: some View {
+        Image("grains-color")
+            .resizable()
+            .scaledToFill()
+            .ignoresSafeArea()
+    }
+}
