@@ -8,7 +8,7 @@
 import SwiftUI
 import Combine
 
-class capsule: ObservableObject {
+class Capsule: ObservableObject {
     @Published var container: Int?
     @Published var images: [UIImage] = []
     @Published var collab: Bool?

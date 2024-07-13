@@ -9,14 +9,15 @@ import SwiftUI
 
 struct IconSelect: View {
     @Binding var state: String
-    @StateObject private var dataStore = capsule()
+    @EnvironmentObject var dataStore: Capsule
     @State private var selectedIndex: Int = 0
     @State private var containers = ["Box", "Suitcase", "Guitar", "Jar", "Shoe"]
     
     var body: some View {
         VStack {
             Text("Pick a vessel, any vessel")
-                .font(.title)
+                .font(.custom("IvyOra Display", size: 48))
+                .multilineTextAlignment(.center)
                 .padding(.top, 80)
                 .foregroundColor(.white)
             
@@ -34,9 +35,13 @@ struct IconSelect: View {
                                     .shadow(color: .pink, radius: 30, x: 0, y: 0)
                             }
                             .padding()
-                            .background(Color.black.opacity(0.5))
-                            .edgesIgnoringSafeArea(.all)
+                            .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
                             .cornerRadius(15)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .inset(by: 0.5)
+                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                            )
                     }
                 }
                 .padding(.horizontal, 10)
@@ -80,6 +85,7 @@ struct IconSelect: View {
     ZStack {
         BackgroundImageView()
         IconSelect(state: .constant(""))
+            .environmentObject(Capsule())
     }
 }
 

@@ -115,7 +115,7 @@ struct Login: View {
     }
     
     private func login() {
-        APIClient.shared.login(email: email, password: password) { result in
+        UserAPIClient.shared.login(email: email, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let token):

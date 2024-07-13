@@ -2,7 +2,7 @@ import SwiftUI
 
 struct AddText: View {
     @State private var selectedIndex: Int = 0
-    @EnvironmentObject var dataStore: capsule
+    @EnvironmentObject var dataStore: Capsule
     @Binding var AGstate: String
     
     var body: some View {
@@ -116,5 +116,5 @@ struct AddText: View {
 
 #Preview {
     AddText(AGstate: .constant(""))
-        .environmentObject(capsule())
+        .environmentObject(Capsule())
 }

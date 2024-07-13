@@ -5,7 +5,7 @@ public var jwt = ""
 @main
 struct RetrospectApp: App {
     @StateObject private var spotifyManager = SpotifyManager()
-    @StateObject private var dataStore = capsule()
+    @StateObject private var dataStore = Capsule()
     @State private var globalState = "Landing"
 
     var body: some Scene {

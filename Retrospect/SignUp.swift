@@ -185,7 +185,7 @@ struct SignUp: View {
     //FIXME: handle failure case
     private func register() {
         splitName()
-        APIClient.shared.register(firstName: firstName, lastName: lastName, email: email, password: password) { result in
+        UserAPIClient.shared.register(firstName: firstName, lastName: lastName, email: email, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
@@ -198,7 +198,7 @@ struct SignUp: View {
     }
     
     private func login() {
-        APIClient.shared.login(email: email, password: password) { result in
+        UserAPIClient.shared.login(email: email, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let token):

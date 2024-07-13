@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CapsuleRouter: View {
     @State private var capsuleState = "IconSelect"
-    @StateObject private var dataStore = capsule()
+    @StateObject private var dataStore = Capsule()
 
     var body: some View {
         ZStack {

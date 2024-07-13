@@ -3,7 +3,7 @@ import PhotosUI
 import Combine
 
 struct PhotoSelect: View {
-    @EnvironmentObject var dataStore: capsule
+    @EnvironmentObject var dataStore: Capsule
     @State private var showImagePicker = false
     @State private var selectedIndex: Int = 0
     @Binding var state: String
@@ -75,7 +75,7 @@ struct PhotoSelect: View {
 
 struct AddImageView: View {
     @Binding var showImagePicker: Bool
-    @ObservedObject var dataStore: capsule
+    @ObservedObject var dataStore: Capsule
 
     var body: some View {
         VStack {
@@ -98,7 +98,7 @@ struct AddImageView: View {
 }
 
 struct ImagePicker: UIViewControllerRepresentable {
-    @ObservedObject var dataStore: capsule
+    @ObservedObject var dataStore: Capsule
     var maxSelection: Int
 
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
@@ -155,6 +155,6 @@ struct ImagePicker: UIViewControllerRepresentable {
     ZStack {
         BackgroundImageView()
         PhotoSelect(state: .constant(""))
-            .environmentObject(capsule())
+            .environmentObject(Capsule())
     }
 }
