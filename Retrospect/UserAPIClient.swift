@@ -153,6 +153,29 @@ class UserAPIClient {
         }
     }
     
+    func processContacts(authorization: String, contacts: [Contact], completion: @escaping (Result<Void, APIError>) -> Void) {
+        guard let url = URL(string: "\(baseURL)/user/process-contacts") else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
+        
+        let body: [String: Any] = ["contacts": contacts]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        performRequest(request) { (result: Result<EmptyResponse, APIError>) in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
     private func performRequest<T: Decodable>(_ request: URLRequest, completion: @escaping (Result<T, APIError>) -> Void) {
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {

@@ -1,10 +1,3 @@
-//
-//  AddAudio.swift
-//  Retrospect
-//
-//  Created by Andrew Durnford on 2024-06-22.
-//
-
 import SwiftUI
 import AVFoundation
 
@@ -80,6 +73,22 @@ struct AddAudio: View {
         .sheet(isPresented: $showDocumentPicker) {
             DocumentPicker(audioURL: $audioURL)
                 .environmentObject(dataStore)
+        }
+        .onAppear(perform: setupAudioSession)
+    }
+
+    func setupAudioSession() {
+        do {
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playAndRecord, mode: .default)
+            try audioSession.setActive(true)
+            audioSession.requestRecordPermission { granted in
+                if !granted {
+                    print("Permission to record not granted")
+                }
+            }
+        } catch {
+            print("Failed to set up audio session: \(error)")
         }
     }
 

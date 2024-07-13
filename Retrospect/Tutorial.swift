@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Tutorial: View {
     @State private var step = 0
+    @Binding var state: String
     
     var body: some View {
         GeometryReader { geometry in
@@ -85,6 +86,19 @@ struct Tutorial: View {
                                 .font(.system(size: 20))
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
+                            Button(action: {
+                                state = "Dashboard"
+                            }) {
+                                Text("Let's go!")
+                                    .font(.custom("Syne-Regular", size: 24))
+                                    .foregroundColor(Color.black)
+                            }
+                            .padding()
+                            .frame(maxWidth: .infinity, maxHeight: 75)
+                            .background(Color.white)
+                            .cornerRadius(50)
+                            .padding(.horizontal, 30)
+                            .padding(.bottom, 15)
                         }
                         .padding(.horizontal, 30)
                     }
@@ -124,7 +138,7 @@ struct Tutorial: View {
 
 #Preview {
     ZStack {
-        Tutorial()
+        Tutorial(state: .constant(""))
             .background(Color.black.edgesIgnoringSafeArea(.all))
     }
 }
