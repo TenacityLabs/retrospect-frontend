@@ -12,6 +12,7 @@ struct SealCapsuleView: View {
     @Binding var state: String
     @EnvironmentObject var dataStore: Capsule
     @GestureState private var isDetectingLongPress = false
+    
     @State private var completedLongPress = false
     
     var longPress: some Gesture {
@@ -21,6 +22,16 @@ struct SealCapsuleView: View {
                 gestureState = currentState
             }
             .onEnded { finished in
+                CapsuleAPIClient.shared.sealCapsule(authorization: jwt, capsuleId: 0, dateToOpen:  dataStore.date){ result in
+                    DispatchQueue.main.async {
+                        switch result {
+                        case .success():
+                            completedLongPress = true
+                        case .failure(_):
+                            completedLongPress = true
+                        }
+                    }
+                }
                 completedLongPress = true
             }
     }

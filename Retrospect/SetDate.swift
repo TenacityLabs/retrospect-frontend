@@ -11,6 +11,7 @@ import Foundation
 
 struct SetDate: View {
     @Binding var state: String
+    @EnvironmentObject var dataStore: Capsule
     @State private var oneMonth: Date = Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
     @State private var sixMonth: Date = Calendar.current.date(byAdding: .month, value: 6, to: Date()) ?? Date()
     @State private var oneYear: Date = Calendar.current.date(byAdding: .year, value: 1, to: Date()) ?? Date()
@@ -122,7 +123,7 @@ struct SetDate: View {
                 .onChange(of: selectedDay) {
                     adjustDayIfNeeded()
                     selectedDate = setDate(year: selectedYear, month: selectedMonth, day: selectedDay)
-                    print(selectedDate)
+                    dataStore.date = selectedDate
                 }
                 .introspect(.picker(style: .wheel), on: .iOS(.v13, .v14, .v15, .v16, .v17)) { picker in
                     picker.subviews[1].backgroundColor = UIColor.clear

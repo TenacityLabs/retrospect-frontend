@@ -169,7 +169,7 @@ class CapsuleAPIClient {
         }
     }
     
-    func sealCapsule(authorization: String, capsuleId: UInt, dateToOpen: String, completion: @escaping (Result<Void, APIError>) -> Void) {
+    func sealCapsule(authorization: String, capsuleId: UInt, dateToOpen: Date, completion: @escaping (Result<Void, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules/seal") else {
             completion(.failure(.invalidURL))
             return

@@ -120,7 +120,7 @@ struct Login: View {
                 case .success(let token):
                     print("Login successful!")
                     jwt = token.token
-                    state = "Dashboard"
+                    state = "Tutorial"
                 case .failure(_):
                     print("Login failed, please try again!")
                    

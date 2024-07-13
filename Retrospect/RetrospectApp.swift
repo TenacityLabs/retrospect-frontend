@@ -24,6 +24,10 @@ struct RetrospectApp: App {
                     SignUp(state: $globalState)
                         .transition(.slide)
                         .environmentObject(dataStore)
+                } else if globalState == "Tutorial" {
+                    Tutorial(state: $globalState)
+                        .transition(.slide)
+                        .environmentObject(dataStore)
                 } else if globalState == "Dashboard" {
                     Dashboard(state: $globalState)
                         .transition(.slide)

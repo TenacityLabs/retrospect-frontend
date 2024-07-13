@@ -18,5 +18,6 @@ class Capsule: ObservableObject {
     @Published var files: [URL] = []
     @Published var texts: [String] = []
     @Published var drawings: [[PathWithColor]] = [[]]
+    @Published var date: Date = Date()
 }
  

@@ -1,10 +1,3 @@
-//
-//  AddAudio.swift
-//  Retrospect
-//
-//  Created by Andrew Durnford on 2024-06-22.
-//
-
 import SwiftUI
 import AVFoundation
 
@@ -15,36 +8,24 @@ struct AddAudio: View {
     @State private var isRecording = false
     @State private var audioURL: URL?
     @State private var showDocumentPicker = false
+    @State private var levels: [CGFloat] = []
     @Binding var AGstate: String
 
     var body: some View {
-        VStack {
+        VStack(spacing: 20) {
             Text("Add Audio")
                 .font(.largeTitle)
                 .padding()
 
-            List {
-                ForEach(dataStore.audios.indices, id: \.self) { index in
-                    VStack {
-                        Text("Audio \(index + 1)")
-                        Button(action: {
-                            playAudio(data: dataStore.audios[index])
-                        }) {
-                            Text("Play Audio \(index + 1)")
-                                .padding()
-                                .background(Color.orange)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                        }
-                        .padding()
-                    }
-                }
-            }
+            WaveformView(levels: $levels)
+                .frame(height: 50)
+                .padding([.leading, .trailing])
 
-            HStack {
+            HStack(spacing: 20) {
                 Button(action: recordAudio) {
                     Text(isRecording ? "Stop Recording" : "Record Audio")
                         .padding()
+                        .frame(width: 150)
                         .background(isRecording ? Color.red : Color.blue)
                         .foregroundColor(.white)
                         .cornerRadius(10)
@@ -54,6 +35,7 @@ struct AddAudio: View {
                 Button(action: { showDocumentPicker = true }) {
                     Text("Upload from Voice Memos")
                         .padding()
+                        .frame(width: 200)
                         .background(Color.green)
                         .foregroundColor(.white)
                         .cornerRadius(10)
@@ -76,10 +58,47 @@ struct AddAudio: View {
                     )
             }
             .padding(.horizontal, 20)
+
+            List {
+                ForEach(dataStore.audios.indices, id: \.self) { index in
+                    VStack {
+                        Text("Audio \(index + 1)")
+                        WaveformView(levels: .constant(self.generateWaveform(from: dataStore.audios[index])))
+                            .frame(height: 50)
+                            .padding([.leading, .trailing])
+                        Button(action: {
+                            playAudio(data: dataStore.audios[index])
+                        }) {
+                            Text("Play Audio \(index + 1)")
+                                .padding()
+                                .background(Color.orange)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                        }
+                        .padding()
+                    }
+                }
+            }
         }
         .sheet(isPresented: $showDocumentPicker) {
             DocumentPicker(audioURL: $audioURL)
                 .environmentObject(dataStore)
+        }
+        .onAppear(perform: setupAudioSession)
+    }
+
+    func setupAudioSession() {
+        do {
+            let audioSession = AVAudioSession.sharedInstance()
+            try audioSession.setCategory(.playAndRecord, mode: .default)
+            try audioSession.setActive(true)
+            audioSession.requestRecordPermission { granted in
+                if !granted {
+                    print("Permission to record not granted")
+                }
+            }
+        } catch {
+            print("Failed to set up audio session: \(error)")
         }
     }
 
@@ -88,10 +107,16 @@ struct AddAudio: View {
             audioRecorder?.stop()
             isRecording = false
             if let url = audioRecorder?.url {
-                if let data = try? Data(contentsOf: url) {
-                    dataStore.audios.append(data)
+                DispatchQueue.global().async {
+                    if let data = try? Data(contentsOf: url) {
+                        DispatchQueue.main.async {
+                            self.dataStore.audios.append(data)
+                        }
+                    }
+                    DispatchQueue.main.async {
+                        self.audioURL = url
+                    }
                 }
-                audioURL = url
             }
         } else {
             startRecording()
@@ -110,8 +135,23 @@ struct AddAudio: View {
 
         do {
             audioRecorder = try AVAudioRecorder(url: audioFilename, settings: settings)
+            audioRecorder?.isMeteringEnabled = true
             audioRecorder?.record()
             isRecording = true
+
+            Timer.scheduledTimer(withTimeInterval: 0.05, repeats: true) { timer in
+                guard let audioRecorder = self.audioRecorder else { return }
+                if self.isRecording {
+                    audioRecorder.updateMeters()
+                    let level = self.normalizeSoundLevel(level: audioRecorder.averagePower(forChannel: 0))
+                    self.levels.append(level)
+                    if self.levels.count > Int(10 / 0.05) { // ensure we have at least 10 seconds of data
+                        self.levels.removeFirst()
+                    }
+                } else {
+                    timer.invalidate()
+                }
+            }
         } catch {
             // Handle the error
             print("Failed to start recording: \(error)")
@@ -130,6 +170,49 @@ struct AddAudio: View {
     func getDocumentsDirectory() -> URL {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         return paths[0]
+    }
+
+    func normalizeSoundLevel(level: Float) -> CGFloat {
+        let level = max(0.2, CGFloat(level + 50) / 50) // adjust the range of sound level
+        return CGFloat(level)
+    }
+
+    func generateWaveform(from data: Data) -> [CGFloat] {
+        guard let audioPlayer = try? AVAudioPlayer(data: data) else { return [] }
+        audioPlayer.isMeteringEnabled = true
+        var levels: [CGFloat] = []
+        
+        audioPlayer.play()
+        
+        let sampleRate = audioPlayer.format.sampleRate
+        let samplesPerSecond = Int(sampleRate / 10) // ten samples per second
+
+        while audioPlayer.isPlaying {
+            audioPlayer.updateMeters()
+            let level = normalizeSoundLevel(level: audioPlayer.averagePower(forChannel: 0))
+            levels.append(level)
+            usleep(useconds_t(1_000_000 / samplesPerSecond))
+        }
+        
+        return levels
+    }
+}
+
+struct WaveformView: View {
+    @Binding var levels: [CGFloat]
+
+    var body: some View {
+        GeometryReader { geometry in
+            let height = geometry.size.height
+            let width = geometry.size.width / CGFloat(max(levels.count, 1))
+            HStack(spacing: 1) {
+                ForEach(levels, id: \.self) { level in
+                    Rectangle()
+                        .fill(Color.blue)
+                        .frame(width: width, height: height * level)
+                }
+            }
+        }
     }
 }
 
@@ -158,9 +241,13 @@ struct DocumentPicker: UIViewControllerRepresentable {
 
         func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
             if let url = urls.first {
-                parent.audioURL = url
-                if let data = try? Data(contentsOf: url) {
-                    parent.dataStore.audios.append(data)
+                self.parent.audioURL = url
+                DispatchQueue.global().async {
+                    if let data = try? Data(contentsOf: url) {
+                        DispatchQueue.main.async {
+                            self.parent.dataStore.audios.append(data)
+                        }
+                    }
                 }
             }
         }
