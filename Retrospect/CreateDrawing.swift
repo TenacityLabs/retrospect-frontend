@@ -19,66 +19,83 @@ struct CreateDrawing: View {
     @State private var strokeWidth: CGFloat = 2.0
 
     var body: some View {
-        VStack {
-            Text("Drawing Page")
-                .font(.largeTitle)
-                .padding()
-            GeometryReader { geometry in
-                TabView(selection: $selectedIndex) {
-                    ForEach(dataStore.drawings.indices, id: \.self) { index in
-                        VStack {
-                            DrawingViewRepresentable(clear: $clear, color: $color, strokeWidth: $strokeWidth, paths: $dataStore.drawings[0], isEditable: false)
-                                .frame(height: geometry.size.height / 2)
-                                .border(Color.gray.opacity(0.25), width: 1)
-                        }
-                        .tag(index)
-                    }
-                    if dataStore.drawings.count < 9 {
-                        Button(action: {
-                            let emptyDrawing = PathWithColor(path: UIBezierPath(), color: .black)
-                            dataStore.drawings.append([emptyDrawing])
-                        }) {
-                            Image(systemName: "plus")
-                                .resizable()
-                                .foregroundColor(.black)
-                                .frame(width: 30, height: 30)
-                                .frame(width: 150, height: 150)
-                                .background(Color.white.opacity(0.2))
-                                .cornerRadius(15)
-                        }
-                        .tag(dataStore.drawings.count)
-                    }
-                }
-                .tabViewStyle(PageTabViewStyle())
-            }
-            
-            HStack {
-                ForEach(0..<dataStore.drawings.count + (dataStore.drawings.count < 9 ? 1 : 0), id: \.self) { index in
-                    Circle()
-                        .fill(index == selectedIndex ? Color.black : Color.gray)
-                        .frame(width: 8, height: 8)
-                        .animation(.easeInOut, value: selectedIndex)
-                }
-            }
-            .padding(.top, 10)
-            
-            Button(action: {
-                drawIndex = selectedIndex
-                AGstate = "EditDrawing"
-            }) {
-                Text("Edit")
-                    .foregroundColor(Color.black)
+        GeometryReader { geometry in
+            VStack {
+                Text("Drawing Page")
+                    .font(.largeTitle)
                     .padding()
-                    .frame(width: 300)
-                    .background(Color.white)
-                    .cornerRadius(25)
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 25)
-                            .stroke(Color.black, lineWidth: 1)
-                    )
-            }
 
-            Spacer()
+                    TabView(selection: $selectedIndex) {
+                        ForEach(dataStore.drawings.indices, id: \.self) { index in
+                            VStack {
+                                DrawingViewRepresentable(clear: $clear, color: $color, strokeWidth: $strokeWidth, paths: $dataStore.drawings[0], isEditable: false)
+                                    .frame(height: geometry.size.height / 2)
+                                    .border(Color.gray.opacity(0.25), width: 1)
+                            }
+                            .tag(index)
+                        }
+                        if dataStore.drawings.count < 9 {
+                            Button(action: {
+                                let emptyDrawing = PathWithColor(path: UIBezierPath(), color: .black)
+                                dataStore.drawings.append([emptyDrawing])
+                            }) {
+                                Image(systemName: "plus")
+                                    .resizable()
+                                    .foregroundColor(.black)
+                                    .frame(width: 30, height: 30)
+                                    .frame(width: 150, height: 150)
+                                    .background(Color.white.opacity(0.2))
+                                    .cornerRadius(15)
+                            }
+                            .tag(dataStore.drawings.count)
+                        }
+                    }
+                    .tabViewStyle(PageTabViewStyle())
+                
+                
+                HStack {
+                    ForEach(0..<dataStore.drawings.count + (dataStore.drawings.count < 9 ? 1 : 0), id: \.self) { index in
+                        Circle()
+                            .fill(index == selectedIndex ? Color.black : Color.gray)
+                            .frame(width: 8, height: 8)
+                            .animation(.easeInOut, value: selectedIndex)
+                    }
+                }
+                .padding(.top, 10)
+                
+                Button(action: {
+                    drawIndex = selectedIndex
+                    AGstate = "EditDrawing"
+                }) {
+                    Text("Edit")
+                        .foregroundColor(Color.black)
+                        .padding()
+                        .frame(width: 300)
+                        .background(Color.white)
+                        .cornerRadius(25)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 25)
+                                .stroke(Color.black, lineWidth: 1)
+                        )
+                }
+                
+                Button(action: {
+                    AGstate = "AdditionalGoodies"
+                }) {
+                    Text("Done")
+                        .foregroundColor(Color.black)
+                        .padding()
+                        .frame(width: 300)
+                        .background(Color.white)
+                        .cornerRadius(25)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 25)
+                                .stroke(Color.black, lineWidth: 1)
+                        )
+                }
+
+                Spacer()
+            }
         }
         .padding()
         .onAppear {

@@ -49,7 +49,7 @@ class UserAPIClient {
         performRequest(request, completion: completion)
     }
     
-    func register(firstName: String, lastName: String, email: String, password: String, completion: @escaping (Result<Void, APIError>) -> Void) {
+    func register(Name: String, email: String, password: String, completion: @escaping (Result<Void, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/user/register") else {
             completion(.failure(.invalidURL))
             return
@@ -57,7 +57,7 @@ class UserAPIClient {
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        let body: [String: Any] = ["firstName": firstName, "lastName": lastName, "email": email, "password": password]
+        let body: [String: Any] = ["Name": Name, "email": email, "password": password]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         performRequest(request) { (result: Result<EmptyResponse, APIError>) in

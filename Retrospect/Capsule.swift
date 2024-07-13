@@ -9,7 +9,7 @@ import SwiftUI
 import Combine
 
 class Capsule: ObservableObject {
-    @Published var container: Int?
+    @Published var container: String?
     @Published var images: [UIImage] = []
     @Published var collab: Bool?
     @Published var prompts: [Prompt] = []

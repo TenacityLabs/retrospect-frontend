@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct Preparing: View {
+    @Binding var state: String
+    @EnvironmentObject var dataStore: Capsule
     @State private var pulsate = false
     
     var body: some View {
@@ -50,12 +52,41 @@ struct Preparing: View {
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+        .onAppear {
+            CapsuleAPIClient.shared.createCapsule(
+                authorization: jwt,
+                vessel: dataStore.container ?? "Box",
+                public: dataStore.collab ?? false)
+            { result in
+                switch result {
+                case .success(let capsule):
+                    capsuleID = capsule.id
+                case .failure(let error):
+                    print(error)
+                }
+            }
+            
+            CapsuleAPIClient.shared.getCapsuleById(
+                authorization: jwt,
+                id: capsuleID ?? 0)
+            { result in
+                switch result {
+                case .success(let capsule):
+                    currentCapsule = capsule
+                    print("Success")
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+        
+        
     }
 }
 
 #Preview {
     ZStack {
         ColorImageView()
-        Preparing()
+        Preparing(state: .constant(""))
     }
 }

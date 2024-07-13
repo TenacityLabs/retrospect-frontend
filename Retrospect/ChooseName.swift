@@ -31,7 +31,7 @@ struct ChooseName: View {
                 .padding(.bottom, 50)
             
             Button(action: {
-                state = "PhotoSelect"
+                state = "Collab"
             }) {
                 Text("I'm ready to go!")
                     .foregroundColor(Color.black)

@@ -10,7 +10,6 @@ import SwiftUI
 struct Login: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @State private var loginResult: String = ""
     @State private var isPasswordVisible: Bool = false
     @Binding var state: String
     
@@ -119,11 +118,12 @@ struct Login: View {
             DispatchQueue.main.async {
                 switch result {
                 case .success(let token):
-                    loginResult = "Login successful!"
+                    print("Login successful!")
                     jwt = token.token
                     state = "Dashboard"
                 case .failure(_):
-                    loginResult = "Login failed, please try again!"
+                    print("Login failed, please try again!")
+                   
                 }
             }
         }

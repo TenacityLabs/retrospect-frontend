@@ -32,7 +32,7 @@ struct IconSelect: View {
                                     .scaledToFit()
                                     .frame(width: .infinity, height: 300)
                                     .padding()
-                                    .shadow(color: .pink, radius: 30, x: 0, y: 0)
+                                    .shadow(color: .white, radius: 30, x: 0, y: 0)
                             }
                             .padding()
                             .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
@@ -61,7 +61,7 @@ struct IconSelect: View {
             Spacer()
             
             Button(action: {
-                dataStore.container = selectedIndex
+                dataStore.container = containers[selectedIndex]
                 state = "ChooseName"
             }) {
                 Text("Confirm Selection")

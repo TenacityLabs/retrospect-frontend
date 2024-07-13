@@ -27,7 +27,7 @@ class DrawingView: UIView {
     private var points: [CGPoint] = []
     var strokeColor: UIColor = .black
     var strokeWidth: CGFloat = 2.0
-    var isEditable: Bool = true // New property
+    var isEditable: Bool = true
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -141,7 +141,7 @@ struct DrawingViewRepresentable: UIViewRepresentable {
     func makeUIView(context: Context) -> DrawingView {
         let drawingView = DrawingView()
         drawingView.delegate = context.coordinator
-        drawingView.isEditable = isEditable // Set the property
+        drawingView.isEditable = isEditable
         return drawingView
     }
 
@@ -152,11 +152,12 @@ struct DrawingViewRepresentable: UIViewRepresentable {
                 self.paths = [] // Clear the paths
                 self.clear = false
             }
+        } else {
+            uiView.paths = paths
         }
         uiView.strokeColor = UIColor(color)
         uiView.strokeWidth = strokeWidth
-        uiView.paths = paths
-        uiView.isEditable = isEditable // Update the property
+        uiView.isEditable = isEditable
     }
 }
 
@@ -201,7 +202,6 @@ struct EditDrawing: View {
                     Spacer()
                     Button(action: {
                         clear = true
-                        dataStore.drawings[drawIndex] = []
                     }) {
                         Text("Clear")
                             .padding()

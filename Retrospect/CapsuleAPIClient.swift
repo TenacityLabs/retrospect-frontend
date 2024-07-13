@@ -7,7 +7,11 @@
 
 import Foundation
 
-struct APICapsule: Codable {
+struct createCapsuleResponse: Codable {
+    let id: UInt
+}
+
+public struct APICapsule: Codable {
     let id: UInt
     let code: String
     let createdAt: Date
@@ -72,7 +76,7 @@ class CapsuleAPIClient {
         performRequest(request, completion: completion)
     }
     
-    func createCapsule(authorization: String, vessel: String, public: Bool, completion: @escaping (Result<UInt, APIError>) -> Void) {
+    func createCapsule(authorization: String, vessel: String, public: Bool, completion: @escaping (Result<createCapsuleResponse, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules/create") else {
             completion(.failure(.invalidURL))
             return
@@ -86,10 +90,10 @@ class CapsuleAPIClient {
         let body: [String: Any] = ["vessel": vessel, "public": `public`]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
-        performRequest(request) { (result: Result<UInt, APIError>) in
+        performRequest(request) { (result: Result<createCapsuleResponse, APIError>) in
             switch result {
-            case .success(let capsuleId):
-                completion(.success(capsuleId))
+            case .success(let capsule):
+                completion(.success(capsule))
             case .failure(let error):
                 completion(.failure(error))
             }

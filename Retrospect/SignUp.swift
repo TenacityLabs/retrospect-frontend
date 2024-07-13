@@ -184,14 +184,15 @@ struct SignUp: View {
     
     //FIXME: handle failure case
     private func register() {
-        splitName()
-        UserAPIClient.shared.register(firstName: firstName, lastName: lastName, email: email, password: password) { result in
+//        splitName()
+        UserAPIClient.shared.register(Name: name, email: email, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success:
                     state = "Login"
                 case .failure(let error):
                     err = "Registration failed: \(error)"
+                    print(err)
                 }
             }
         }

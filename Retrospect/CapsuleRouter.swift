@@ -7,6 +7,9 @@
 
 import SwiftUI
 
+public var capsuleID: UInt?
+public var currentCapsule: APICapsule?
+
 struct CapsuleRouter: View {
     @State private var capsuleState = "IconSelect"
     @StateObject private var dataStore = Capsule()
@@ -15,6 +18,14 @@ struct CapsuleRouter: View {
         ZStack {
             if capsuleState == "IconSelect" {
                 IconSelect(state: $capsuleState)
+                    .transition(.slide)
+                    .environmentObject(dataStore)
+            } else if capsuleState == "Collab" {
+                Collab(state: $capsuleState)
+                    .transition(.slide)
+                    .environmentObject(dataStore)
+            } else if capsuleState == "Preparing" {
+                Preparing(state: $capsuleState)
                     .transition(.slide)
                     .environmentObject(dataStore)
             } else if capsuleState == "ChooseName" {

@@ -3,6 +3,7 @@ import SwiftUI
 struct Collab: View {
     @EnvironmentObject var dataStore: Capsule
     @State private var showSongSelectView = false
+    @Binding var state: String
 
     var body: some View {
         GeometryReader { geometry in
@@ -89,7 +90,7 @@ struct Collab: View {
                 Spacer()
                 
                 Button(action: {
-//                    state = ""
+                    state = "Preparing"
                 }) {
                     Text("I'm Ready to Go!")
                         .font(.custom("Syne-Regular", size: 18))
@@ -102,15 +103,15 @@ struct Collab: View {
                 .padding(.horizontal, 30)
                 .padding(.bottom, 60)
             }
-            .padding(.horizontal)
         }
     }
+    
 }
 
 #Preview {
         ZStack {
             BackgroundImageView()
-            Collab()
+            Collab(state: .constant(""))
                 .environmentObject(Capsule())
         }
     
