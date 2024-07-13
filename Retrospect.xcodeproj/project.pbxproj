@@ -56,7 +56,6 @@
 		F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C92C290B0D0048E3C7 /* Tutorial.swift */; };
 		F784F1072C1D238100E1123F /* ChooseName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F784F1062C1D238100E1123F /* ChooseName.swift */; };
 		F7D96C9C2C30C2E000BB538A /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D96C9B2C30C2E000BB538A /* Dashboard.swift */; };
-		F7EEF2FB2C3B36D7004DD5AA /* AudioRecording.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EEF2FA2C3B36D7004DD5AA /* AudioRecording.swift */; };
 		F7EEF2FD2C3B397F004DD5AA /* SealCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EEF2FC2C3B397F004DD5AA /* SealCapsule.swift */; };
 		FB2E2D9B0031A4CD2034FCBB /* Pods_Retrospect_RetrospectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EEB07D32392C1EFF3945E4 /* Pods_Retrospect_RetrospectUITests.framework */; };
 /* End PBXBuildFile section */
@@ -137,7 +136,6 @@
 		F77347C92C290B0D0048E3C7 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		F784F1062C1D238100E1123F /* ChooseName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseName.swift; sourceTree = "<group>"; };
 		F7D96C9B2C30C2E000BB538A /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
-		F7EEF2FA2C3B36D7004DD5AA /* AudioRecording.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecording.swift; sourceTree = "<group>"; };
 		F7EEF2FC2C3B397F004DD5AA /* SealCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SealCapsule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -243,7 +241,6 @@
 				9D738D1C2C1D2B500019109E /* AnswerPrompt.swift */,
 				9D4598922C2763AB00B34494 /* Songs */,
 				9D4598912C27631D00B34494 /* AdditionalGoodies */,
-				F7EEF2FA2C3B36D7004DD5AA /* AudioRecording.swift */,
 				F7EEF2FC2C3B397F004DD5AA /* SealCapsule.swift */,
 				9D01D64F2C42FD8D00615767 /* Preparing.swift */,
 			);
@@ -556,7 +553,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F7EEF2FB2C3B36D7004DD5AA /* AudioRecording.swift in Sources */,
 				9D01D6462C3B746600615767 /* CapsuleRouter.swift in Sources */,
 				9D0696652C040F9600AB1098 /* SpotifyManager.swift in Sources */,
 				F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */,
