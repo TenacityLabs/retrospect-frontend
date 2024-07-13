@@ -10,7 +10,7 @@ import AudioToolbox
 
 struct SealCapsuleView: View {
     @Binding var state: String
-    @EnvironmentObject var dataStore: capsule
+    @EnvironmentObject var dataStore: Capsule
     @GestureState private var isDetectingLongPress = false
     @State private var completedLongPress = false
     

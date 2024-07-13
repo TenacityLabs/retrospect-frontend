@@ -26,7 +26,7 @@ struct Dashboard: View {
                     VStack {
                         Spacer()
                         
-                        Image("Box")
+                        Image("emptybox")
                             .resizable()
                             .scaledToFit()
                             .frame(height: 130)
@@ -46,10 +46,56 @@ struct Dashboard: View {
                     .overlay(
                         RoundedRectangle(cornerRadius: 10)
                             .inset(by: 0.5)
-                            .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                            .stroke(Color.white.opacity(0.3), lineWidth: 1)
                     )
                 }
                 .buttonStyle(PlainButtonStyle())
+                
+                Spacer()
+                    .frame(height: 20)
+                
+                VStack {
+                    Spacer()
+
+                    Text("populate this space with more time capsules!")
+                        .foregroundColor(Color.white.opacity(0.34))
+                        .multilineTextAlignment(.center)
+                        .font(.custom("Syne-Bold", size: 16))
+                    
+                    Spacer()
+                }
+                .frame(width: (geometry.size.width - 50), height: 150)
+                .background(Color.white.opacity(0.1))
+                .shadow(color: .white.opacity(0.1), radius: 10, x: 0, y: 0)
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .inset(by: 0.5)
+                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                )
+                
+                Spacer()
+                    .frame(height: 20)
+                
+                VStack {
+                    Spacer()
+
+                    Text("someone’s lonely and \n friend-less today")
+                        .foregroundColor(Color.white.opacity(0.34))
+                        .multilineTextAlignment(.center)
+                        .font(.custom("Syne-Bold", size: 16))
+                    
+                    Spacer()
+                }
+                .frame(width: (geometry.size.width - 50), height: 150)
+                .background(Color.white.opacity(0.1))
+                .shadow(color: .white.opacity(0.1), radius: 10, x: 0, y: 0)
+                .cornerRadius(10)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 10)
+                        .inset(by: 0.5)
+                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                )
                 
                 Spacer()
             }

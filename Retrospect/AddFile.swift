@@ -3,7 +3,7 @@ import UniformTypeIdentifiers
 import PDFKit
 
 struct AddFile: View {
-    @EnvironmentObject var dataStore: capsule
+    @EnvironmentObject var dataStore: Capsule
     @State private var isDocumentPickerPresented = false
     @Binding var AGstate: String
     @State private var selectedIndex: Int = 0
@@ -199,6 +199,6 @@ class PDFPageView: UIView {
     ZStack {
         BackgroundImageView()
         AddFile(AGstate: .constant(""))
-            .environmentObject(capsule())
+            .environmentObject(Capsule())
     }
 }

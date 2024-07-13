@@ -9,7 +9,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct AdditionalGoodies: View {
-    @EnvironmentObject var dataStore: capsule
+    @EnvironmentObject var dataStore: Capsule
     @Binding var state: String
     @Binding var AGstate: String
     
@@ -122,5 +122,5 @@ struct AdditionalGoodies: View {
 
 #Preview {
     AdditionalGoodies(state: .constant(""), AGstate: .constant(""))
-        .environmentObject(capsule())
+        .environmentObject(Capsule())
 }

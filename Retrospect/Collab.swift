@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Collab: View {
-    @EnvironmentObject var dataStore: capsule
+    @EnvironmentObject var dataStore: Capsule
     @State private var showSongSelectView = false
 
     var body: some View {
@@ -111,7 +111,7 @@ struct Collab: View {
         ZStack {
             BackgroundImageView()
             Collab()
-                .environmentObject(capsule())
+                .environmentObject(Capsule())
         }
     
 }

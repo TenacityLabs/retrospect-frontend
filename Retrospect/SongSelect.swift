@@ -26,7 +26,7 @@ struct SongSelect: View {
     @EnvironmentObject var spotifyManager: SpotifyManager
     @State private var query: String = ""
     @State private var selectedTracks: Set<Track> = []
-    @EnvironmentObject var dataStore: capsule
+    @EnvironmentObject var dataStore: Capsule
     @Binding var state: String
 
     var body: some View {
@@ -144,7 +144,7 @@ struct SongSelect: View {
 struct SongCarouselView: View {
     @State private var allIndices: [Int] = []
     @State private var selectedIndex: Int = 0
-    @EnvironmentObject var dataStore: capsule
+    @EnvironmentObject var dataStore: Capsule
     
     var body: some View {
         VStack {
@@ -218,5 +218,5 @@ struct SongCarouselView: View {
 #Preview {
     SongSelect(state: .constant(""))
         .environmentObject(SpotifyManager())
-        .environmentObject(capsule())
+        .environmentObject(Capsule())
 }

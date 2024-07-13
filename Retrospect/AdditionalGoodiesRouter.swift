@@ -10,7 +10,8 @@ import SwiftUI
 struct AdditionalGoodiesRouter: View {
     @Binding var capsuleState: String
     @State private var AGstate = "AdditionalGoodies"
-    @EnvironmentObject var dataStore: capsule
+    @State private var drawIndex = 0
+    @EnvironmentObject var dataStore: Capsule
     
     var body: some View {
         ZStack {
@@ -26,11 +27,14 @@ struct AdditionalGoodiesRouter: View {
                 AddAudio(AGstate: $AGstate)
                     .transition(.slide)
                     .environmentObject(dataStore)
-//            } 
-//            else if AGstate == "CreateDrawing" {
-//                CreateDrawing(AGstate: $AGstate)
-//                    .transition(.slide)
-//                    .environmentObject(dataStore)
+            } else if AGstate == "CreateDrawing" {
+                CreateDrawing(AGstate: $AGstate, drawIndex: $drawIndex)
+                    .transition(.slide)
+                    .environmentObject(dataStore)
+            } else if AGstate == "EditDrawing" {
+                EditDrawing(AGstate: $AGstate, drawIndex: $drawIndex)
+                    .transition(.slide)
+                    .environmentObject(dataStore)
             } else if AGstate == "AddFile" {
                 AddFile(AGstate: $AGstate)
                     .transition(.slide)
@@ -42,5 +46,5 @@ struct AdditionalGoodiesRouter: View {
 
 #Preview {
     AdditionalGoodiesRouter(capsuleState: .constant(""))
-        .environmentObject(capsule())
+        .environmentObject(Capsule())
 }
