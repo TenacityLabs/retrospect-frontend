@@ -14,7 +14,7 @@ public struct CreateCapsuleResponse: Codable {
 public struct CapsuleData: Codable {
     public var id: UInt
     public var code: String
-    public var createdAt: Date
+    public var createdAt: String
     public var isPublic: Bool
     public var capsuleOwnerId: UInt
     
@@ -68,7 +68,7 @@ public struct Song: Codable {
     public var name: String
     public var artistName: String
     public var albumArtURL: String
-    public var createdAt: Date
+    public var createdAt: String
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -88,7 +88,7 @@ public struct QuestionAnswer: Codable {
     public var capsuleId: UInt
     public var prompt: String
     public var answer: String
-    public var createdAt: Date
+    public var createdAt: String
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -105,7 +105,7 @@ public struct Writing: Codable {
     public var userId: UInt
     public var capsuleId: UInt
     public var writing: String
-    public var createdAt: Date
+    public var createdAt: String
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -122,7 +122,7 @@ public struct Photo: Codable {
     public var capsuleId: UInt
     public var objectName: String
     public var fileURL: String
-    public var createdAt: Date
+    public var createdAt: String
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -140,7 +140,7 @@ public struct Audio: Codable {
     public var capsuleId: UInt
     public var objectName: String
     public var fileURL: String
-    public var createdAt: Date
+    public var createdAt: String
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -158,7 +158,7 @@ public struct Doodle: Codable {
     public var capsuleId: UInt
     public var objectName: String
     public var fileURL: String
-    public var createdAt: Date
+    public var createdAt: String
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -176,7 +176,7 @@ public struct MiscFile: Codable {
     public var capsuleId: UInt
     public var objectName: String
     public var fileURL: String
-    public var createdAt: Date
+    public var createdAt: String
 
     enum CodingKeys: String, CodingKey {
         case id

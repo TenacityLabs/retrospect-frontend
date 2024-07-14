@@ -68,7 +68,7 @@ struct Preparing: View {
                         switch result {
                         case .success(let capsule):
                             currentCapsule = capsule
-                            print("Success")
+                            state = "PhotoSelect"
                         case .failure(let error):
                             print(error)
                         }
