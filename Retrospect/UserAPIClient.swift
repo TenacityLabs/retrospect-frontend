@@ -11,6 +11,8 @@ struct LoginResponse: Codable {
     let token: String
 }
 
+struct EmptyResponse: Codable {}
+
 enum APIError: Error {
     case invalidURL
     case requestFailed(Error)
@@ -23,8 +25,6 @@ struct User: Decodable {
     let lastName: String
     let email: String
 }
-
-struct EmptyResponse: Decodable {}
 
 class UserAPIClient {
     static let shared = UserAPIClient()

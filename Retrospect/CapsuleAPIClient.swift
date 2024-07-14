@@ -7,111 +7,208 @@
 
 import Foundation
 
-struct createCapsuleResponse: Codable {
+public struct CreateCapsuleResponse: Codable {
     let capsuleId: UInt
 }
 
-struct CapsuleData: Codable {
-    var id: UInt
-    var code: String
-    var createdAt: Date
-    var isPublic: Bool
-    var capsuleOwnerId: UInt
+public struct CapsuleData: Codable {
+    public var id: UInt
+    public var code: String
+    public var createdAt: Date
+    public var isPublic: Bool
+    public var capsuleOwnerId: UInt
     
-    var capsuleMember1Id: UInt
-    var capsuleMember2Id: UInt
-    var capsuleMember3Id: UInt
-    var capsuleMember4Id: UInt
-    var capsuleMember5Id: UInt
+    public var capsuleMember1Id: UInt
+    public var capsuleMember2Id: UInt
+    public var capsuleMember3Id: UInt
+    public var capsuleMember4Id: UInt
+    public var capsuleMember5Id: UInt
     
-    var capsuleMember1Sealed: Bool
-    var capsuleMember2Sealed: Bool
-    var capsuleMember3Sealed: Bool
-    var capsuleMember4Sealed: Bool
-    var capsuleMember5Sealed: Bool
+    public var capsuleMember1Sealed: Bool
+    public var capsuleMember2Sealed: Bool
+    public var capsuleMember3Sealed: Bool
+    public var capsuleMember4Sealed: Bool
+    public var capsuleMember5Sealed: Bool
     
-    var vessel: String
-    var name: String
-    var dateToOpen: Date?
-    var emailSent: Bool
-    var sealed: String
+    public var vessel: String
+    public var name: String
+    public var dateToOpen: Date?
+    public var emailSent: Bool
+    public var sealed: String
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case code
+        case createdAt
+        case isPublic = "public"
+        case capsuleOwnerId = "capsuleOwnerId"
+        case capsuleMember1Id = "capsuleMember1Id"
+        case capsuleMember2Id = "capsuleMember2Id"
+        case capsuleMember3Id = "capsuleMember3Id"
+        case capsuleMember4Id = "capsuleMember4Id"
+        case capsuleMember5Id = "capsuleMember5Id"
+        case capsuleMember1Sealed = "capsuleMember1Sealed"
+        case capsuleMember2Sealed = "capsuleMember2Sealed"
+        case capsuleMember3Sealed = "capsuleMember3Sealed"
+        case capsuleMember4Sealed = "capsuleMember4Sealed"
+        case capsuleMember5Sealed = "capsuleMember5Sealed"
+        case vessel
+        case name
+        case dateToOpen
+        case emailSent
+        case sealed
+    }
 }
 
-struct Song: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
-    var spotifyId: String
-    var name: String
-    var artistName: String
-    var albumArtURL: String
-    var createdAt: Date
+public struct Song: Codable {
+    public var id: UInt
+    public var userId: UInt
+    public var capsuleId: UInt
+    public var spotifyId: String
+    public var name: String
+    public var artistName: String
+    public var albumArtURL: String
+    public var createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userId
+        case capsuleId
+        case spotifyId
+        case name
+        case artistName
+        case albumArtURL
+        case createdAt
+    }
 }
 
-struct QuestionAnswer: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
-    var prompt: String
-    var answer: String
-    var createdAt: Date
+public struct QuestionAnswer: Codable {
+    public var id: UInt
+    public var userId: UInt
+    public var capsuleId: UInt
+    public var prompt: String
+    public var answer: String
+    public var createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userId
+        case capsuleId
+        case prompt
+        case answer
+        case createdAt
+    }
 }
 
-struct Writing: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
-    var writing: String
-    var createdAt: Date
+public struct Writing: Codable {
+    public var id: UInt
+    public var userId: UInt
+    public var capsuleId: UInt
+    public var writing: String
+    public var createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userId
+        case capsuleId
+        case writing
+        case createdAt
+    }
 }
 
-struct Photo: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
-    var objectName: String
-    var fileURL: String
-    var createdAt: Date
+public struct Photo: Codable {
+    public var id: UInt
+    public var userId: UInt
+    public var capsuleId: UInt
+    public var objectName: String
+    public var fileURL: String
+    public var createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userId
+        case capsuleId
+        case objectName
+        case fileURL
+        case createdAt
+    }
 }
 
-struct Audio: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
-    var objectName: String
-    var fileURL: String
-    var createdAt: Date
+public struct Audio: Codable {
+    public var id: UInt
+    public var userId: UInt
+    public var capsuleId: UInt
+    public var objectName: String
+    public var fileURL: String
+    public var createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userId
+        case capsuleId
+        case objectName
+        case fileURL
+        case createdAt
+    }
 }
 
-struct Doodle: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
-    var objectName: String
-    var fileURL: String
-    var createdAt: Date
+public struct Doodle: Codable {
+    public var id: UInt
+    public var userId: UInt
+    public var capsuleId: UInt
+    public var objectName: String
+    public var fileURL: String
+    public var createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userId
+        case capsuleId
+        case objectName
+        case fileURL
+        case createdAt
+    }
 }
 
-struct MiscFile: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
-    var objectName: String
-    var fileURL: String
-    var createdAt: Date
+public struct MiscFile: Codable {
+    public var id: UInt
+    public var userId: UInt
+    public var capsuleId: UInt
+    public var objectName: String
+    public var fileURL: String
+    public var createdAt: Date
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userId
+        case capsuleId
+        case objectName
+        case fileURL
+        case createdAt
+    }
 }
 
-struct APICapsule: Codable {
-    var Capsule: CapsuleData
-    var Songs: [Song]
-    var QuestionAnswers: [QuestionAnswer]
-    var Writings: [Writing]
-    var Photos: [Photo]
-    var Audios: [Audio]
-    var Doodles: [Doodle]
-    var MiscFiles: [MiscFile]
-}
+public struct APICapsule: Codable {
+    public var capsule: CapsuleData
+    public var songs: [Song]
+    public var questionAnswers: [QuestionAnswer]
+    public var writings: [Writing]
+    public var photos: [Photo]
+    public var audios: [Audio]
+    public var doodles: [Doodle]
+    public var miscFiles: [MiscFile]
 
+    enum CodingKeys: String, CodingKey {
+        case capsule = "capsule"
+        case songs = "songs"
+        case questionAnswers = "questionAnswers"
+        case writings = "writings"
+        case photos = "photos"
+        case audios = "audios"
+        case doodles = "doodles"
+        case miscFiles = "miscFiles"
+    }
+}
 
 class CapsuleAPIClient {
     static let shared = CapsuleAPIClient()
@@ -146,7 +243,7 @@ class CapsuleAPIClient {
         performRequest(request, completion: completion)
     }
     
-    func createCapsule(authorization: String, vessel: String, public: Bool, completion: @escaping (Result<createCapsuleResponse, APIError>) -> Void) {
+    func createCapsule(authorization: String, vessel: String, public: Bool, completion: @escaping (Result<CreateCapsuleResponse, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules/create") else {
             completion(.failure(.invalidURL))
             return
@@ -158,17 +255,9 @@ class CapsuleAPIClient {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let body: [String: Any] = ["vessel": vessel, "public": `public`]
-        print(body)
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
-        performRequest(request) { (result: Result<createCapsuleResponse, APIError>) in
-            switch result {
-            case .success(let capsule):
-                completion(.success(capsule))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
+        performRequest(request, completion: completion)
     }
     
     func joinCapsule(authorization: String, code: String, completion: @escaping (Result<Void, APIError>) -> Void) {
@@ -294,7 +383,7 @@ class CapsuleAPIClient {
         URLSession.shared.dataTask(with: request) { data, response, error in
 
             if let error = error {
-                print(error)
+                print("Request failed with error: \(error.localizedDescription)")
                 completion(.failure(.requestFailed(error)))
                 return
             }
@@ -313,8 +402,11 @@ class CapsuleAPIClient {
             do {
                 let decodedResponse = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodedResponse))
-                
             } catch {
+                print("Decoding failed with error: \(error.localizedDescription)")
+                if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
+                    print("Error response from server: \(errorResponse.message)")
+                }
                 completion(.failure(.decodingFailed(error)))
             }
         }.resume()

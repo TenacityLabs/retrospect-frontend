@@ -60,6 +60,7 @@ struct Preparing: View {
             { result in
                 switch result {
                 case .success(let capsule):
+                    
                     CapsuleAPIClient.shared.getCapsuleById(
                         authorization: jwt,
                         id: capsule.capsuleId)
