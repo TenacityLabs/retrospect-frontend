@@ -8,40 +8,110 @@
 import Foundation
 
 struct createCapsuleResponse: Codable {
-    let id: UInt
+    let capsuleId: UInt
 }
 
-public struct APICapsule: Codable {
-    let id: UInt
-    let code: String
-    let createdAt: Date
-    let isPublic: Bool
-    let capsuleOwnerId: UInt
-    let capsuleMember1Id: UInt
-    let capsuleMember2Id: UInt
-    let capsuleMember3Id: UInt
-    let vessel: String
-    let name: String
-    let dateToOpen: Date?
-    let emailSent: Bool
-    let sealed: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case code
-        case createdAt
-        case isPublic = "public"
-        case capsuleOwnerId
-        case capsuleMember1Id
-        case capsuleMember2Id
-        case capsuleMember3Id
-        case vessel
-        case name
-        case dateToOpen
-        case emailSent
-        case sealed
-    }
+struct CapsuleData: Codable {
+    var id: UInt
+    var code: String
+    var createdAt: Date
+    var isPublic: Bool
+    var capsuleOwnerId: UInt
+    
+    var capsuleMember1Id: UInt
+    var capsuleMember2Id: UInt
+    var capsuleMember3Id: UInt
+    var capsuleMember4Id: UInt
+    var capsuleMember5Id: UInt
+    
+    var capsuleMember1Sealed: Bool
+    var capsuleMember2Sealed: Bool
+    var capsuleMember3Sealed: Bool
+    var capsuleMember4Sealed: Bool
+    var capsuleMember5Sealed: Bool
+    
+    var vessel: String
+    var name: String
+    var dateToOpen: Date?
+    var emailSent: Bool
+    var sealed: String
 }
+
+struct Song: Codable {
+    var id: UInt
+    var userId: UInt
+    var capsuleId: UInt
+    var spotifyId: String
+    var name: String
+    var artistName: String
+    var albumArtURL: String
+    var createdAt: Date
+}
+
+struct QuestionAnswer: Codable {
+    var id: UInt
+    var userId: UInt
+    var capsuleId: UInt
+    var prompt: String
+    var answer: String
+    var createdAt: Date
+}
+
+struct Writing: Codable {
+    var id: UInt
+    var userId: UInt
+    var capsuleId: UInt
+    var writing: String
+    var createdAt: Date
+}
+
+struct Photo: Codable {
+    var id: UInt
+    var userId: UInt
+    var capsuleId: UInt
+    var objectName: String
+    var fileURL: String
+    var createdAt: Date
+}
+
+struct Audio: Codable {
+    var id: UInt
+    var userId: UInt
+    var capsuleId: UInt
+    var objectName: String
+    var fileURL: String
+    var createdAt: Date
+}
+
+struct Doodle: Codable {
+    var id: UInt
+    var userId: UInt
+    var capsuleId: UInt
+    var objectName: String
+    var fileURL: String
+    var createdAt: Date
+}
+
+struct MiscFile: Codable {
+    var id: UInt
+    var userId: UInt
+    var capsuleId: UInt
+    var objectName: String
+    var fileURL: String
+    var createdAt: Date
+}
+
+struct APICapsule: Codable {
+    var Capsule: CapsuleData
+    var Songs: [Song]
+    var QuestionAnswers: [QuestionAnswer]
+    var Writings: [Writing]
+    var Photos: [Photo]
+    var Audios: [Audio]
+    var Doodles: [Doodle]
+    var MiscFiles: [MiscFile]
+}
+
 
 class CapsuleAPIClient {
     static let shared = CapsuleAPIClient()
@@ -88,6 +158,7 @@ class CapsuleAPIClient {
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         
         let body: [String: Any] = ["vessel": vessel, "public": `public`]
+        print(body)
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         performRequest(request) { (result: Result<createCapsuleResponse, APIError>) in
@@ -215,21 +286,34 @@ class CapsuleAPIClient {
         }
     }
     
+    struct ErrorResponse: Decodable {
+        let message: String
+    }
+    
     private func performRequest<T: Decodable>(_ request: URLRequest, completion: @escaping (Result<T, APIError>) -> Void) {
         URLSession.shared.dataTask(with: request) { data, response, error in
+
             if let error = error {
+                print(error)
                 completion(.failure(.requestFailed(error)))
                 return
             }
             
-            guard let data = data, let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
+            guard let data = data, let response = response as? HTTPURLResponse else {
                 completion(.failure(.invalidResponse))
                 return
+            }
+            
+            if let jsonString = String(data: data, encoding: .utf8) {
+                print("Response JSON: \(jsonString)")
+            } else {
+                print("Unable to convert data to JSON string.")
             }
             
             do {
                 let decodedResponse = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(decodedResponse))
+                
             } catch {
                 completion(.failure(.decodingFailed(error)))
             }

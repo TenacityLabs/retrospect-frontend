@@ -198,6 +198,76 @@ struct AddAudio: View {
     }
 }
 
+struct Record: View {
+    
+    var body: some View {
+        GeometryReader { geometry in
+            VStack {
+                Spacer()
+                VStack {
+                    Text("Record \n Something")
+                        .font(.custom("IvyOraDisplay-Regular", size: 48))
+                        .multilineTextAlignment(.center)
+                        .foregroundColor(.white)
+                        .padding(.top, 80)
+                    
+                    
+                    VStack {
+                        Image(systemName: "mic.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.white)
+                            .frame(height: 80)
+                        
+                        Text("Make a Recording")
+                            .font(.custom("Syne-Regular", size: 24))
+                            .padding(.top, 10)
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                    .frame(width: (geometry.size.width - 60), height: 180)
+                    .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
+                    .cornerRadius(20)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .inset(by: 0.5)
+                            .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                    )
+                    
+                    Spacer()
+                        .frame(height: 10)
+                    
+                    VStack {
+                        Image(systemName: "waveform")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.white)
+                            .frame(height: 80)
+                        
+                        Text("Upload from Voice Memos")
+                            .font(.custom("Syne-Regular", size: 24))
+                            .padding(.top, 10)
+                            .foregroundColor(.white)
+                    }
+                    .padding()
+                    .frame(width: (geometry.size.width - 60), height: 180)
+                    .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
+                    .cornerRadius(20)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .inset(by: 0.5)
+                            .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                    )
+                    Spacer()
+                }
+                Spacer()
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+}
+
+
 struct WaveformView: View {
     @Binding var levels: [CGFloat]
 
@@ -255,6 +325,10 @@ struct DocumentPicker: UIViewControllerRepresentable {
 }
 
 #Preview {
-    AddAudio(AGstate: .constant(""))
-        .environmentObject(Capsule())
+//    AddAudio(AGstate: .constant(""))
+//        .environmentObject(Capsule())
+    ZStack {
+        BackgroundImageView()
+        Record()
+    }
 }

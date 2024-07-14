@@ -60,25 +60,24 @@ struct Preparing: View {
             { result in
                 switch result {
                 case .success(let capsule):
-                    capsuleID = capsule.id
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            
-            CapsuleAPIClient.shared.getCapsuleById(
-                authorization: jwt,
-                id: capsuleID ?? 0)
-            { result in
-                switch result {
-                case .success(let capsule):
-                    currentCapsule = capsule
-                    print("Success")
+                    CapsuleAPIClient.shared.getCapsuleById(
+                        authorization: jwt,
+                        id: capsule.capsuleId)
+                    { result in
+                        switch result {
+                        case .success(let capsule):
+                            currentCapsule = capsule
+                            print("Success")
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
                 case .failure(let error):
                     print(error)
                 }
             }
         }
+
         
         
     }

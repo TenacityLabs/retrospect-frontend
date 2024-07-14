@@ -11,7 +11,7 @@ struct IconSelect: View {
     @Binding var state: String
     @EnvironmentObject var dataStore: Capsule
     @State private var selectedIndex: Int = 0
-    @State private var containers = ["Box", "Suitcase", "Guitar", "Jar", "Shoe"]
+    @State private var containers = ["box", "suitcase", "guitar", "jar", "shoe"]
     
     var body: some View {
         VStack {
