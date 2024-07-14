@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-struct Prompt {
-    var prompt: String
-    var response: String
-}
-
 // FIXME: Fix styling, delete text kind of buggy, plus button wrong shape, prompt generation, prompt changing
 struct AnswerPrompt: View {
     @EnvironmentObject var dataStore: Capsule

@@ -8,11 +8,6 @@
 import SwiftUI
 import UIKit
 
-struct PathWithColor {
-    var path: UIBezierPath
-    var color: UIColor
-}
-
 class DrawingView: UIView {
     var paths: [PathWithColor] = [] {
         didSet {

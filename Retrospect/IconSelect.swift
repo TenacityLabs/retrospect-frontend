@@ -30,7 +30,7 @@ struct IconSelect: View {
                                 Image(containers[index])
                                     .resizable()
                                     .scaledToFit()
-                                    .frame(width: .infinity, height: 300)
+                                    .frame(height: 300)
                                     .padding()
                                     .shadow(color: .white, radius: 30, x: 0, y: 0)
                             }

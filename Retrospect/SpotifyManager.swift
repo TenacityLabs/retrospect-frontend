@@ -26,6 +26,7 @@ class SpotifyManager: ObservableObject {
     
     func authorize() {
         spotify.authorizationManager.authorize()
+            .receive(on: DispatchQueue.main) // Ensure updates happen on the main thread
             .sink(receiveCompletion: { completion in
                 switch completion {
                     case .finished:
@@ -41,6 +42,7 @@ class SpotifyManager: ObservableObject {
     
     func searchTracks(query: String) {
         spotify.search(query: query, categories: [.track])
+            .receive(on: DispatchQueue.main) // Ensure updates happen on the main thread
             .sink(
                 receiveCompletion: { completion in
                     print(completion)
@@ -59,4 +61,3 @@ class SpotifyManager: ObservableObject {
             .store(in: &cancellables)
     }
 }
-

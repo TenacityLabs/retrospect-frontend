@@ -7,206 +7,30 @@
 
 import Foundation
 
-public struct CreateCapsuleResponse: Codable {
-    let capsuleId: UInt
-}
-
-public struct CapsuleData: Codable {
-    public var id: UInt
-    public var code: String
-    public var createdAt: String
-    public var isPublic: Bool
-    public var capsuleOwnerId: UInt
-    
-    public var capsuleMember1Id: UInt
-    public var capsuleMember2Id: UInt
-    public var capsuleMember3Id: UInt
-    public var capsuleMember4Id: UInt
-    public var capsuleMember5Id: UInt
-    
-    public var capsuleMember1Sealed: Bool
-    public var capsuleMember2Sealed: Bool
-    public var capsuleMember3Sealed: Bool
-    public var capsuleMember4Sealed: Bool
-    public var capsuleMember5Sealed: Bool
-    
-    public var vessel: String
-    public var name: String
-    public var dateToOpen: Date?
-    public var emailSent: Bool
-    public var sealed: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case code
-        case createdAt
-        case isPublic = "public"
-        case capsuleOwnerId = "capsuleOwnerId"
-        case capsuleMember1Id = "capsuleMember1Id"
-        case capsuleMember2Id = "capsuleMember2Id"
-        case capsuleMember3Id = "capsuleMember3Id"
-        case capsuleMember4Id = "capsuleMember4Id"
-        case capsuleMember5Id = "capsuleMember5Id"
-        case capsuleMember1Sealed = "capsuleMember1Sealed"
-        case capsuleMember2Sealed = "capsuleMember2Sealed"
-        case capsuleMember3Sealed = "capsuleMember3Sealed"
-        case capsuleMember4Sealed = "capsuleMember4Sealed"
-        case capsuleMember5Sealed = "capsuleMember5Sealed"
-        case vessel
-        case name
-        case dateToOpen
-        case emailSent
-        case sealed
-    }
-}
-
-public struct Song: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
-    public var spotifyId: String
-    public var name: String
-    public var artistName: String
-    public var albumArtURL: String
-    public var createdAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case userId
-        case capsuleId
-        case spotifyId
-        case name
-        case artistName
-        case albumArtURL
-        case createdAt
-    }
-}
-
-public struct QuestionAnswer: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
-    public var prompt: String
-    public var answer: String
-    public var createdAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case userId
-        case capsuleId
-        case prompt
-        case answer
-        case createdAt
-    }
-}
-
-public struct Writing: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
-    public var writing: String
-    public var createdAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case userId
-        case capsuleId
-        case writing
-        case createdAt
-    }
-}
-
-public struct Photo: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
-    public var objectName: String
-    public var fileURL: String
-    public var createdAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case userId
-        case capsuleId
-        case objectName
-        case fileURL
-        case createdAt
-    }
-}
-
-public struct Audio: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
-    public var objectName: String
-    public var fileURL: String
-    public var createdAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case userId
-        case capsuleId
-        case objectName
-        case fileURL
-        case createdAt
-    }
-}
-
-public struct Doodle: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
-    public var objectName: String
-    public var fileURL: String
-    public var createdAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case userId
-        case capsuleId
-        case objectName
-        case fileURL
-        case createdAt
-    }
-}
-
-public struct MiscFile: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
-    public var objectName: String
-    public var fileURL: String
-    public var createdAt: String
-
-    enum CodingKeys: String, CodingKey {
-        case id
-        case userId
-        case capsuleId
-        case objectName
-        case fileURL
-        case createdAt
-    }
-}
-
-public struct APICapsule: Codable {
-    public var capsule: CapsuleData
-    public var songs: [Song]
-    public var questionAnswers: [QuestionAnswer]
-    public var writings: [Writing]
-    public var photos: [Photo]
-    public var audios: [Audio]
-    public var doodles: [Doodle]
-    public var miscFiles: [MiscFile]
-
-    enum CodingKeys: String, CodingKey {
-        case capsule = "capsule"
-        case songs = "songs"
-        case questionAnswers = "questionAnswers"
-        case writings = "writings"
-        case photos = "photos"
-        case audios = "audios"
-        case doodles = "doodles"
-        case miscFiles = "miscFiles"
+extension URLRequest {
+    mutating func addMultipartFormData(parameters: [String: String], fileURL: URL, fileType: String) {
+        let boundary = "Boundary-\(UUID().uuidString)"
+        setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        
+        var body = Data()
+        
+        for (key, value) in parameters {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"\(key)\"\r\n\r\n".data(using: .utf8)!)
+            body.append("\(value)\r\n".data(using: .utf8)!)
+        }
+        
+        if let fileData = try? Data(contentsOf: fileURL) {
+            body.append("--\(boundary)\r\n".data(using: .utf8)!)
+            body.append("Content-Disposition: form-data; name=\"file\"; filename=\"\(fileURL.lastPathComponent)\"\r\n".data(using: .utf8)!)
+            body.append("Content-Type: \(fileType)\r\n\r\n".data(using: .utf8)!)
+            body.append(fileData)
+            body.append("\r\n".data(using: .utf8)!)
+        }
+        
+        body.append("--\(boundary)--\r\n".data(using: .utf8)!)
+        
+        httpBody = body
     }
 }
 
@@ -243,7 +67,7 @@ class CapsuleAPIClient {
         performRequest(request, completion: completion)
     }
     
-    func createCapsule(authorization: String, vessel: String, public: Bool, completion: @escaping (Result<CreateCapsuleResponse, APIError>) -> Void) {
+    func createCapsule(authorization: String, vessel: String, public: Bool, completion: @escaping (Result<CreateResponse, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules/create") else {
             completion(.failure(.invalidURL))
             return
@@ -375,8 +199,57 @@ class CapsuleAPIClient {
         }
     }
     
-    struct ErrorResponse: Decodable {
-        let message: String
+    func uploadFile(authorization: String, fileURL: URL, fileType: String, completion: @escaping (Result<UploadResponse, APIError>) -> Void) {
+        
+        guard let url = URL(string: "\(baseURL)/files/upload") else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
+        
+        request.addMultipartFormData(parameters: [:], fileURL: fileURL, fileType: fileType)
+        
+        performRequest(request, completion: completion)
+    }
+    
+    func createMedia(authorization: String, mediaType: MediaType, capsuleId: UInt, objectName: String, fileURL: String, completion: @escaping (Result<CreateResponse, APIError>) -> Void) {
+        
+        let endpoint: String
+        switch mediaType {
+            case .audio:
+                endpoint = "/audios/create"
+            case .photo:
+                endpoint = "/photos/create"
+            case .doodle:
+                    endpoint = "/doodles/create"
+            case .miscFile:
+                    endpoint = "/misc-files/create"
+        }
+        
+        guard let url = URL(string: "\(baseURL)\(endpoint)") else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        let body: [String: Any] = ["capsuleId": capsuleId, "objectName": objectName, "fileURL": fileURL]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+
+        performRequest(request) { (result: Result<CreateResponse, APIError>) in
+            switch result {
+            case .success(let response):
+                completion(.success(response))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
     private func performRequest<T: Decodable>(_ request: URLRequest, completion: @escaping (Result<T, APIError>) -> Void) {
@@ -388,7 +261,7 @@ class CapsuleAPIClient {
                 return
             }
             
-            guard let data = data, let response = response as? HTTPURLResponse else {
+            guard let data = data else {
                 completion(.failure(.invalidResponse))
                 return
             }

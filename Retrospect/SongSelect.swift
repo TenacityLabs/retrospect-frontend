@@ -7,21 +7,6 @@
 
 import SwiftUI
 
-struct Track: Identifiable, Equatable, Hashable {
-    let id: String
-    let name: String
-    let artistName: String
-    let albumArtURL: URL?
-
-    static func == (lhs: Track, rhs: Track) -> Bool {
-        return lhs.id == rhs.id
-    }
-
-    func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
-    }
-}
-
 struct SongSelect: View {
     @EnvironmentObject var spotifyManager: SpotifyManager
     @State private var query: String = ""

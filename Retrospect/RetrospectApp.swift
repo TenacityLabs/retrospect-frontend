@@ -14,27 +14,21 @@ struct RetrospectApp: App {
                 BackgroundImageView()
                 if globalState == "Landing" {
                     Landing(state: $globalState)
-                        .transition(.slide)
                         .environmentObject(dataStore)
                 } else if globalState == "Login" {
                     Login(state: $globalState)
-                        .transition(.slide)
                         .environmentObject(dataStore)
                 } else if globalState == "SignUp" {
                     SignUp(state: $globalState)
-                        .transition(.slide)
                         .environmentObject(dataStore)
                 } else if globalState == "Tutorial" {
                     Tutorial(state: $globalState)
-                        .transition(.slide)
                         .environmentObject(dataStore)
                 } else if globalState == "Dashboard" {
                     Dashboard(state: $globalState)
-                        .transition(.slide)
                         .environmentObject(dataStore)
                 } else if globalState == "Capsule" {
                     CapsuleRouter()
-                        .transition(.slide)
                         .environmentObject(dataStore)
                 }
             }

@@ -59,11 +59,11 @@ struct Preparing: View {
                 public: dataStore.collab ?? false)
             { result in
                 switch result {
-                case .success(let capsule):
+                case .success(let result):
                     
                     CapsuleAPIClient.shared.getCapsuleById(
                         authorization: jwt,
-                        id: capsule.capsuleId)
+                        id: result.id)
                     { result in
                         switch result {
                         case .success(let capsule):

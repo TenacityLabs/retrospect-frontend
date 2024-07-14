@@ -2,6 +2,9 @@ import SwiftUI
 import PhotosUI
 import Combine
 
+//FIXME: need to display images that are in backend & not display uploaded images
+//FIXME: need to implement remove image button, logic for deleting images in backend vs frontend
+
 struct PhotoSelect: View {
     @EnvironmentObject var dataStore: Capsule
     @State private var showImagePicker = false
@@ -20,7 +23,7 @@ struct PhotoSelect: View {
                 ForEach(dataStore.images.indices, id: \.self) { index in
                     GeometryReader { geometry in
                         VStack {
-                            Image(uiImage: dataStore.images[index])
+                            Image(uiImage: dataStore.images[index].image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .cornerRadius(15)
@@ -54,6 +57,42 @@ struct PhotoSelect: View {
             Spacer()
 
             Button(action: {
+                // Upload file
+                for index in dataStore.images.indices {
+                    if !(dataStore.images[index].uploaded) {
+                        CapsuleAPIClient.shared.uploadFile(
+                            authorization: jwt,
+                            fileURL: dataStore.images[index].fileURL,
+                            fileType: dataStore.images[index].fileType)
+                        { result in
+                            switch result {
+                            case .success(let result):
+                                
+                                // Create photo
+                                CapsuleAPIClient.shared.createMedia(
+                                    authorization: jwt,
+                                    mediaType: .photo,
+                                    capsuleId: (currentCapsule?.capsule.id)!,
+                                    objectName: result.objectName,
+                                    fileURL: result.fileURL
+                                    )
+                                { result in
+                                    switch result {
+                                    case .success(let result):
+                                        print("Uploaded")
+                                        dataStore.images[index].id = result.id
+                                        dataStore.images[index].uploaded = true
+                                    case .failure(let error):
+                                        print(error)
+                                    }
+                                }
+                                
+                            case .failure(let error):
+                                print(error)
+                            }
+                        }
+                    }
+                }
                 state = "SongSelect"
             }) {
                 Text("bogos binted")
@@ -117,8 +156,14 @@ struct ImagePicker: UIViewControllerRepresentable {
                 if result.itemProvider.canLoadObject(ofClass: UIImage.self) {
                     result.itemProvider.loadObject(ofClass: UIImage.self) { (image, error) in
                         if let image = image as? UIImage {
+                            let fileType = result.itemProvider.registeredTypeIdentifiers.first ?? "unknown"
+                            let fileURL = self.saveImageAndGetURL(image: image, fileType: fileType)
+
                             DispatchQueue.main.async {
-                                self.parent.dataStore.images.append(image)
+                                if let fileURL = fileURL {
+                                    let newImage = Images(image: image, fileURL: fileURL, fileType: fileType)
+                                    self.parent.dataStore.images.append(newImage)
+                                }
                             }
                         }
                         group.leave()
@@ -130,6 +175,38 @@ struct ImagePicker: UIViewControllerRepresentable {
 
             group.notify(queue: .main) {
                 picker.dismiss(animated: true)
+            }
+        }
+
+        private func saveImageAndGetURL(image: UIImage, fileType: String) -> URL? {
+            let imageData: Data?
+            let fileExtension: String
+            
+            switch fileType.lowercased() {
+            case "public.png":
+                imageData = image.pngData()
+                fileExtension = "png"
+            case "public.jpeg":
+                imageData = image.jpegData(compressionQuality: 1.0)
+                fileExtension = "jpg"
+            default:
+                return nil
+            }
+            
+            guard let data = imageData else {
+                return nil
+            }
+            
+            let tempDirectory = FileManager.default.temporaryDirectory
+            let fileName = UUID().uuidString + "." + fileExtension
+            let fileURL = tempDirectory.appendingPathComponent(fileName)
+            
+            do {
+                try data.write(to: fileURL)
+                return fileURL
+            } catch {
+                print("Error saving image: \(error)")
+                return nil
             }
         }
     }
