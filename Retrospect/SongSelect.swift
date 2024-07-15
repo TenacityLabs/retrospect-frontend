@@ -7,11 +7,14 @@
 
 import SwiftUI
 
+//FIXME: add func to remove songs (frontend / backend) & styling & remove song buttons
+//FIXME: add loading screen & screen for empty search bar + empty localCapsule.songs
+
 struct SongSelect: View {
     @EnvironmentObject var spotifyManager: SpotifyManager
     @State private var query: String = ""
     @State private var selectedTracks: Set<Track> = []
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @Binding var state: String
 
     var body: some View {
@@ -32,38 +35,27 @@ struct SongSelect: View {
                             }
                         }
                     
-                    if query.isEmpty && !dataStore.songs.isEmpty {
-                        SongCarouselView()
-                            .environmentObject(dataStore)
-                    } else {
-                        List(spotifyManager.searchResults) { track in
+                    List {
+                        ForEach((query.isEmpty && !localCapsule.songs.isEmpty) ? localCapsule.songs : spotifyManager.searchResults, id: \.songId) { track in
                             HStack {
-                                if let albumArtURL = track.albumArtURL {
-                                    AsyncImage(url: albumArtURL) { phase in
-                                        switch phase {
-                                        case .empty:
-                                            ProgressView()
-                                                .frame(width: 50, height: 50)
-                                                .cornerRadius(8)
-                                        case .success(let image):
-                                            image
-                                                .resizable()
-                                                .frame(width: 50, height: 50)
-                                                .cornerRadius(8)
-                                        case .failure:
-                                            Image(systemName: "photo")
-                                                .resizable()
-                                                .frame(width: 50, height: 50)
-                                                .cornerRadius(8)
-                                        @unknown default:
-                                            EmptyView()
-                                        }
+                                AsyncImage(url: URL(string: track.albumArtURL)) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(width: 50, height: 50)
+                                            .cornerRadius(8)
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .frame(width: 50, height: 50)
+                                            .cornerRadius(8)
+                                    case .failure:
+                                        ProgressView()
+                                            .frame(width: 50, height: 50)
+                                            .cornerRadius(8)
+                                    @unknown default:
+                                        EmptyView()
                                     }
-                                } else {
-                                    Image(systemName: "photo")
-                                        .resizable()
-                                        .frame(width: 50, height: 50)
-                                        .cornerRadius(8)
                                 }
                                 VStack(alignment: .leading) {
                                     Text(track.name)
@@ -73,7 +65,7 @@ struct SongSelect: View {
                                         .foregroundColor(.gray)
                                 }
                                 Spacer()
-                                if selectedTracks.contains(track) {
+                                if selectedTracks.contains(track) || localCapsule.songs.contains(track) {
                                     Image(systemName: "checkmark")
                                         .foregroundColor(.blue)
                                 }
@@ -82,11 +74,14 @@ struct SongSelect: View {
                             .onTapGesture {
                                 if selectedTracks.contains(track) {
                                     selectedTracks.remove(track)
-                                } else {
+                                } else if !localCapsule.songs.contains(track) {
                                     selectedTracks.insert(track)
                                 }
                             }
                         }
+                    }
+                    .onChange(of: localCapsule.songs) {
+                        localCapsule.songs = Array(Set(localCapsule.songs))
                     }
                 }
             }
@@ -95,13 +90,14 @@ struct SongSelect: View {
                     if !selectedTracks.isEmpty {
                         Button(action: {
                             query = ""
-                            dataStore.songs.append(contentsOf: selectedTracks)
+                            localCapsule.songs.append(contentsOf: selectedTracks)
                             selectedTracks.removeAll()
                         }) {
                             Text("Add")
                         }
-                    } else if selectedTracks.isEmpty && !dataStore.songs.isEmpty {
+                    } else if selectedTracks.isEmpty && !localCapsule.songs.isEmpty {
                         Button(action: {
+                            uploadSongs(capsule: localCapsule)
                             state = "AnswerPrompt"
                         }) {
                             Text("Done")
@@ -126,76 +122,24 @@ struct SongSelect: View {
     }
 }
 
-struct SongCarouselView: View {
-    @State private var allIndices: [Int] = []
-    @State private var selectedIndex: Int = 0
-    @EnvironmentObject var dataStore: Capsule
-    
-    var body: some View {
-        VStack {
-            TabView(selection: $selectedIndex) {
-                ForEach(dataStore.songs.indices, id: \.self) { index in
-                    GeometryReader { geometry in
-                        VStack {
-                            if let albumArtURL = dataStore.songs[index].albumArtURL {
-                                AsyncImage(url: albumArtURL) { phase in
-                                    switch phase {
-                                    case .empty:
-                                        ProgressView()
-                                            .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.8)
-                                            .background(Color.gray.opacity(0.3))
-                                    case .success(let image):
-                                        image
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.8)
-                                    case .failure:
-                                        Image(systemName: "photo")
-                                            .resizable()
-                                            .scaledToFit()
-                                            .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.8)
-                                            .background(Color.gray.opacity(0.3))
-                                    @unknown default:
-                                        EmptyView()
-                                    }
-                                }
-                            } else {
-                                Image(systemName: "photo")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: geometry.size.width * 0.8, height: geometry.size.height * 0.8)
-                                    .background(Color.gray.opacity(0.3))
-                            }
-                            Text(dataStore.songs[index].name)
-                                .font(.headline)
-                            Text(dataStore.songs[index].artistName)
-                                .font(.subheadline)
-                                .foregroundColor(.gray)
-                        }
-                        .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
-                        .scaleEffect(geometry.frame(in: .global).minX == 0 ? 1 : 0.8)
-                    }
-                    .padding(.horizontal, 10)
-                    .tag(index) // Ensure tags are set for selection
+
+@MainActor func uploadSongs(capsule: Capsule) {
+    for index in capsule.songs.indices {
+        CapsuleAPIClient.shared.createSong(
+            authorization: jwt,
+            capsuleId: (backendCapsule?.capsule.id)!,
+            song: capsule.songs[index])
+        { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let result):
+                    print("Uploaded")
+                    capsule.songs[index].id = result.id
+                    capsule.songs[index].uploaded = true
+                case .failure(let error):
+                    print(error)
                 }
             }
-            .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-            .frame(height: 400)
-            
-            // Custom page control indicator
-            HStack {
-                ForEach(0..<allIndices.count, id: \.self) { index in
-                    Circle()
-                        .fill(index == selectedIndex ? Color.black : Color.gray)
-                        .frame(width: 8, height: 8)
-                        .animation(.easeInOut, value: selectedIndex)
-                }
-            }
-            .padding(.top, 10)
-        }
-        .frame(width: UIScreen.main.bounds.width)
-        .onAppear {
-            allIndices = Array(dataStore.songs.indices)
         }
     }
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct IconSelect: View {
     @Binding var state: String
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @State private var selectedIndex: Int = 0
     @State private var containers = ["box", "suitcase", "guitar", "jar", "shoe"]
     
@@ -61,7 +61,7 @@ struct IconSelect: View {
             Spacer()
             
             Button(action: {
-                dataStore.container = containers[selectedIndex]
+                localCapsule.container = containers[selectedIndex]
                 state = "ChooseName"
             }) {
                 Text("Confirm Selection")

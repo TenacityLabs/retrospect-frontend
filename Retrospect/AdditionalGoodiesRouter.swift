@@ -11,34 +11,34 @@ struct AdditionalGoodiesRouter: View {
     @Binding var capsuleState: String
     @State private var AGstate = "AdditionalGoodies"
     @State private var drawIndex = 0
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     
     var body: some View {
         ZStack {
             if AGstate == "AdditionalGoodies" {
                 AdditionalGoodies(state: $capsuleState, AGstate: $AGstate)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if AGstate == "AddText" {
                 AddText(AGstate: $AGstate)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if AGstate == "AddAudio" {
                 AddAudio(AGstate: $AGstate)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if AGstate == "CreateDrawing" {
                 CreateDrawing(AGstate: $AGstate, drawIndex: $drawIndex)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if AGstate == "EditDrawing" {
                 EditDrawing(AGstate: $AGstate, drawIndex: $drawIndex)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if AGstate == "AddFile" {
                 AddFile(AGstate: $AGstate)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             }
         }
     }

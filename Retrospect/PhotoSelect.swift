@@ -6,24 +6,24 @@ import Combine
 //FIXME: need to implement remove image button, logic for deleting images in backend vs frontend
 
 struct PhotoSelect: View {
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @State private var showImagePicker = false
     @State private var selectedIndex: Int = 0
     @Binding var state: String
 
     var body: some View {
         VStack {
-            Text(dataStore.images.isEmpty ? "Add Photos" : "These look great!")
+            Text(localCapsule.images.isEmpty ? "Add Photos" : "These look great!")
                 .font(.largeTitle)
                 .padding(.top, 100)
                 .foregroundColor(.white)
             Spacer()
             
             TabView(selection: $selectedIndex) {
-                ForEach(dataStore.images.indices, id: \.self) { index in
+                ForEach(localCapsule.images.indices, id: \.self) { index in
                     GeometryReader { geometry in
                         VStack {
-                            Image(uiImage: dataStore.images[index].image)
+                            Image(uiImage: localCapsule.images[index].image)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .cornerRadius(15)
@@ -37,16 +37,16 @@ struct PhotoSelect: View {
                     .padding(.horizontal, 20)
                     .tag(index)
                 }
-                if dataStore.images.count < 9 {
-                    AddImageView(showImagePicker: $showImagePicker, dataStore: dataStore)
-                        .tag(dataStore.images.count)
+                if localCapsule.images.count < 9 {
+                    AddImageView(showImagePicker: $showImagePicker, localCapsule: localCapsule)
+                        .tag(localCapsule.images.count)
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .frame(height: 400)
 
             HStack {
-                ForEach(0..<dataStore.images.count + (dataStore.images.count < 9 ? 1 : 0), id: \.self) { index in
+                ForEach(0..<localCapsule.images.count + (localCapsule.images.count < 9 ? 1 : 0), id: \.self) { index in
                     Circle()
                         .fill(index == selectedIndex ? Color.white : Color.white.opacity(0.1))
                         .frame(width: 8, height: 8)
@@ -57,42 +57,7 @@ struct PhotoSelect: View {
             Spacer()
 
             Button(action: {
-                // Upload file
-                for index in dataStore.images.indices {
-                    if !(dataStore.images[index].uploaded) {
-                        CapsuleAPIClient.shared.uploadFile(
-                            authorization: jwt,
-                            fileURL: dataStore.images[index].fileURL,
-                            fileType: dataStore.images[index].fileType)
-                        { result in
-                            switch result {
-                            case .success(let result):
-                                
-                                // Create photo
-                                CapsuleAPIClient.shared.createMedia(
-                                    authorization: jwt,
-                                    mediaType: .photo,
-                                    capsuleId: (currentCapsule?.capsule.id)!,
-                                    objectName: result.objectName,
-                                    fileURL: result.fileURL
-                                    )
-                                { result in
-                                    switch result {
-                                    case .success(let result):
-                                        print("Uploaded")
-                                        dataStore.images[index].id = result.id
-                                        dataStore.images[index].uploaded = true
-                                    case .failure(let error):
-                                        print(error)
-                                    }
-                                }
-                                
-                            case .failure(let error):
-                                print(error)
-                            }
-                        }
-                    }
-                }
+                uploadFiles(capsule: localCapsule, type: .photo)
                 state = "SongSelect"
             }) {
                 Text("bogos binted")
@@ -106,7 +71,7 @@ struct PhotoSelect: View {
                             .stroke(Color.black, lineWidth: 1)
                     )
             }
-//            .disabled(dataStore.images.isEmpty)
+//            .disabled(localCapsule.images.isEmpty)
             .padding(.bottom, 100)
         }
     }
@@ -114,7 +79,7 @@ struct PhotoSelect: View {
 
 struct AddImageView: View {
     @Binding var showImagePicker: Bool
-    @ObservedObject var dataStore: Capsule
+    @ObservedObject var localCapsule: Capsule
 
     var body: some View {
         VStack {
@@ -130,14 +95,14 @@ struct AddImageView: View {
                     .cornerRadius(15)
             }
             .sheet(isPresented: $showImagePicker) {
-                ImagePicker(dataStore: dataStore, maxSelection: 9 - dataStore.images.count)
+                ImagePicker(localCapsule: localCapsule, maxSelection: 9 - localCapsule.images.count)
             }
         }
     }
 }
 
 struct ImagePicker: UIViewControllerRepresentable {
-    @ObservedObject var dataStore: Capsule
+    @ObservedObject var localCapsule: Capsule
     var maxSelection: Int
 
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
@@ -162,7 +127,7 @@ struct ImagePicker: UIViewControllerRepresentable {
                             DispatchQueue.main.async {
                                 if let fileURL = fileURL {
                                     let newImage = Images(image: image, fileURL: fileURL, fileType: fileType)
-                                    self.parent.dataStore.images.append(newImage)
+                                    self.parent.localCapsule.images.append(newImage)
                                 }
                             }
                         }
@@ -226,6 +191,43 @@ struct ImagePicker: UIViewControllerRepresentable {
     }
 
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
+}
+
+@MainActor func uploadFiles(capsule: Capsule, type: MediaType) {
+    for index in capsule.images.indices {
+        if !(capsule.images[index].uploaded) {
+            CapsuleAPIClient.shared.uploadFile(
+                authorization: jwt,
+                fileURL: capsule.images[index].fileURL,
+                fileType: capsule.images[index].fileType)
+            { result in
+                switch result {
+                case .success(let result):
+                    
+                    CapsuleAPIClient.shared.createMedia(
+                        authorization: jwt,
+                        mediaType: type,
+                        capsuleId: (backendCapsule?.capsule.id)!,
+                        objectName: result.objectName,
+                        fileURL: result.fileURL
+                        )
+                    { result in
+                        switch result {
+                        case .success(let result):
+                            print("Uploaded")
+                            capsule.images[index].id = result.id
+                            capsule.images[index].uploaded = true
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
+                    
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
+    }
 }
 
 #Preview {

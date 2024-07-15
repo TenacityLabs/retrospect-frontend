@@ -5,7 +5,7 @@ public var jwt = ""
 @main
 struct RetrospectApp: App {
     @StateObject private var spotifyManager = SpotifyManager()
-    @StateObject private var dataStore = Capsule()
+    @StateObject private var localCapsule = Capsule()
     @State private var globalState = "Landing"
 
     var body: some Scene {
@@ -14,22 +14,22 @@ struct RetrospectApp: App {
                 BackgroundImageView()
                 if globalState == "Landing" {
                     Landing(state: $globalState)
-                        .environmentObject(dataStore)
+                        .environmentObject(localCapsule)
                 } else if globalState == "Login" {
                     Login(state: $globalState)
-                        .environmentObject(dataStore)
+                        .environmentObject(localCapsule)
                 } else if globalState == "SignUp" {
                     SignUp(state: $globalState)
-                        .environmentObject(dataStore)
+                        .environmentObject(localCapsule)
                 } else if globalState == "Tutorial" {
                     Tutorial(state: $globalState)
-                        .environmentObject(dataStore)
+                        .environmentObject(localCapsule)
                 } else if globalState == "Dashboard" {
                     Dashboard(state: $globalState)
-                        .environmentObject(dataStore)
+                        .environmentObject(localCapsule)
                 } else if globalState == "Capsule" {
                     CapsuleRouter()
-                        .environmentObject(dataStore)
+                        .environmentObject(localCapsule)
                 }
             }
         }

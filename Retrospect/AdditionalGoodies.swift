@@ -9,7 +9,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct AdditionalGoodies: View {
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @Binding var state: String
     @Binding var AGstate: String
     

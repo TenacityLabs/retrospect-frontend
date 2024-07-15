@@ -9,7 +9,7 @@ import SwiftUI
 
 // FIXME: Fix styling, delete text kind of buggy, plus button wrong shape, prompt generation, prompt changing
 struct AnswerPrompt: View {
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @State private var selectedIndex: Int = 0
     @Binding var state: String
     
@@ -22,11 +22,11 @@ struct AnswerPrompt: View {
              
              
              TabView(selection: $selectedIndex) {
-                 ForEach(dataStore.prompts.indices, id: \.self) { index in
+                 ForEach(localCapsule.prompts.indices, id: \.self) { index in
                      GeometryReader { geometry in
                          VStack {
                              VStack {
-                                 Text(dataStore.prompts[index].prompt)
+                                 Text(localCapsule.prompts[index].prompt)
                                      .font(.custom("Syne-Regular", size: 18))
                                      .fontWeight(.bold)
                                      .foregroundColor(.white)
@@ -36,7 +36,7 @@ struct AnswerPrompt: View {
                                      .frame(height: 30)
                                  
                                  HStack {
-                                     TextField("", text: $dataStore.prompts[index].response)
+                                     TextField("", text: $localCapsule.prompts[index].response)
                                          .frame(height: 45)
                                          .padding(.horizontal, 20)
                                          .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
@@ -63,12 +63,12 @@ struct AnswerPrompt: View {
                      }
                  }
                  
-                 if dataStore.prompts.count < 3 {
+                 if localCapsule.prompts.count < 3 {
                      VStack {
                          Button(action: {
                              let newPrompt = Prompt(prompt: "What item would you bring to a deserted island?", response: "")
-                             dataStore.prompts.append(newPrompt)
-                             selectedIndex = dataStore.prompts.count - 1
+                             localCapsule.prompts.append(newPrompt)
+                             selectedIndex = localCapsule.prompts.count - 1
                          }) {
                              VStack {
                                  Image(systemName: "plus")
@@ -88,14 +88,14 @@ struct AnswerPrompt: View {
                          }
                      }
                      .frame(maxWidth: .infinity, maxHeight: .infinity)
-                     .tag(dataStore.prompts.count)
+                     .tag(localCapsule.prompts.count)
                  }
              }
              .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
              .frame(height: 400)
              
              HStack {
-                 ForEach(0..<dataStore.prompts.count + (dataStore.prompts.count < 3 ? 1 : 0), id: \.self) { index in
+                 ForEach(0..<localCapsule.prompts.count + (localCapsule.prompts.count < 3 ? 1 : 0), id: \.self) { index in
                      Circle()
                          .fill(index == selectedIndex ? Color.white : Color.gray)
                          .frame(width: 8, height: 8)
@@ -105,8 +105,8 @@ struct AnswerPrompt: View {
              .padding(.top, 10)
              
              Button(action: {
-                 if dataStore.prompts.count > 1 && selectedIndex < dataStore.prompts.count {
-                     dataStore.prompts.remove(at: selectedIndex)
+                 if localCapsule.prompts.count > 1 && selectedIndex < localCapsule.prompts.count {
+                     localCapsule.prompts.remove(at: selectedIndex)
                      if selectedIndex != 0 {
                          selectedIndex -= 1
                      }
@@ -125,8 +125,8 @@ struct AnswerPrompt: View {
              }
              .padding(.horizontal, 20)
              .padding(.top, 10)
-             .opacity(dataStore.prompts.count <= 1 || selectedIndex == dataStore.prompts.count ? 0.5 : 1.0)
-             .disabled(dataStore.prompts.count <= 1 || selectedIndex == dataStore.prompts.count)
+             .opacity(localCapsule.prompts.count <= 1 || selectedIndex == localCapsule.prompts.count ? 0.5 : 1.0)
+             .disabled(localCapsule.prompts.count <= 1 || selectedIndex == localCapsule.prompts.count)
              
              Button(action: {
                  state = "AdditionalGoodies"
@@ -144,9 +144,9 @@ struct AnswerPrompt: View {
              }
          }
          .onAppear {
-             if dataStore.prompts.isEmpty {
+             if localCapsule.prompts.isEmpty {
                  let newPrompt = Prompt(prompt: "What item would you bring to a deserted island?", response: "")
-                 dataStore.prompts.append(newPrompt)
+                 localCapsule.prompts.append(newPrompt)
              }
          }
          .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)

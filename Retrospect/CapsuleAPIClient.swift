@@ -210,7 +210,31 @@ class CapsuleAPIClient {
         request.httpMethod = "POST"
         request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
         
-        request.addMultipartFormData(parameters: [:], fileURL: fileURL, fileType: fileType)
+        let body: [String: Any] = ["fileURL": fileURL, "fileType": fileType]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        performRequest(request, completion: completion)
+    }
+    
+//    capsuleId
+//    spotifyId: (id from spotify)
+//    name: (song name)
+//    artistName
+//    albumArtURL
+    
+    func createSong(authorization: String, capsuleId: UInt, song: Track, completion: @escaping (Result<CreateResponse, APIError>) -> Void) {
+        
+        guard let url = URL(string: "\(baseURL)/songs/create") else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
+        
+        let body: [String: Any] = ["capsuleId": capsuleId, "spotifyId": song.songId, "name": song.name, "artistName": song.artistName, "albumArtUrl": song.albumArtURL]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         performRequest(request, completion: completion)
     }
@@ -242,14 +266,7 @@ class CapsuleAPIClient {
         let body: [String: Any] = ["capsuleId": capsuleId, "objectName": objectName, "fileURL": fileURL]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
 
-        performRequest(request) { (result: Result<CreateResponse, APIError>) in
-            switch result {
-            case .success(let response):
-                completion(.success(response))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
+        performRequest(request, completion: completion)
     }
     
     private func performRequest<T: Decodable>(_ request: URLRequest, completion: @escaping (Result<T, APIError>) -> Void) {

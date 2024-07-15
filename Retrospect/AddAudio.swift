@@ -2,7 +2,7 @@ import SwiftUI
 import AVFoundation
 
 struct AddAudio: View {
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @State private var audioRecorder: AVAudioRecorder?
     @State private var audioPlayer: AVAudioPlayer?
     @State private var isRecording = false
@@ -60,14 +60,14 @@ struct AddAudio: View {
             .padding(.horizontal, 20)
 
             List {
-                ForEach(dataStore.audios.indices, id: \.self) { index in
+                ForEach(localCapsule.audios.indices, id: \.self) { index in
                     VStack {
                         Text("Audio \(index + 1)")
-                        WaveformView(levels: .constant(self.generateWaveform(from: dataStore.audios[index])))
+                        WaveformView(levels: .constant(self.generateWaveform(from: localCapsule.audios[index])))
                             .frame(height: 50)
                             .padding([.leading, .trailing])
                         Button(action: {
-                            playAudio(data: dataStore.audios[index])
+                            playAudio(data: localCapsule.audios[index])
                         }) {
                             Text("Play Audio \(index + 1)")
                                 .padding()
@@ -82,7 +82,7 @@ struct AddAudio: View {
         }
         .sheet(isPresented: $showDocumentPicker) {
             DocumentPicker(audioURL: $audioURL)
-                .environmentObject(dataStore)
+                .environmentObject(localCapsule)
         }
         .onAppear(perform: setupAudioSession)
     }
@@ -110,7 +110,7 @@ struct AddAudio: View {
                 DispatchQueue.global().async {
                     if let data = try? Data(contentsOf: url) {
                         DispatchQueue.main.async {
-                            self.dataStore.audios.append(data)
+                            self.localCapsule.audios.append(data)
                         }
                     }
                     DispatchQueue.main.async {
@@ -288,7 +288,7 @@ struct WaveformView: View {
 
 struct DocumentPicker: UIViewControllerRepresentable {
     @Binding var audioURL: URL?
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
 
     func makeCoordinator() -> Coordinator {
         Coordinator(self)
@@ -315,7 +315,7 @@ struct DocumentPicker: UIViewControllerRepresentable {
                 DispatchQueue.global().async {
                     if let data = try? Data(contentsOf: url) {
                         DispatchQueue.main.async {
-                            self.parent.dataStore.audios.append(data)
+                            self.parent.localCapsule.audios.append(data)
                         }
                     }
                 }

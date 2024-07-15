@@ -10,7 +10,7 @@ import AudioToolbox
 
 struct SealCapsuleView: View {
     @Binding var state: String
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @GestureState private var isDetectingLongPress = false
     
     @State private var completedLongPress = false
@@ -22,7 +22,7 @@ struct SealCapsuleView: View {
                 gestureState = currentState
             }
             .onEnded { finished in
-                CapsuleAPIClient.shared.sealCapsule(authorization: jwt, capsuleId: 0, dateToOpen:  dataStore.date){ result in
+                CapsuleAPIClient.shared.sealCapsule(authorization: jwt, capsuleId: 0, dateToOpen:  localCapsule.date){ result in
                     DispatchQueue.main.async {
                         switch result {
                         case .success():
@@ -41,13 +41,13 @@ struct SealCapsuleView: View {
             VStack (spacing: 0) {
                 VStack {
                     Spacer()
-//                    Text("\(dataStore.)")
+//                    Text("\(localCapsule.)")
                     Text("Jessica's Capsule has been sealed!")
                         .font(.custom("IvyOraDisplay-Regular", size: 48))
                         .foregroundColor(Color.white)
                         .multilineTextAlignment(.center)
                     Spacer()
-                    Image("Box")
+                    Image("box")
                         .resizable()
                         .frame(width: 300, height: 300, alignment: .center)
                     Spacer()
@@ -80,7 +80,7 @@ struct SealCapsuleView: View {
                         .foregroundColor(Color.white)
                         .multilineTextAlignment(.center)
                     Spacer()
-                    Image("Box")
+                    Image("box")
                         .resizable()
                         .scaleEffect(self.isDetectingLongPress ? 1.25 : 1)
                         .rotationEffect(Angle(degrees: self.isDetectingLongPress ? 5 : 0))

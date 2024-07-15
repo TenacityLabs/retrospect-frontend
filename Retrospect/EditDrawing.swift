@@ -157,7 +157,7 @@ struct DrawingViewRepresentable: UIViewRepresentable {
 }
 
 struct EditDrawing: View {
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @State private var clear = false
     @State private var color = Color.black
     @State private var strokeWidth: CGFloat = 2.0
@@ -175,7 +175,7 @@ struct EditDrawing: View {
                     clear: $clear,
                     color: $color,
                     strokeWidth: $strokeWidth,
-                    paths: $dataStore.drawings[drawIndex],
+                    paths: $localCapsule.drawings[drawIndex],
                     isEditable: true
                 )
                 .frame(height: geometry.size.height / 2)

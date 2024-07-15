@@ -3,29 +3,29 @@ import UniformTypeIdentifiers
 import PDFKit
 
 struct AddFile: View {
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @State private var isDocumentPickerPresented = false
     @Binding var AGstate: String
     @State private var selectedIndex: Int = 0
     
     var body: some View {
         VStack {
-            Text(dataStore.files.isEmpty ? "Add Files" : "These look great!")
+            Text(localCapsule.files.isEmpty ? "Add Files" : "These look great!")
                 .font(.largeTitle)
                 .padding(.top, 100)
                 .foregroundColor(.white)
             Spacer()
             
             TabView(selection: $selectedIndex) {
-                ForEach(dataStore.files.indices, id: \.self) { index in
+                ForEach(localCapsule.files.indices, id: \.self) { index in
                     GeometryReader { geometry in
                         VStack {
-                            PDFPreviewView(url: dataStore.files[index])
+                            PDFPreviewView(url: localCapsule.files[index])
                                 .frame(maxHeight: 320)
                                 .cornerRadius(15)
                                 .shadow(radius: 5)
                                 .padding(.vertical, 5)
-                            Text(dataStore.files[index].lastPathComponent)
+                            Text(localCapsule.files[index].lastPathComponent)
                                 .foregroundColor(.white)
                                 .padding(.vertical, 5)
                         }
@@ -37,7 +37,7 @@ struct AddFile: View {
                     .padding(.horizontal, 20)
                     .tag(index)
                 }
-                if dataStore.files.count < 9 {
+                if localCapsule.files.count < 9 {
                     Button(action: {
                         isDocumentPickerPresented = true
                     }) {
@@ -49,7 +49,7 @@ struct AddFile: View {
                             .background(Color.white.opacity(0.2))
                             .cornerRadius(15)
                     }
-                    .tag(dataStore.files.count)
+                    .tag(localCapsule.files.count)
                     .fileImporter(
                         isPresented: $isDocumentPickerPresented,
                         allowedContentTypes: [.pdf],
@@ -64,7 +64,7 @@ struct AddFile: View {
             .frame(height: 400)
 
             HStack {
-                ForEach(0..<dataStore.files.count + (dataStore.files.count < 9 ? 1 : 0), id: \.self) { index in
+                ForEach(0..<localCapsule.files.count + (localCapsule.files.count < 9 ? 1 : 0), id: \.self) { index in
                     Circle()
                         .fill(index == selectedIndex ? Color.white : Color.white.opacity(0.1))
                         .frame(width: 8, height: 8)
@@ -88,12 +88,12 @@ struct AddFile: View {
                             .stroke(Color.black, lineWidth: 1)
                     )
             }
-//            .disabled(dataStore.files.isEmpty)
+//            .disabled(localCapsule.files.isEmpty)
             .padding(.bottom, 100)
         }
-        .onChange(of: dataStore.files.count) {
-            dataStore.files = Array(Set(dataStore.files))
-            selectedIndex = dataStore.files.count - 1
+        .onChange(of: localCapsule.files.count) {
+            localCapsule.files = Array(Set(localCapsule.files))
+            selectedIndex = localCapsule.files.count - 1
         }
     }
     
@@ -105,7 +105,7 @@ struct AddFile: View {
                     let fileSize = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
                     let fileSizeInMB = Double(fileSize) / (1024 * 1024)
                     if fileSizeInMB <= 5 {
-                        dataStore.files.append(url)
+                        localCapsule.files.append(url)
                         print("File selected: \(url)")
                     } else {
                         print("File size exceeds 5MB limit")

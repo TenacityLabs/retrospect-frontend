@@ -9,7 +9,7 @@ import SwiftUI
 import UIKit
 
 struct CreateDrawing: View {
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @State private var selectedIndex: Int = 0
     @Binding var AGstate: String
     @Binding var drawIndex: Int
@@ -26,18 +26,18 @@ struct CreateDrawing: View {
                     .padding()
 
                     TabView(selection: $selectedIndex) {
-                        ForEach(dataStore.drawings.indices, id: \.self) { index in
+                        ForEach(localCapsule.drawings.indices, id: \.self) { index in
                             VStack {
-                                DrawingViewRepresentable(clear: $clear, color: $color, strokeWidth: $strokeWidth, paths: $dataStore.drawings[0], isEditable: false)
+                                DrawingViewRepresentable(clear: $clear, color: $color, strokeWidth: $strokeWidth, paths: $localCapsule.drawings[0], isEditable: false)
                                     .frame(height: geometry.size.height / 2)
                                     .border(Color.gray.opacity(0.25), width: 1)
                             }
                             .tag(index)
                         }
-                        if dataStore.drawings.count < 9 {
+                        if localCapsule.drawings.count < 9 {
                             Button(action: {
                                 let emptyDrawing = PathWithColor(path: UIBezierPath(), color: .black)
-                                dataStore.drawings.append([emptyDrawing])
+                                localCapsule.drawings.append([emptyDrawing])
                             }) {
                                 Image(systemName: "plus")
                                     .resizable()
@@ -47,14 +47,14 @@ struct CreateDrawing: View {
                                     .background(Color.white.opacity(0.2))
                                     .cornerRadius(15)
                             }
-                            .tag(dataStore.drawings.count)
+                            .tag(localCapsule.drawings.count)
                         }
                     }
                     .tabViewStyle(PageTabViewStyle())
                 
                 
                 HStack {
-                    ForEach(0..<dataStore.drawings.count + (dataStore.drawings.count < 9 ? 1 : 0), id: \.self) { index in
+                    ForEach(0..<localCapsule.drawings.count + (localCapsule.drawings.count < 9 ? 1 : 0), id: \.self) { index in
                         Circle()
                             .fill(index == selectedIndex ? Color.black : Color.gray)
                             .frame(width: 8, height: 8)
@@ -99,9 +99,9 @@ struct CreateDrawing: View {
         }
         .padding()
         .onAppear {
-            if dataStore.drawings.isEmpty || (dataStore.drawings.count == 1 && dataStore.drawings[0].isEmpty) {
+            if localCapsule.drawings.isEmpty || (localCapsule.drawings.count == 1 && localCapsule.drawings[0].isEmpty) {
                 let initialDrawing = PathWithColor(path: UIBezierPath(), color: .black)
-                dataStore.drawings = [[initialDrawing]]
+                localCapsule.drawings = [[initialDrawing]]
             }
         }
     }

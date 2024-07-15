@@ -23,17 +23,19 @@ struct Prompt {
 }
 
 struct Track: Identifiable, Equatable, Hashable {
-    let id: String
+    var id: UInt?
+    var uploaded: Bool = false
+    let songId: String
     let name: String
     let artistName: String
-    let albumArtURL: URL?
+    let albumArtURL: String
 
     static func == (lhs: Track, rhs: Track) -> Bool {
-        return lhs.id == rhs.id
+        return lhs.songId == rhs.songId
     }
 
     func hash(into hasher: inout Hasher) {
-        hasher.combine(id)
+        hasher.combine(songId)
     }
 }
 

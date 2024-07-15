@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Preparing: View {
     @Binding var state: String
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @State private var pulsate = false
     
     var body: some View {
@@ -24,7 +24,7 @@ struct Preparing: View {
                 
                 Spacer()
                 
-                Image("Box")
+                Image("box")
                     .resizable()
                     .scaledToFit()
                     .shadow(color: .white, radius: 60, x: 0, y: 0)
@@ -55,8 +55,8 @@ struct Preparing: View {
         .onAppear {
             CapsuleAPIClient.shared.createCapsule(
                 authorization: jwt,
-                vessel: dataStore.container ?? "Box",
-                public: dataStore.collab ?? false)
+                vessel: localCapsule.container ?? "box",
+                public: localCapsule.collab ?? false)
             { result in
                 switch result {
                 case .success(let result):
@@ -67,7 +67,7 @@ struct Preparing: View {
                     { result in
                         switch result {
                         case .success(let capsule):
-                            currentCapsule = capsule
+                            backendCapsule = capsule
                             state = "PhotoSelect"
                         case .failure(let error):
                             print(error)

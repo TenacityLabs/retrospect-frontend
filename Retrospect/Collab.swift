@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct Collab: View {
-    @EnvironmentObject var dataStore: Capsule
+    @EnvironmentObject var localCapsule: Capsule
     @State private var showSongSelectView = false
     @Binding var state: String
 
@@ -17,10 +17,10 @@ struct Collab: View {
                 Spacer()
                 
                 Button(action: {
-                    dataStore.collab = false
+                    localCapsule.collab = false
                 }) {
                     VStack {
-                        if (dataStore.collab == false) {
+                        if (localCapsule.collab == false) {
                             Image("Union")
                                 .resizable()
                                 .scaledToFit()
@@ -38,7 +38,7 @@ struct Collab: View {
                             .font(.custom("Syne-Regular", size: 24))
                             .padding(.top, 10)
                             .foregroundColor(.white)
-                            .opacity(dataStore.collab ?? true ? 0.5 : 1)
+                            .opacity(localCapsule.collab ?? true ? 0.5 : 1)
                     }
                     .padding()
                     .frame(width: (geometry.size.width - 60),  height: 210)
@@ -53,10 +53,10 @@ struct Collab: View {
                 .padding(.bottom, 10)
 
                 Button(action: {
-                    dataStore.collab = true
+                    localCapsule.collab = true
                 }) {
                     VStack {
-                        if (dataStore.collab == true) {
+                        if (localCapsule.collab == true) {
                             Image("Group")
                                 .resizable()
                                 .scaledToFit()
@@ -74,7 +74,7 @@ struct Collab: View {
                             .font(.custom("Syne-Regular", size: 24))
                             .padding(.top, 10)
                             .foregroundColor(.white)
-                            .opacity(dataStore.collab ?? false ? 1 : 0.5)
+                            .opacity(localCapsule.collab ?? false ? 1 : 0.5)
                     }
                     .padding()
                     .frame(width: (geometry.size.width - 60), height: 210)

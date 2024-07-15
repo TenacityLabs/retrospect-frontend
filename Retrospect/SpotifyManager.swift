@@ -15,6 +15,8 @@ class SpotifyManager: ObservableObject {
     private var cancellables: Set<AnyCancellable> = []
     let spotify: SpotifyAPI<ClientCredentialsFlowManager>
     
+    private var searchQuery = PassthroughSubject<String, Never>()
+    
     init() {
         self.spotify = SpotifyAPI(
             authorizationManager: ClientCredentialsFlowManager(
@@ -22,42 +24,57 @@ class SpotifyManager: ObservableObject {
                 clientSecret: "67e1573114bd452aa0e34a9c40f2de9e"
             )
         )
+        
+        searchQuery
+            .debounce(for: .milliseconds(300), scheduler: DispatchQueue.main)
+            .removeDuplicates()
+            .sink { [weak self] query in
+                self?.performSearch(query: query)
+            }
+            .store(in: &cancellables)
     }
     
     func authorize() {
         spotify.authorizationManager.authorize()
-            .receive(on: DispatchQueue.main) // Ensure updates happen on the main thread
+            .receive(on: DispatchQueue.main)
             .sink(receiveCompletion: { completion in
                 switch completion {
-                    case .finished:
-                        print("successfully authorized application")
-                        self.authorized = true
-                    case .failure(let error):
-                        print("could not authorize application: \(error)")
-                        self.authorized = false
+                case .finished:
+                    print("successfully authorized application")
+                    self.authorized = true
+                case .failure(let error):
+                    print("could not authorize application: \(error)")
+                    self.authorized = false
                 }
             })
             .store(in: &cancellables)
     }
     
     func searchTracks(query: String) {
+        searchQuery.send(query)
+    }
+    
+    private func performSearch(query: String) {
         spotify.search(query: query, categories: [.track])
-            .receive(on: DispatchQueue.main) // Ensure updates happen on the main thread
+            .receive(on: DispatchQueue.main)
             .sink(
                 receiveCompletion: { completion in
                     print(completion)
                 },
-                receiveValue: { results in
-                    self.searchResults = results.tracks?.items.compactMap { track in
+                receiveValue: { [weak self] results in
+                    guard let self = self else { return }
+                    let tracks = results.tracks?.items.compactMap { track in
                         Track(
-                            id: track.id ?? "",
+                            songId: track.id ?? "",
                             name: track.name,
                             artistName: track.artists?.first?.name ?? "",
-                            albumArtURL: track.album?.images?.first?.url
+                            albumArtURL: track.album?.images?.first?.url.absoluteString ?? ""
                         )
                     } ?? []
+                    self.searchResults = Array(Set(tracks))
                 }
             )
             .store(in: &cancellables)
     }
 }
+

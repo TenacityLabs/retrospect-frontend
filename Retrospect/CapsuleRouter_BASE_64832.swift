@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Router: View {
     @State private var state = "IconSelect"
-    @State private var dataStore = capsule()
+    @State private var localCapsule = capsule()
     
     var body: some View {
         ZStack {
@@ -17,36 +17,36 @@ struct Router: View {
             if state == "IconSelect" {
                 IconSelect(state: $state)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if state == "ChooseName" {
                 ChooseName(state: $state)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if state == "PhotoSelect" {
                 PhotoSelect(state: $state)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if state == "SongSelect" {
                 SongSelect(state: $state)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
                     .environmentObject(SpotifyManager())
             } else if state == "AnswerPrompt" {
                 AnswerPrompt(state: $state)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if state == "AdditionalGoodies" {
                 AdditionalGoodiesRouter(state: $state)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if state == "SetDate" {
                 SetDate(state: $state)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             } else if state == "SealBox" {
                 SealBox(state: $state)
                     .transition(.slide)
-                    .environmentObject(dataStore)
+                    .environmentObject(localCapsule)
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
