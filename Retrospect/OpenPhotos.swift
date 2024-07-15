@@ -103,7 +103,6 @@ struct OpenPhotos: View {
                     Spacer()
                         .frame(height: geometry.size.height / 2)
                     
-                    // Second page content
                     ZStack {
                         VStack {
                             Text("Your Photos")
@@ -130,6 +129,7 @@ struct OpenPhotos: View {
                                 }
                                 .padding()
                             }
+                            .padding()
                             Button(action: {
                             }) {
                                 Text("Thank You, Next!")
