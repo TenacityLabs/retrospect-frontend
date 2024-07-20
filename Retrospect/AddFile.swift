@@ -3,29 +3,29 @@ import UniformTypeIdentifiers
 import PDFKit
 
 struct AddFile: View {
-    @EnvironmentObject var localCapsule: Capsule
     @State private var isDocumentPickerPresented = false
     @Binding var AGstate: String
     @State private var selectedIndex: Int = 0
+    @State private var files: [File] = backendCapsule.miscFiles
     
     var body: some View {
         VStack {
-            Text(localCapsule.files.isEmpty ? "Add Files" : "These look great!")
+            Text(files.isEmpty ? "Add Files" : "These look great!")
                 .font(.largeTitle)
                 .padding(.top, 100)
                 .foregroundColor(.white)
             Spacer()
             
             TabView(selection: $selectedIndex) {
-                ForEach(localCapsule.files.indices, id: \.self) { index in
+                ForEach(files.indices, id: \.self) { index in
                     GeometryReader { geometry in
                         VStack {
-                            PDFPreviewView(url: localCapsule.files[index])
+                            PDFPreviewView(url: URL(string: files[index].fileURL)!)
                                 .frame(maxHeight: 320)
                                 .cornerRadius(15)
                                 .shadow(radius: 5)
                                 .padding(.vertical, 5)
-                            Text(localCapsule.files[index].lastPathComponent)
+                            Text(URL(string: files[index].fileURL)!.lastPathComponent)
                                 .foregroundColor(.white)
                                 .padding(.vertical, 5)
                         }
@@ -37,7 +37,7 @@ struct AddFile: View {
                     .padding(.horizontal, 20)
                     .tag(index)
                 }
-                if localCapsule.files.count < 9 {
+                if files.count < 9 {
                     Button(action: {
                         isDocumentPickerPresented = true
                     }) {
@@ -49,7 +49,7 @@ struct AddFile: View {
                             .background(Color.white.opacity(0.2))
                             .cornerRadius(15)
                     }
-                    .tag(localCapsule.files.count)
+                    .tag(files.count)
                     .fileImporter(
                         isPresented: $isDocumentPickerPresented,
                         allowedContentTypes: [.pdf],
@@ -64,7 +64,7 @@ struct AddFile: View {
             .frame(height: 400)
 
             HStack {
-                ForEach(0..<localCapsule.files.count + (localCapsule.files.count < 9 ? 1 : 0), id: \.self) { index in
+                ForEach(0..<files.count + (files.count < 9 ? 1 : 0), id: \.self) { index in
                     Circle()
                         .fill(index == selectedIndex ? Color.white : Color.white.opacity(0.1))
                         .frame(width: 8, height: 8)
@@ -73,8 +73,39 @@ struct AddFile: View {
             }
             .padding(.top, 10)
             Spacer()
+            
+            Button(action: {
+                if files[selectedIndex].uploaded {
+                    let body: [String: Any] = ["capsuleId": backendCapsule.capsule.id, "miscFileId": files[selectedIndex].id!]
+                    CapsuleAPIClient.shared.delete(authorization: jwt, mediaType: .miscFile, body: body)
+                    {_ in}
+                }
+                
+                files.remove(at: selectedIndex)
+                if selectedIndex != 0 {
+                    selectedIndex -= 1
+                }
+                
+            }) {
+                Text("Delete File")
+                    .foregroundColor(.black)
+                    .padding()
+                    .frame(width: 300)
+                    .background(Color.white)
+                    .cornerRadius(25)
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 25)
+                            .stroke(Color.black, lineWidth: 1)
+                    )
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 10)
+            .opacity(files.count < 1 || selectedIndex == files.count ? 0.5 : 1.0)
+            .disabled(files.count < 1 || selectedIndex == files.count)
 
             Button(action: {
+                backendCapsule.miscFiles = files
+                uploadFiles()
                 AGstate = "AdditionalGoodies"
             }) {
                 Text("bogos binted")
@@ -88,12 +119,12 @@ struct AddFile: View {
                             .stroke(Color.black, lineWidth: 1)
                     )
             }
-//            .disabled(localCapsule.files.isEmpty)
+//            .disabled(files.isEmpty)
             .padding(.bottom, 100)
         }
-        .onChange(of: localCapsule.files.count) {
-            localCapsule.files = Array(Set(localCapsule.files))
-            selectedIndex = localCapsule.files.count - 1
+        .onChange(of: files.count) {
+            files = Array(Set(files))
+            selectedIndex = files.count - 1
         }
     }
     
@@ -105,15 +136,13 @@ struct AddFile: View {
                     let fileSize = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
                     let fileSizeInMB = Double(fileSize) / (1024 * 1024)
                     if fileSizeInMB <= 5 {
-                        localCapsule.files.append(url)
+                        let file = File(uploaded: false, fileURL: url.absoluteString, fileType: url.pathExtension.lowercased())
+                        files.append(file)
                         print("File selected: \(url)")
                     } else {
-                        print("File size exceeds 5MB limit")
-                        // Show an alert or user message about the file size limit
-                    }
+                        print("File size exceeds 5MB limit")                    }
                 } catch {
                     print("Failed to retrieve file size: \(error.localizedDescription)")
-                    // Show an alert or user message about the error
                 }
             }
         case .failure(let error):
@@ -192,6 +221,50 @@ class PDFPageView: UIView {
         self.page.draw(with: .mediaBox, to: context)
         
         context.restoreGState()
+    }
+}
+
+@MainActor func uploadFiles() {
+    for index in backendCapsule.miscFiles.indices where !backendCapsule.miscFiles[index].uploaded {
+        
+        CapsuleAPIClient.shared.upload(
+        authorization: jwt,
+        fileURL:  URL(string: backendCapsule.miscFiles[index].fileURL)!,
+        fileType: backendCapsule.miscFiles[index].fileType)
+        { result in
+            switch result {
+                
+                case .success(let result):
+                    
+                    let body: [String: Any] =
+                        ["authorization": jwt,
+                        "capsuleID": backendCapsule.capsule.id,
+                        "objectName": result.objectName,
+                        "fileURL": result.fileURL]
+                    
+                    CapsuleAPIClient.shared.create(
+                    authorization: jwt,
+                    mediaType: .miscFile,
+                    body: body)
+                    { result in
+                        switch result {
+                            
+                        case .success(let result):
+                            print("Uploaded")
+                            backendCapsule.miscFiles[index].id = result.id
+                            backendCapsule.miscFiles[index].uploaded = true
+                            
+                        case .failure(let error):
+                            print(error)
+                            
+                        }
+                    }
+                    
+                case .failure(let error):
+                    print(error)
+                    
+            }
+        }
     }
 }
 

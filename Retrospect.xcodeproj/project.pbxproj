@@ -300,13 +300,13 @@
 		9DEA74F22BFFF9470027AB4A /* Retrospect */ = {
 			isa = PBXGroup;
 			children = (
-				F7E951782C44E281001EE069 /* OpenCapsule */,
 				9D4D8C4A2C371C9B00DB1091 /* Info.plist */,
-				9DEA74F32BFFF9470027AB4A /* RetrospectApp.swift */,
 				F7D96C9B2C30C2E000BB538A /* Dashboard.swift */,
+				9DEA74F32BFFF9470027AB4A /* RetrospectApp.swift */,
 				9D4D8C462C3625EF00DB1091 /* Onboarding */,
 				9D01D6552C446FCE00615767 /* API */,
 				9D4D8C472C36268100DB1091 /* Capsule */,
+				F7E951782C44E281001EE069 /* OpenCapsule */,
 				F74681502C2FCBB5003A3F91 /* fonts */,
 				9DEA74F72BFFF9490027AB4A /* Assets.xcassets */,
 				9DEA74F92BFFF9490027AB4A /* Preview Content */,

@@ -13,7 +13,7 @@ struct LoginResponse: Codable {
 
 struct EmptyResponse: Codable {}
 
-enum APIError: Error {
+public enum APIError: Error {
     case invalidURL
     case requestFailed(Error)
     case invalidResponse
@@ -175,27 +175,6 @@ class UserAPIClient {
                 completion(.failure(error))
             }
         }
-    }
-    
-    private func performRequest<T: Decodable>(_ request: URLRequest, completion: @escaping (Result<T, APIError>) -> Void) {
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(.requestFailed(error)))
-                return
-            }
-            
-            guard let data = data, let response = response as? HTTPURLResponse, (200...299).contains(response.statusCode) else {
-                completion(.failure(.invalidResponse))
-                return
-            }
-            
-            do {
-                let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-                completion(.success(decodedResponse))
-            } catch {
-                completion(.failure(.decodingFailed(error)))
-            }
-        }.resume()
     }
 }
 

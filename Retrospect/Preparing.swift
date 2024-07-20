@@ -53,14 +53,15 @@ struct Preparing: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .onAppear {
-            CapsuleAPIClient.shared.createCapsule(
+            let body: [String: Any] = ["vessel": vessel, "public": collab]
+            CapsuleAPIClient.shared.create(
                 authorization: jwt,
-                vessel: localCapsule.container ?? "box",
-                public: localCapsule.collab ?? false)
+                mediaType: .capsule,
+                body: body)
             { result in
                 switch result {
                 case .success(let result):
-                    
+                    capsuleID = result.id
                     CapsuleAPIClient.shared.getCapsuleById(
                         authorization: jwt,
                         id: result.id)

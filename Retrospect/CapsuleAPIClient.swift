@@ -5,6 +5,8 @@
 //  Created by Andrew Durnford on 2024-07-13.
 //
 
+//FIXME: Consolidate functions with same return type
+
 import Foundation
 
 extension URLRequest {
@@ -67,23 +69,6 @@ class CapsuleAPIClient {
         performRequest(request, completion: completion)
     }
     
-    func createCapsule(authorization: String, vessel: String, public: Bool, completion: @escaping (Result<CreateResponse, APIError>) -> Void) {
-        guard let url = URL(string: "\(baseURL)/capsules/create") else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let body: [String: Any] = ["vessel": vessel, "public": `public`]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        
-        performRequest(request, completion: completion)
-    }
-    
     func joinCapsule(authorization: String, code: String, completion: @escaping (Result<Void, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules/join") else {
             completion(.failure(.invalidURL))
@@ -95,29 +80,6 @@ class CapsuleAPIClient {
         request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
         
         let body: [String: Any] = ["code": code]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        
-        performRequest(request) { (result: Result<EmptyResponse, APIError>) in
-            switch result {
-            case .success:
-                completion(.success(()))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-    
-    func deleteCapsule(authorization: String, capsuleId: UInt, completion: @escaping (Result<Void, APIError>) -> Void) {
-        guard let url = URL(string: "\(baseURL)/capsules/delete") else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
-        
-        let body: [String: Any] = ["capsuleId": capsuleId]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         performRequest(request) { (result: Result<EmptyResponse, APIError>) in
@@ -199,58 +161,61 @@ class CapsuleAPIClient {
         }
     }
     
-    func uploadFile(authorization: String, fileURL: URL, fileType: String, completion: @escaping (Result<UploadResponse, APIError>) -> Void) {
-        
-        guard let url = URL(string: "\(baseURL)/files/upload") else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
-        
-        let body: [String: Any] = ["fileURL": fileURL, "fileType": fileType]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        
-        performRequest(request, completion: completion)
-    }
-    
-//    capsuleId
-//    spotifyId: (id from spotify)
-//    name: (song name)
-//    artistName
-//    albumArtURL
-    
-    func createSong(authorization: String, capsuleId: UInt, song: Track, completion: @escaping (Result<CreateResponse, APIError>) -> Void) {
-        
-        guard let url = URL(string: "\(baseURL)/songs/create") else {
-            completion(.failure(.invalidURL))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
-        
-        let body: [String: Any] = ["capsuleId": capsuleId, "spotifyId": song.songId, "name": song.name, "artistName": song.artistName, "albumArtUrl": song.albumArtURL]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-        
-        performRequest(request, completion: completion)
-    }
-    
-    func createMedia(authorization: String, mediaType: MediaType, capsuleId: UInt, objectName: String, fileURL: String, completion: @escaping (Result<CreateResponse, APIError>) -> Void) {
+    func create(authorization: String, mediaType: MediaType, body: [String: Any],  completion: @escaping (Result<CreateResponse, APIError>) -> Void) {
         
         let endpoint: String
         switch mediaType {
-            case .audio:
-                endpoint = "/audios/create"
-            case .photo:
-                endpoint = "/photos/create"
-            case .doodle:
-                    endpoint = "/doodles/create"
-            case .miscFile:
-                    endpoint = "/misc-files/create"
+        case .capsule:
+            endpoint = "/capsules/create"
+        case .audio:
+            endpoint = "/audios/create"
+        case .photo:
+            endpoint = "/photos/create"
+        case .doodle:
+            endpoint = "/doodles/create"
+        case .miscFile:
+            endpoint = "/misc-files/create"
+        case .song:
+            endpoint = "/songs/create"
+        case .prompt:
+            endpoint = "/question-answers/create"
+        case .writing:
+            endpoint = "/writings/create"
+        }
+        
+        guard let url = URL(string: "\(baseURL)\(endpoint)") else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        performRequest(request, completion: completion)
+    }
+    
+    func delete(authorization: String, mediaType: MediaType, body: [String: Any], completion: @escaping (Result<Void, APIError>) -> Void) {
+        
+        let endpoint: String
+        switch mediaType {
+        case .capsule:
+            endpoint = "/capsules/delete"
+        case .audio:
+            endpoint = "/audios/delete"
+        case .photo:
+            endpoint = "/photos/delete"
+        case .doodle:
+            endpoint = "/doodles/delete"
+        case .miscFile:
+            endpoint = "/misc-files/delete"
+        case .song:
+            endpoint = "/songs/delete"
+        case .prompt:
+            endpoint = "/question-answers/delete"
+        case .writing:
+            endpoint = "/writings/delete"
         }
         
         guard let url = URL(string: "\(baseURL)\(endpoint)") else {
@@ -261,44 +226,90 @@ class CapsuleAPIClient {
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        let body: [String: Any] = ["capsuleId": capsuleId, "objectName": objectName, "fileURL": fileURL]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
-
-        performRequest(request, completion: completion)
+        
+        performRequest(request) { (result: Result<EmptyResponse, APIError>) in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
     }
     
-    private func performRequest<T: Decodable>(_ request: URLRequest, completion: @escaping (Result<T, APIError>) -> Void) {
-        URLSession.shared.dataTask(with: request) { data, response, error in
-
-            if let error = error {
-                print("Request failed with error: \(error.localizedDescription)")
-                completion(.failure(.requestFailed(error)))
-                return
+    func update(authorization: String, updateType: UpdateType, body: [String: Any], completion: @escaping (Result<Void, APIError>) -> Void) {
+        
+        let endpoint: String
+        switch updateType {
+        case .QuestionAnswer:
+            endpoint = "/question-answers/update"
+        case .Writing:
+            endpoint = "/writings/update"
+        }
+        
+        guard let url = URL(string: "\(baseURL)\(endpoint)") else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: body)
+        
+        performRequest(request) { (result: Result<EmptyResponse, APIError>) in
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            
-            guard let data = data else {
-                completion(.failure(.invalidResponse))
-                return
-            }
-            
-            if let jsonString = String(data: data, encoding: .utf8) {
-                print("Response JSON: \(jsonString)")
-            } else {
-                print("Unable to convert data to JSON string.")
-            }
-            
-            do {
-                let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-                completion(.success(decodedResponse))
-            } catch {
-                print("Decoding failed with error: \(error.localizedDescription)")
-                if let errorResponse = try? JSONDecoder().decode(ErrorResponse.self, from: data) {
-                    print("Error response from server: \(errorResponse.message)")
-                }
-                completion(.failure(.decodingFailed(error)))
-            }
-        }.resume()
+        }
     }
+    
+    func upload(authorization: String, fileURL: URL, fileType: String, completion: @escaping (Result<UploadResponse, APIError>) -> Void) {
+        
+        guard let url = URL(string: "\(baseURL)/files/upload") else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.addValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
+        
+        request.addMultipartFormData(parameters: [:], fileURL: fileURL, fileType: fileType)
+        
+        performRequest(request, completion: completion)
+    }
+}
+
+public func performRequest<T: Decodable>(_ request: URLRequest, completion: @escaping (Result<T, APIError>) -> Void) {
+    URLSession.shared.dataTask(with: request) { data, response, error in
+
+        if let error = error {
+            print("Request failed with error: \(error.localizedDescription)")
+            completion(.failure(.requestFailed(error)))
+            return
+        }
+        
+        guard let data = data else {
+            completion(.failure(.invalidResponse))
+            return
+        }
+        
+        if let jsonString = String(data: data, encoding: .utf8) {
+            print("Response JSON: \(jsonString)")
+        } else {
+            print("Unable to convert data to JSON string.")
+        }
+        
+        do {
+            let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+            completion(.success(decodedResponse))
+        } catch {
+            completion(.failure(.decodingFailed(error)))
+        }
+    }.resume()
 }

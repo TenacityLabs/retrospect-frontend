@@ -6,12 +6,22 @@
 //
 
 import Foundation
+import UIKit
 
 enum MediaType {
+    case capsule
+    case song
+    case prompt
+    case writing
     case audio
     case photo
     case doodle
     case miscFile
+}
+
+enum UpdateType {
+    case QuestionAnswer
+    case Writing
 }
 
 struct CreateResponse: Decodable {
@@ -52,6 +62,48 @@ public struct CapsuleData: Codable {
     public var emailSent: Bool
     public var sealed: String
 
+    public init(id: UInt = 0,
+                code: String = "",
+                createdAt: String = "",
+                isPublic: Bool = false,
+                capsuleOwnerId: UInt = 0,
+                capsuleMember1Id: UInt = 0,
+                capsuleMember2Id: UInt = 0,
+                capsuleMember3Id: UInt = 0,
+                capsuleMember4Id: UInt = 0,
+                capsuleMember5Id: UInt = 0,
+                capsuleMember1Sealed: Bool = false,
+                capsuleMember2Sealed: Bool = false,
+                capsuleMember3Sealed: Bool = false,
+                capsuleMember4Sealed: Bool = false,
+                capsuleMember5Sealed: Bool = false,
+                vessel: String = "",
+                name: String = "",
+                dateToOpen: Date? = nil,
+                emailSent: Bool = false,
+                sealed: String = "") {
+        self.id = id
+        self.code = code
+        self.createdAt = createdAt
+        self.isPublic = isPublic
+        self.capsuleOwnerId = capsuleOwnerId
+        self.capsuleMember1Id = capsuleMember1Id
+        self.capsuleMember2Id = capsuleMember2Id
+        self.capsuleMember3Id = capsuleMember3Id
+        self.capsuleMember4Id = capsuleMember4Id
+        self.capsuleMember5Id = capsuleMember5Id
+        self.capsuleMember1Sealed = capsuleMember1Sealed
+        self.capsuleMember2Sealed = capsuleMember2Sealed
+        self.capsuleMember3Sealed = capsuleMember3Sealed
+        self.capsuleMember4Sealed = capsuleMember4Sealed
+        self.capsuleMember5Sealed = capsuleMember5Sealed
+        self.vessel = vessel
+        self.name = name
+        self.dateToOpen = dateToOpen
+        self.emailSent = emailSent
+        self.sealed = sealed
+    }
+    
     enum CodingKeys: String, CodingKey {
         case id
         case code
@@ -76,15 +128,16 @@ public struct CapsuleData: Codable {
     }
 }
 
-public struct Song: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
+public struct Song: Codable, Equatable, Hashable {
+    public var uploaded: Bool = true
+    public var id: UInt?
+    public var userId: UInt?
+    public var capsuleId: UInt?
     public var spotifyId: String
     public var name: String
     public var artistName: String
     public var albumArtURL: String
-    public var createdAt: String
+    public var createdAt: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -96,15 +149,25 @@ public struct Song: Codable {
         case albumArtURL
         case createdAt
     }
+    
+    public static func == (lhs: Song, rhs: Song) -> Bool {
+        return lhs.spotifyId == rhs.spotifyId
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(spotifyId)
+    }
 }
 
 public struct QuestionAnswer: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
+    public var uploaded: Bool = true
+    public var edited: Bool = false
+    public var id: UInt?
+    public var userId: UInt?
+    public var capsuleId: UInt?
     public var prompt: String
     public var answer: String
-    public var createdAt: String
+    public var createdAt: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -116,12 +179,14 @@ public struct QuestionAnswer: Codable {
     }
 }
 
-public struct Writing: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
+public struct Writing: Codable, Equatable {
+    public var uploaded: Bool = true
+    public var edited: Bool = false
+    public var id: UInt?
+    public var userId: UInt?
+    public var capsuleId: UInt?
     public var writing: String
-    public var createdAt: String
+    public var createdAt: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -130,15 +195,22 @@ public struct Writing: Codable {
         case writing
         case createdAt
     }
+    
+    public static func == (lhs: Writing, rhs: Writing) -> Bool {
+        return lhs.writing == rhs.writing
+    }
 }
 
-public struct File: Codable {
-    public var id: UInt
-    public var userId: UInt
-    public var capsuleId: UInt
-    public var objectName: String
+public struct File: Codable, Hashable {
+    public var uploaded: Bool = true
+    public var id: UInt?
+    public var userId: UInt?
+    public var capsuleId: UInt?
+    public var objectName: String?
     public var fileURL: String
-    public var createdAt: String
+    public var photo: UIImage?
+    public var fileType: String = ""
+    public var createdAt: String?
 
     enum CodingKeys: String, CodingKey {
         case id
@@ -148,17 +220,25 @@ public struct File: Codable {
         case fileURL
         case createdAt
     }
+    
+    public static func == (lhs: File, rhs: File) -> Bool {
+        return lhs.fileURL == rhs.fileURL
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(fileURL)
+    }
 }
 
-public struct APICapsule: Codable {
+public class APICapsule: ObservableObject, Codable {
     public var capsule: CapsuleData
-    public var songs: [Song]
-    public var questionAnswers: [QuestionAnswer]
-    public var writings: [Writing]
-    public var photos: [File]
-    public var audios: [File]
-    public var doodles: [File]
-    public var miscFiles: [File]
+    public var songs: [Song] = []
+    public var questionAnswers: [QuestionAnswer] = []
+    public var writings: [Writing] = []
+    public var photos: [File] = []
+    public var audios: [File] = []
+    public var doodles: [File] = []
+    public var miscFiles: [File] = []
 
     enum CodingKeys: String, CodingKey {
         case capsule = "capsule"
@@ -169,5 +249,16 @@ public struct APICapsule: Codable {
         case audios = "audios"
         case doodles = "doodles"
         case miscFiles = "miscFiles"
+    }
+    
+    public init() {
+        self.capsule = CapsuleData()
+        self.songs = []
+        self.questionAnswers = []
+        self.writings = []
+        self.photos = []
+        self.audios = []
+        self.doodles = []
+        self.miscFiles = []
     }
 }

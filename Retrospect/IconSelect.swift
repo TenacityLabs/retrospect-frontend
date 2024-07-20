@@ -61,7 +61,7 @@ struct IconSelect: View {
             Spacer()
             
             Button(action: {
-                localCapsule.container = containers[selectedIndex]
+                vessel = containers[selectedIndex]
                 state = "ChooseName"
             }) {
                 Text("Confirm Selection")

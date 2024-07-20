@@ -7,14 +7,13 @@
 
 import SwiftUI
 
-//FIXME: add func to remove songs (frontend / backend) & styling & remove song buttons
-//FIXME: add loading screen & screen for empty search bar + empty localCapsule.songs
+//FIXME: add styling & remove song buttons
+//FIXME: add loading screen & screen for empty search bar + empty backendCapsule.songs
 
 struct SongSelect: View {
     @EnvironmentObject var spotifyManager: SpotifyManager
     @State private var query: String = ""
-    @State private var selectedTracks: Set<Track> = []
-    @EnvironmentObject var localCapsule: Capsule
+    @State private var songs: [Song] = backendCapsule.songs
     @Binding var state: String
 
     var body: some View {
@@ -36,9 +35,9 @@ struct SongSelect: View {
                         }
                     
                     List {
-                        ForEach((query.isEmpty && !localCapsule.songs.isEmpty) ? localCapsule.songs : spotifyManager.searchResults, id: \.songId) { track in
+                        ForEach((query.isEmpty && !songs.isEmpty) ? songs : spotifyManager.searchResults, id: \.spotifyId) { song in
                             HStack {
-                                AsyncImage(url: URL(string: track.albumArtURL)) { phase in
+                                AsyncImage(url: URL(string: song.albumArtURL)) { phase in
                                     switch phase {
                                     case .empty:
                                         ProgressView()
@@ -58,58 +57,60 @@ struct SongSelect: View {
                                     }
                                 }
                                 VStack(alignment: .leading) {
-                                    Text(track.name)
+                                    Text(song.name)
                                         .font(.headline)
-                                    Text(track.artistName)
+                                    Text(song.artistName)
                                         .font(.subheadline)
                                         .foregroundColor(.gray)
                                 }
                                 Spacer()
-                                if selectedTracks.contains(track) || localCapsule.songs.contains(track) {
+                                if songs.contains(song) {
                                     Image(systemName: "checkmark")
                                         .foregroundColor(.blue)
+                                }
+                                
+                                if (query.isEmpty && !songs.isEmpty) {
+                                    Image(systemName: "trash")
+                                        .foregroundColor(.blue)
+                                        .padding(.leading, 10)
+                                        .onTapGesture {
+                                            if song.uploaded {
+                                                let body: [String: Any] = ["capsuleId": backendCapsule.capsule.id, "SongId": song.id!]
+                                                CapsuleAPIClient.shared.delete(authorization: jwt, mediaType: .song, body: body)
+                                                {_ in}
+                                            }
+                                            
+                                            if let index = songs.firstIndex(of: song) {
+                                                songs.remove(at: index)
+                                            }
+                                        }
                                 }
                             }
                             .contentShape(Rectangle())
                             .onTapGesture {
-                                if selectedTracks.contains(track) {
-                                    selectedTracks.remove(track)
-                                } else if !localCapsule.songs.contains(track) {
-                                    selectedTracks.insert(track)
+                                if songs.contains(song) {
+                                    if let index = songs.firstIndex(of: song) {
+                                        songs.remove(at: index)
+                                    }
+                                } else if !songs.contains(song) {
+                                    songs.append(song)
                                 }
                             }
                         }
                     }
-                    .onChange(of: localCapsule.songs) {
-                        localCapsule.songs = Array(Set(localCapsule.songs))
+                    .onChange(of: songs) {
+                        songs = Array(Set(songs))
                     }
                 }
             }
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
-                    if !selectedTracks.isEmpty {
-                        Button(action: {
-                            query = ""
-                            localCapsule.songs.append(contentsOf: selectedTracks)
-                            selectedTracks.removeAll()
-                        }) {
-                            Text("Add")
-                        }
-                    } else if selectedTracks.isEmpty && !localCapsule.songs.isEmpty {
-                        Button(action: {
-                            uploadSongs(capsule: localCapsule)
-                            state = "AnswerPrompt"
-                        }) {
-                            Text("Done")
-                        }
-                    } else {
-                        Button(action: {}) {
-                            Text("")
-                                .padding()
-                                .background(Color.clear)
-                                .cornerRadius(8)
-                        }
-                        .disabled(true)
+                    Button(action: {
+                        backendCapsule.songs = songs
+                        uploadSongs()
+                        state = "AnswerPrompt"
+                    }) {
+                        Text("Done")
                     }
                 }
             }
@@ -122,30 +123,36 @@ struct SongSelect: View {
     }
 }
 
+@MainActor func uploadSongs() {
+    for index in backendCapsule.songs.indices where !backendCapsule.songs[index].uploaded {
 
-@MainActor func uploadSongs(capsule: Capsule) {
-    for index in capsule.songs.indices {
-        CapsuleAPIClient.shared.createSong(
-            authorization: jwt,
-            capsuleId: (backendCapsule?.capsule.id)!,
-            song: capsule.songs[index])
-        { result in
+        let body: [String: Any] =
+                ["capsuleId": backendCapsule.capsule.id,
+                "spotifyId": backendCapsule.songs[index].spotifyId,
+                "name": backendCapsule.songs[index].name,
+                "artistName": backendCapsule.songs[index].artistName,
+                "albumArtUrl": backendCapsule.songs[index].albumArtURL]
+        
+        CapsuleAPIClient.shared.create(
+        authorization: jwt,
+        mediaType: .song,
+        body: body) { result in
             DispatchQueue.main.async {
                 switch result {
-                case .success(let result):
-                    print("Uploaded")
-                    capsule.songs[index].id = result.id
-                    capsule.songs[index].uploaded = true
-                case .failure(let error):
-                    print(error)
+                    case .success(let result):
+                        print("Uploaded")
+                        backendCapsule.songs[index].id = result.id
+                        backendCapsule.songs[index].uploaded = true
+                    case .failure(let error):
+                        print(error)
                 }
             }
         }
+        
     }
 }
 
 #Preview {
     SongSelect(state: .constant(""))
         .environmentObject(SpotifyManager())
-        .environmentObject(Capsule())
 }

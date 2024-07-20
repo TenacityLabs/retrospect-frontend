@@ -17,10 +17,10 @@ struct Collab: View {
                 Spacer()
                 
                 Button(action: {
-                    localCapsule.collab = false
+                    collab = false
                 }) {
                     VStack {
-                        if (localCapsule.collab == false) {
+                        if (collab == false) {
                             Image("Union")
                                 .resizable()
                                 .scaledToFit()
@@ -53,10 +53,10 @@ struct Collab: View {
                 .padding(.bottom, 10)
 
                 Button(action: {
-                    localCapsule.collab = true
+                    collab = true
                 }) {
                     VStack {
-                        if (localCapsule.collab == true) {
+                        if (collab == true) {
                             Image("Group")
                                 .resizable()
                                 .scaledToFit()
