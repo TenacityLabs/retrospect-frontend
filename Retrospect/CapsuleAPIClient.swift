@@ -43,7 +43,7 @@ class CapsuleAPIClient {
     
     private init() {}
     
-    func getCapsules(authorization: String, completion: @escaping (Result<[APICapsule], APIError>) -> Void) {
+    func getCapsules(authorization: String, completion: @escaping (Result<[CapsuleData], APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules") else {
             completion(.failure(.invalidURL))
             return

@@ -11,6 +11,7 @@ struct Preparing: View {
     @Binding var state: String
     @EnvironmentObject var localCapsule: Capsule
     @State private var pulsate = false
+    @State private var expandBox = false
     
     var body: some View {
         
@@ -53,35 +54,72 @@ struct Preparing: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .onAppear {
-            let body: [String: Any] = ["vessel": vessel, "public": collab]
-            CapsuleAPIClient.shared.create(
-                authorization: jwt,
-                mediaType: .capsule,
-                body: body)
-            { result in
-                switch result {
-                case .success(let result):
-                    capsuleID = result.id
-                    CapsuleAPIClient.shared.getCapsuleById(
-                        authorization: jwt,
-                        id: result.id)
-                    { result in
-                        switch result {
-                        case .success(let capsule):
-                            backendCapsule = capsule
-                            state = "PhotoSelect"
-                        case .failure(let error):
-                            print(error)
-                        }
-                    }
-                case .failure(let error):
-                    print(error)
+            Task {
+                await setupCapsule()
+                withAnimation {
+                    expandBox = true
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    state = "PhotoSelect"
                 }
             }
         }
+    }
+}
 
+func setupCapsule() async {
+    
+    let body: [String: Any] = ["vessel": vessel, "public": collab]
+    
+    CapsuleAPIClient.shared.create(
+    authorization: jwt,
+    mediaType: .capsule,
+    body: body)
+    { result in
         
-        
+        switch result {
+            
+            case .success(let result):
+            
+                capsuleID = result.id
+                CapsuleAPIClient.shared.getCapsuleById(
+                authorization: jwt,
+                id: result.id)
+                { result in
+                    
+                    switch result {
+                        
+                        case .success(let capsule):
+                            
+                            backendCapsule = capsule
+                            backendCapsule.capsule.name = capsuleName
+                            CapsuleAPIClient.shared.nameCapsule(
+                            authorization: jwt,
+                            capsuleId: capsule.capsule.id,
+                            name: capsuleName)
+                            { result in
+                                
+                                switch result {
+                                    
+                                    case .success(_):
+//                                    state = "PhotoSelect"
+                                        break
+                                    case .failure(_):
+                                        break
+                                }
+                            }
+                        
+                        case .failure(let error):
+                        
+                            print(error)
+                    }
+                }
+            
+            case .failure(let error):
+            
+                print(error)
+            
+        }
     }
 }
 

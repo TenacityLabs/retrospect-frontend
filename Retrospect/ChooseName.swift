@@ -19,7 +19,7 @@ struct ChooseName: View {
                 .foregroundColor(.white)
                 .padding(.top, 50)
             
-            TextField("", text: $name)
+            TextField("", text: $name.max(100))
                 .placeholder(when: name.isEmpty) {
                     Text("Jessica's Capsule").foregroundColor(.gray)
                 }
@@ -31,19 +31,22 @@ struct ChooseName: View {
                 .padding(.bottom, 50)
             
             Button(action: {
+                capsuleName = name
                 state = "Collab"
             }) {
                 Text("I'm ready to go!")
                     .foregroundColor(Color.black)
                     .padding()
                     .frame(width: 300)
-                    .background(Color.white)
+                    .background(name.isEmpty ? Color.white.opacity(0.5) : Color.white)
                     .cornerRadius(25)
                     .overlay(
                         RoundedRectangle(cornerRadius: 25)
                             .stroke(Color.black, lineWidth: 1)
                     )
             }
+            .disabled(name.isEmpty)
+            
             Spacer()
         }
     }

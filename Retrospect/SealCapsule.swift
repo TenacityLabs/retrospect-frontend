@@ -22,7 +22,7 @@ struct SealCapsuleView: View {
                 gestureState = currentState
             }
             .onEnded { finished in
-                CapsuleAPIClient.shared.sealCapsule(authorization: jwt, capsuleId: 0, dateToOpen:  localCapsule.date){ result in
+                CapsuleAPIClient.shared.sealCapsule(authorization: jwt, capsuleId: 0, dateToOpen:  openDate!){ result in
                     DispatchQueue.main.async {
                         switch result {
                         case .success():
@@ -82,16 +82,20 @@ struct SealCapsuleView: View {
                     Spacer()
                     Image("box")
                         .resizable()
-                        .scaleEffect(self.isDetectingLongPress ? 1.25 : 1)
+                        .scaleEffect(self.isDetectingLongPress ? 1.1 : 0.9)
+                        .shadow(color: .white, radius: self.isDetectingLongPress ? 40 : 20, x: 0, y: 0)
+//                        .scaleEffect(self.isDetectingLongPress ? 1.25 : 1)
                         .rotationEffect(Angle(degrees: self.isDetectingLongPress ? 5 : 0))
                         .animation(self.isDetectingLongPress ? Animation.easeInOut(duration: 0.15).repeatForever(autoreverses: true) : .default, value: self.isDetectingLongPress)
                         .frame(width: 200, height: 200, alignment: .center)
                         .gesture(longPress)
                     Spacer()
+                    
                     Text("Long press to seal your capsule")
                         .foregroundColor(Color.white)
                         .font(.custom("Syne-Regular", size: 20))
                         .multilineTextAlignment(.center)
+                    
                     Spacer()
                 }
                 .frame(height: geometry.size.height)

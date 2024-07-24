@@ -9,6 +9,7 @@ import SwiftUI
 
 struct Dashboard: View {
     @Binding var state: String
+    @State var capsules: [CapsuleData] = []
     
     var body: some View {
         GeometryReader { geometry in

@@ -4,6 +4,8 @@ public var capsuleID: UInt?
 public var backendCapsule: APICapsule = APICapsule()
 public var vessel: String = "box"
 public var collab: Bool = false
+public var capsuleName: String = ""
+public var openDate: Date?
 
 struct CapsuleRouter: View {
     @State private var capsuleState = "IconSelect"
