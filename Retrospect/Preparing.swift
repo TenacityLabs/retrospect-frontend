@@ -8,8 +8,7 @@
 import SwiftUI
 
 struct Preparing: View {
-    @Binding var state: String
-    @EnvironmentObject var localCapsule: Capsule
+    @EnvironmentObject var globalState: GlobalState
     @State private var pulsate = false
     
     var body: some View {
@@ -53,23 +52,22 @@ struct Preparing: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         .onAppear {
-            let body: [String: Any] = ["vessel": vessel, "public": collab]
+            let body: [String: Any] = ["vessel": globalState.localCapsule.vessel, "public": globalState.localCapsule.collab]
             CapsuleAPIClient.shared.create(
-                authorization: jwt,
+                authorization: globalState.jwt,
                 mediaType: .capsule,
                 body: body)
             { result in
                 switch result {
                 case .success(let result):
-                    capsuleID = result.id
                     CapsuleAPIClient.shared.getCapsuleById(
-                        authorization: jwt,
+                        authorization: globalState.jwt,
                         id: result.id)
                     { result in
                         switch result {
                         case .success(let capsule):
-                            backendCapsule = capsule
-                            state = "PhotoSelect"
+                            globalState.focusCapsule = capsule
+                            globalState.route = "/capsule/photo-select"
                         case .failure(let error):
                             print(error)
                         }
@@ -88,6 +86,6 @@ struct Preparing: View {
 #Preview {
     ZStack {
         ColorImageView()
-        Preparing(state: .constant(""))
+        Preparing()
     }
 }

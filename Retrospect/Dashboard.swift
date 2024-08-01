@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct Dashboard: View {
-    @Binding var state: String
+    @EnvironmentObject var globalState: GlobalState
+    @State var capsules: [CapsuleData] = []
     
     var body: some View {
         GeometryReader { geometry in
@@ -21,7 +22,7 @@ struct Dashboard: View {
                 Spacer()
 
                 Button(action: {
-                    state = "Capsule"
+                    globalState.route = "/capsule/icon-select"
                 }) {
                     VStack {
                         Spacer()
@@ -109,8 +110,6 @@ struct Dashboard: View {
 #Preview {
     ZStack {
         BackgroundImageView()
-        Dashboard(state: .constant(""))
+        Dashboard().environmentObject(GlobalState())
     }
 }
-
-

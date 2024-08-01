@@ -9,11 +9,12 @@ import SwiftUI
 
 struct Tutorial: View {
     @State private var step = 0
-    @Binding var state: String
+    @EnvironmentObject var globalState: GlobalState
     
     var body: some View {
         GeometryReader { geometry in
             VStack {
+                Spacer().frame(height: 50)
                 VStack {
                     HStack(spacing: 5) {
                        ForEach(0..<3) { index in
@@ -87,7 +88,7 @@ struct Tutorial: View {
                                 .foregroundColor(.white)
                                 .multilineTextAlignment(.center)
                             Button(action: {
-                                state = "Dashboard"
+                                globalState.route = "/referrals"
                             }) {
                                 Text("Let's go!")
                                     .font(.custom("Syne-Regular", size: 24))
@@ -117,28 +118,30 @@ struct Tutorial: View {
                     Text("Swipe to Continue")
                         .foregroundColor(.gray)
                 }
+                Spacer().frame(height: 50)
             }
-        }
-        .gesture(
-           DragGesture()
-               .onEnded { value in
-                   if value.translation.width < -30 {
-                       withAnimation {
-                           step = min(2, step + 1)
-                       }
-                   } else if value.translation.width > 30 {
-                       withAnimation {
-                           step = max(0, step - 1)
+            .frame(width: geometry.size.width, height: geometry.size.height)
+            .gesture(
+               DragGesture()
+                   .onEnded { value in
+                       if value.translation.width < -30 {
+                           withAnimation {
+                               step = min(2, step + 1)
+                           }
+                       } else if value.translation.width > 30 {
+                           withAnimation {
+                               step = max(0, step - 1)
+                           }
                        }
                    }
-               }
-        )
+            )
+        }
     }
 }
 
 #Preview {
     ZStack {
-        Tutorial(state: .constant(""))
-            .background(Color.black.edgesIgnoringSafeArea(.all))
+        ColorImageView()
+        Tutorial()
     }
 }

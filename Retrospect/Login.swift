@@ -11,7 +11,8 @@ struct Login: View {
     @State private var email: String = ""
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
-    @Binding var state: String
+    @State private var showAlert = false
+    @EnvironmentObject var globalState: GlobalState
     
     var body: some View {
         VStack {
@@ -102,7 +103,7 @@ struct Login: View {
                 Text("Don't have an account?")
                     .foregroundColor(.white)
                 Button(action: {
-                    state = "SignUp"
+                    globalState.route = "/signup"
                 }) {
                     Text("Sign Up")
                         .foregroundColor(Color(red: 128/255, green: 128/255, blue: 128/255))
@@ -111,29 +112,61 @@ struct Login: View {
                 }
             }
         }
+        .alert(isPresented: $showAlert) {
+            Alert(
+                title: Text("Status 500: Internal Server Error"),
+                message: Text("Please try again."),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
     
+    @MainActor
     private func login() {
         UserAPIClient.shared.login(email: email, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let token):
                     print("Login successful!")
-                    jwt = token.token
-                    state = "Tutorial"
+                    UserAPIClient.shared.getUser(authorization: token.token)
+                    { userResult in
+                        DispatchQueue.main.async {
+                            switch(userResult) {
+                            case .success (let user):
+                                CapsuleAPIClient.shared.getCapsules(authorization: token.token)
+                                { capsuleResult in
+                                    DispatchQueue.main.async {
+                                        switch(capsuleResult) {
+                                        case .success (let capsuleArray):
+                                            globalState.jwt = token.token
+                                            globalState.user = user.user
+                                            globalState.userCapsules = capsuleArray
+                                            globalState.route = "/tutorial"
+                                            globalState.reveal()
+                                        case .failure(_):
+                                            print("Capsule fetch failed, please try again!")
+                                            showAlert = true
+                                        }
+                                    }
+                                }
+                            case .failure(_):
+                                print("User fetch failed, please try again!")
+                                showAlert = true
+                            }
+                        }
+                    }
                 case .failure(_):
                     print("Login failed, please try again!")
-                   
+                    showAlert = true
                 }
             }
         }
     }
 }
 
-
 #Preview {
     ZStack {
         BackgroundImageView()
-        Login(state: .constant(""))
+        Login()
     }
 }

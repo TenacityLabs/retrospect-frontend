@@ -37,10 +37,12 @@ struct UploadResponse: Decodable {
     let fileURL: String
 }
 
+import Foundation
+
 public struct CapsuleData: Codable {
     public var id: UInt
     public var code: String
-    public var createdAt: String
+    public var createdAt: Date
     public var isPublic: Bool
     public var capsuleOwnerId: UInt
     
@@ -62,69 +64,12 @@ public struct CapsuleData: Codable {
     public var emailSent: Bool
     public var sealed: String
 
-    public init(id: UInt = 0,
-                code: String = "",
-                createdAt: String = "",
-                isPublic: Bool = false,
-                capsuleOwnerId: UInt = 0,
-                capsuleMember1Id: UInt = 0,
-                capsuleMember2Id: UInt = 0,
-                capsuleMember3Id: UInt = 0,
-                capsuleMember4Id: UInt = 0,
-                capsuleMember5Id: UInt = 0,
-                capsuleMember1Sealed: Bool = false,
-                capsuleMember2Sealed: Bool = false,
-                capsuleMember3Sealed: Bool = false,
-                capsuleMember4Sealed: Bool = false,
-                capsuleMember5Sealed: Bool = false,
-                vessel: String = "",
-                name: String = "",
-                dateToOpen: Date? = nil,
-                emailSent: Bool = false,
-                sealed: String = "") {
-        self.id = id
-        self.code = code
-        self.createdAt = createdAt
-        self.isPublic = isPublic
-        self.capsuleOwnerId = capsuleOwnerId
-        self.capsuleMember1Id = capsuleMember1Id
-        self.capsuleMember2Id = capsuleMember2Id
-        self.capsuleMember3Id = capsuleMember3Id
-        self.capsuleMember4Id = capsuleMember4Id
-        self.capsuleMember5Id = capsuleMember5Id
-        self.capsuleMember1Sealed = capsuleMember1Sealed
-        self.capsuleMember2Sealed = capsuleMember2Sealed
-        self.capsuleMember3Sealed = capsuleMember3Sealed
-        self.capsuleMember4Sealed = capsuleMember4Sealed
-        self.capsuleMember5Sealed = capsuleMember5Sealed
-        self.vessel = vessel
-        self.name = name
-        self.dateToOpen = dateToOpen
-        self.emailSent = emailSent
-        self.sealed = sealed
-    }
-    
     enum CodingKeys: String, CodingKey {
-        case id
-        case code
-        case createdAt
-        case isPublic = "public"
-        case capsuleOwnerId = "capsuleOwnerId"
-        case capsuleMember1Id = "capsuleMember1Id"
-        case capsuleMember2Id = "capsuleMember2Id"
-        case capsuleMember3Id = "capsuleMember3Id"
-        case capsuleMember4Id = "capsuleMember4Id"
-        case capsuleMember5Id = "capsuleMember5Id"
-        case capsuleMember1Sealed = "capsuleMember1Sealed"
-        case capsuleMember2Sealed = "capsuleMember2Sealed"
-        case capsuleMember3Sealed = "capsuleMember3Sealed"
-        case capsuleMember4Sealed = "capsuleMember4Sealed"
-        case capsuleMember5Sealed = "capsuleMember5Sealed"
-        case vessel
-        case name
-        case dateToOpen
-        case emailSent
-        case sealed
+        case id, code, createdAt, isPublic = "public", capsuleOwnerId,
+             capsuleMember1Id, capsuleMember2Id, capsuleMember3Id,
+             capsuleMember4Id, capsuleMember5Id, capsuleMember1Sealed,
+             capsuleMember2Sealed, capsuleMember3Sealed, capsuleMember4Sealed,
+             capsuleMember5Sealed, vessel, name, dateToOpen, emailSent, sealed
     }
 }
 
@@ -230,35 +175,3 @@ public struct File: Codable, Hashable {
     }
 }
 
-public class APICapsule: ObservableObject, Codable {
-    public var capsule: CapsuleData
-    public var songs: [Song] = []
-    public var questionAnswers: [QuestionAnswer] = []
-    public var writings: [Writing] = []
-    public var photos: [File] = []
-    public var audios: [File] = []
-    public var doodles: [File] = []
-    public var miscFiles: [File] = []
-
-    enum CodingKeys: String, CodingKey {
-        case capsule = "capsule"
-        case songs = "songs"
-        case questionAnswers = "questionAnswers"
-        case writings = "writings"
-        case photos = "photos"
-        case audios = "audios"
-        case doodles = "doodles"
-        case miscFiles = "miscFiles"
-    }
-    
-    public init() {
-        self.capsule = CapsuleData()
-        self.songs = []
-        self.questionAnswers = []
-        self.writings = []
-        self.photos = []
-        self.audios = []
-        self.doodles = []
-        self.miscFiles = []
-    }
-}

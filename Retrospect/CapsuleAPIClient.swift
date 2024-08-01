@@ -43,7 +43,7 @@ class CapsuleAPIClient {
     
     private init() {}
     
-    func getCapsules(authorization: String, completion: @escaping (Result<[APICapsule], APIError>) -> Void) {
+    func getCapsules(authorization: String, completion: @escaping (Result<[APIBaseCapsule], APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules") else {
             completion(.failure(.invalidURL))
             return
@@ -115,7 +115,7 @@ class CapsuleAPIClient {
         }
     }
     
-    func sealCapsule(authorization: String, capsuleId: UInt, dateToOpen: Date, completion: @escaping (Result<Void, APIError>) -> Void) {
+    func sealCapsule(authorization: String, capsuleId: UInt, dateToOpen: String, completion: @escaping (Result<Void, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules/seal") else {
             completion(.failure(.invalidURL))
             return
@@ -307,6 +307,7 @@ public func performRequest<T: Decodable>(_ request: URLRequest, completion: @esc
         
         do {
             let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+            print("Decoded Response: \(decodedResponse)")
             completion(.success(decodedResponse))
         } catch {
             completion(.failure(.decodingFailed(error)))

@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct Landing: View {
-    @Binding var state: String
+    @EnvironmentObject var globalState: GlobalState
     
     var body: some View {
         
@@ -31,7 +31,7 @@ struct Landing: View {
                 .frame(height: 96)
             
             Button(action: {
-                state = "SignUp"
+                globalState.route = "/signup"
             }) {
                 Text("Sign Up")
                     .font(.custom("Syne-Regular", size: 24))
@@ -45,7 +45,7 @@ struct Landing: View {
             .padding(.bottom, 15)
             
             Button(action: {
-                state = "Login"
+                globalState.route = "/login"
             }) {
                 Text("Login")
                     .font(.custom("Syne-Regular", size: 24))
@@ -65,6 +65,6 @@ struct Landing: View {
 #Preview {
     ZStack {
         BackgroundImageView()
-        Landing(state: .constant(""))
+        Landing()
     }
 }

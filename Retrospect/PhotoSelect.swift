@@ -6,10 +6,10 @@ import Combine
 //FIXME: duplicate checking is broken
 
 struct PhotoSelect: View {
+    @EnvironmentObject var globalState: GlobalState
     @State private var showImagePicker = false
     @State private var selectedIndex: Int = 0
-    @State var photos: [File] = backendCapsule.photos
-    @Binding var state: String
+    @State private var photos: [APIPhoto] = []
 
     var body: some View {
         VStack {
@@ -23,16 +23,20 @@ struct PhotoSelect: View {
                 ForEach(photos.indices, id: \.self) { index in
                     GeometryReader { geometry in
                         VStack {
-                            if (photos[index].photo != nil) {
-                                Image(uiImage: photos[index].photo!)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .cornerRadius(15)
-                                    .padding(20)
-                                    .frame(maxHeight: 300)
+                            if (photos[index] != nil) {
+                                if let url = URL(string: photos[index].fileURL),
+                                   let imageData = try? Data(contentsOf: url),
+                                   let uiImage = UIImage(data: imageData){
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .cornerRadius(15)
+                                        .padding(20)
+                                        .frame(maxHeight: 300)
+                                }
                             } else {
-                            AsyncImage(url: URL(string: photos[index].fileURL)) {
-                                phase in
+                                AsyncImage(url: URL(string: photos[index].fileURL)) {
+                                    phase in
                                     switch phase {
                                     case .empty:
                                         ProgressView()
@@ -64,7 +68,7 @@ struct PhotoSelect: View {
                     .padding(.horizontal, 20)
                     .tag(index)
                 }
-
+                
                 if photos.count < 9 {
                     AddImageView(showImagePicker: $showImagePicker, photos: $photos)
                         .tag(photos.count)
@@ -72,7 +76,7 @@ struct PhotoSelect: View {
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
             .frame(height: 400)
-
+            
             HStack {
                 ForEach(0..<photos.count + (photos.count < 9 ? 1 : 0), id: \.self) { index in
                     Circle()
@@ -89,8 +93,8 @@ struct PhotoSelect: View {
             
             Button(action: {
                 if photos[selectedIndex].uploaded {
-                    let body: [String: Any] = ["capsuleId": backendCapsule.capsule.id, "PhotoId": photos[selectedIndex].id!]
-                    CapsuleAPIClient.shared.delete(authorization: jwt, mediaType: .photo, body: body)
+                    let body: [String: Any] = ["capsuleId": globalState.focusCapsule?.capsule.id, "PhotoId": photos[selectedIndex].id]
+                    CapsuleAPIClient.shared.delete(authorization: globalState.jwt, mediaType: .photo, body: body)
                     {_ in}
                 }
                 
@@ -115,11 +119,14 @@ struct PhotoSelect: View {
             .padding(.top, 10)
             .opacity(photos.count < 1 || selectedIndex == photos.count ? 0.5 : 1.0)
             .disabled(photos.count < 1 || selectedIndex == photos.count)
-
+            
             Button(action: {
-                backendCapsule.photos = photos
-                uploadPhotos()
-                state = "SongSelect"
+                globalState.focusCapsule?.photos = photos
+                uploadPhotos(globalState: globalState, photoArray: photos, completing: { arr, ind, newId in
+                    photos[ind].id = newId
+                    photos[ind].uploaded = true
+                })
+                globalState.route = "/capsule/song-select"
             }) {
                 Text("bogos binted")
                     .foregroundColor(Color.black)
@@ -134,12 +141,15 @@ struct PhotoSelect: View {
             }
             .padding(.bottom, 100)
         }
+        .onAppear(perform: {
+            photos = globalState.focusCapsule?.photos ?? []
+        })
     }
 }
 
 struct AddImageView: View {
     @Binding var showImagePicker: Bool
-    @Binding var photos: [File]
+    @Binding var photos: [APIPhoto]
 
     var body: some View {
         VStack {
@@ -163,7 +173,7 @@ struct AddImageView: View {
 
 struct ImagePicker: UIViewControllerRepresentable {
     var maxSelection: Int
-    @Binding var photos: [File]
+    @Binding var photos: [APIPhoto]
 
     class Coordinator: NSObject, PHPickerViewControllerDelegate {
         var parent: ImagePicker
@@ -186,7 +196,7 @@ struct ImagePicker: UIViewControllerRepresentable {
 
                             DispatchQueue.main.async {
                                 if let fileURL = fileURL {
-                                    let newImage = File(uploaded: false, fileURL: fileURL.absoluteString, photo: image,  fileType: fileType)
+                                    let newImage = APIPhoto(fileURL: fileURL.absoluteString, uploaded: false, fileType: fileType)
                                     self.parent.photos.append(newImage)
                                 }
                             }
@@ -253,45 +263,37 @@ struct ImagePicker: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: PHPickerViewController, context: Context) {}
 }
 
-@MainActor func uploadPhotos() {
-    for index in backendCapsule.photos.indices where !backendCapsule.photos[index].uploaded {
-        
+@MainActor func uploadPhotos(globalState: GlobalState, photoArray: [APIPhoto], completing: @escaping([APIPhoto], Int, UInt) -> Void) {
+    for (index, photo) in photoArray.enumerated() {
         CapsuleAPIClient.shared.upload(
-        authorization: jwt,
-        fileURL:  URL(string: backendCapsule.photos[index].fileURL)!,
-        fileType: backendCapsule.photos[index].fileType)
+            authorization: globalState.jwt,
+            fileURL: URL(string: photo.fileURL)!,
+            fileType: photo.fileType)
         { result in
             switch result {
-                
                 case .success(let result):
-                    
-                    let body: [String: Any] =
-                        ["authorization": jwt,
-                        "capsuleID": backendCapsule.capsule.id,
+                    let body: [String: Any] = [
+                        "authorization": globalState.jwt,
+                        "capsuleID": globalState.focusCapsule?.capsule.id,
                         "objectName": result.objectName,
-                        "fileURL": result.fileURL]
+                        "fileURL": result.fileURL
+                    ]
                     
                     CapsuleAPIClient.shared.create(
-                    authorization: jwt,
-                    mediaType: .photo,
-                    body: body)
-                    { result in
-                        switch result {
-                            
-                        case .success(let result):
-                            print("Uploaded")
-                            backendCapsule.photos[index].id = result.id
-                            backendCapsule.photos[index].uploaded = true
-                            
+                        authorization: globalState.jwt,
+                        mediaType: .photo,
+                        body: body)
+                    { createResult in
+                        switch createResult {
+                        case .success(let createResult):
+                            completing(photoArray, index, createResult.id)
                         case .failure(let error):
                             print(error)
-                            
                         }
                     }
                     
                 case .failure(let error):
                     print(error)
-                    
             }
         }
     }
@@ -300,7 +302,6 @@ struct ImagePicker: UIViewControllerRepresentable {
 #Preview {
     ZStack {
         BackgroundImageView()
-        PhotoSelect(state: .constant(""))
-            .environmentObject(Capsule())
+        PhotoSelect().environmentObject(GlobalState())
     }
 }

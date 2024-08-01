@@ -11,6 +11,10 @@ struct LoginResponse: Codable {
     let token: String
 }
 
+struct UserGetResponse: Codable {
+    let user: APIUser
+}
+
 struct EmptyResponse: Codable {}
 
 public enum APIError: Error {
@@ -18,12 +22,6 @@ public enum APIError: Error {
     case requestFailed(Error)
     case invalidResponse
     case decodingFailed(Error)
-}
-
-struct User: Decodable {
-    let firstName: String
-    let lastName: String
-    let email: String
 }
 
 class UserAPIClient {
@@ -71,7 +69,7 @@ class UserAPIClient {
         }
     }
     
-    func getUser(authorization: String, completion: @escaping (Result<User, APIError>) -> Void) {
+    func getUser(authorization: String, completion: @escaping (Result<UserGetResponse, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/user") else {
             completion(.failure(.invalidURL))
             return

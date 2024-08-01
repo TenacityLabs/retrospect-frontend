@@ -10,8 +10,7 @@ import SwiftUIIntrospect
 import Foundation
 
 struct SetDate: View {
-    @Binding var state: String
-    @EnvironmentObject var localCapsule: Capsule
+    @EnvironmentObject var globalState: GlobalState
     @State private var oneMonth: Date = Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
     @State private var sixMonth: Date = Calendar.current.date(byAdding: .month, value: 6, to: Date()) ?? Date()
     @State private var oneYear: Date = Calendar.current.date(byAdding: .year, value: 1, to: Date()) ?? Date()
@@ -123,7 +122,6 @@ struct SetDate: View {
                 .onChange(of: selectedDay) {
                     adjustDayIfNeeded()
                     selectedDate = setDate(year: selectedYear, month: selectedMonth, day: selectedDay)
-                    localCapsule.date = selectedDate
                 }
                 .introspect(.picker(style: .wheel), on: .iOS(.v13, .v14, .v15, .v16, .v17)) { picker in
                     picker.subviews[1].backgroundColor = UIColor.clear
@@ -138,7 +136,7 @@ struct SetDate: View {
             Spacer()
             
             Button(action: {
-                state = "SealBox"
+                globalState.route = "/capsule/seal-box"
             }) {
                 Text("I'm ready to seal!")
                     .foregroundColor(Color.black)
@@ -192,7 +190,7 @@ struct SetDate: View {
 #Preview {
     ZStack {
         BackgroundImageView()
-        SetDate(state: .constant(""))
+        SetDate() 
     }
 }
 
