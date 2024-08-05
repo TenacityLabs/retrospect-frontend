@@ -2,15 +2,14 @@
 //import AVFoundation
 //
 //struct AddAudio: View {
-//    @EnvironmentObject var localCapsule: Capsule
+//    @EnvironmentObject var globalState: GlobalState
 //    @State private var audioRecorder: AVAudioRecorder?
 //    @State private var audioPlayer: AVAudioPlayer?
 //    @State private var isRecording = false
 //    @State private var audioURL: URL?
 //    @State private var showDocumentPicker = false
 //    @State private var levels: [CGFloat] = []
-//    @Binding var AGstate: String
-//
+//    
 //    var body: some View {
 //        VStack(spacing: 20) {
 //            Text("Add Audio")

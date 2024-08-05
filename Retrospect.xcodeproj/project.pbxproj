@@ -15,7 +15,6 @@
 		9D01D64C2C42F5F000615767 /* UserAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D01D64B2C42F5F000615767 /* UserAPIClient.swift */; };
 		9D01D64E2C42F64500615767 /* CapsuleAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D01D64D2C42F64500615767 /* CapsuleAPIClient.swift */; };
 		9D01D6502C42FD8D00615767 /* Preparing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D01D64F2C42FD8D00615767 /* Preparing.swift */; };
-		9D01D6572C44734B00615767 /* APITypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D01D6562C44734B00615767 /* APITypes.swift */; };
 		9D0696652C040F9600AB1098 /* SpotifyManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0696642C040F9600AB1098 /* SpotifyManager.swift */; };
 		9D0696672C04122D00AB1098 /* PhotoSelect.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D0696662C04122D00AB1098 /* PhotoSelect.swift */; };
 		9D4598832C2760DA00B34494 /* AddText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4598822C2760DA00B34494 /* AddText.swift */; };
@@ -53,6 +52,7 @@
 		F77347C82C2906760048E3C7 /* ShareWithFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C72C2906760048E3C7 /* ShareWithFriends.swift */; };
 		F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C92C290B0D0048E3C7 /* Tutorial.swift */; };
 		F784F1072C1D238100E1123F /* ChooseName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F784F1062C1D238100E1123F /* ChooseName.swift */; };
+		F7B021792C60B7D500F95A09 /* APITypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7B021782C60B7D400F95A09 /* APITypes.swift */; };
 		F7D96C9C2C30C2E000BB538A /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D96C9B2C30C2E000BB538A /* Dashboard.swift */; };
 		F7E9517A2C44F5C4001EE069 /* IntroText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E951792C44F5C4001EE069 /* IntroText.swift */; };
 		F7E9517C2C44F6DE001EE069 /* OpenPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E9517B2C44F6DE001EE069 /* OpenPhotos.swift */; };
@@ -95,7 +95,6 @@
 		9D01D64B2C42F5F000615767 /* UserAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPIClient.swift; sourceTree = "<group>"; };
 		9D01D64D2C42F64500615767 /* CapsuleAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CapsuleAPIClient.swift; sourceTree = "<group>"; };
 		9D01D64F2C42FD8D00615767 /* Preparing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preparing.swift; sourceTree = "<group>"; };
-		9D01D6562C44734B00615767 /* APITypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITypes.swift; sourceTree = "<group>"; };
 		9D0696642C040F9600AB1098 /* SpotifyManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotifyManager.swift; sourceTree = "<group>"; };
 		9D0696662C04122D00AB1098 /* PhotoSelect.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoSelect.swift; sourceTree = "<group>"; };
 		9D4598822C2760DA00B34494 /* AddText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddText.swift; sourceTree = "<group>"; };
@@ -139,6 +138,7 @@
 		F77347C72C2906760048E3C7 /* ShareWithFriends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareWithFriends.swift; sourceTree = "<group>"; };
 		F77347C92C290B0D0048E3C7 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		F784F1062C1D238100E1123F /* ChooseName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseName.swift; sourceTree = "<group>"; };
+		F7B021782C60B7D400F95A09 /* APITypes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITypes.swift; sourceTree = "<group>"; };
 		F7D96C9B2C30C2E000BB538A /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		F7E951792C44F5C4001EE069 /* IntroText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroText.swift; sourceTree = "<group>"; };
 		F7E9517B2C44F6DE001EE069 /* OpenPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPhotos.swift; sourceTree = "<group>"; };
@@ -209,7 +209,7 @@
 			children = (
 				9D01D64B2C42F5F000615767 /* UserAPIClient.swift */,
 				9D01D64D2C42F64500615767 /* CapsuleAPIClient.swift */,
-				9D01D6562C44734B00615767 /* APITypes.swift */,
+				F7B021782C60B7D400F95A09 /* APITypes.swift */,
 			);
 			name = API;
 			sourceTree = "<group>";
@@ -599,12 +599,12 @@
 				9D01D64E2C42F64500615767 /* CapsuleAPIClient.swift in Sources */,
 				F784F1072C1D238100E1123F /* ChooseName.swift in Sources */,
 				9D45988D2C27626600B34494 /* AddFile.swift in Sources */,
+				F7B021792C60B7D500F95A09 /* APITypes.swift in Sources */,
 				9DEA74F42BFFF9470027AB4A /* RetrospectApp.swift in Sources */,
 				9D01D64A2C41DFE500615767 /* EditDrawing.swift in Sources */,
 				F7E951882C450660001EE069 /* OpenFile.swift in Sources */,
 				F7E951842C450643001EE069 /* OpenAudio.swift in Sources */,
 				9DC782342C3B057C0017C893 /* SetDate.swift in Sources */,
-				9D01D6572C44734B00615767 /* APITypes.swift in Sources */,
 				9D738D1F2C1D2C820019109E /* AdditionalGoodies.swift in Sources */,
 				F7E951802C4500B8001EE069 /* OpenTextPrompt.swift in Sources */,
 				F7E9517E2C44FE28001EE069 /* OpenSong.swift in Sources */,

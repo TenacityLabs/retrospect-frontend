@@ -11,55 +11,136 @@ struct APIUser: Codable {
     var createdAt: String
 }
 
-struct APIBaseCapsule: Codable {
-    var id: UInt
-    var code: String
-    var createdAt: String
-    var `public`: Bool
-    var capsuleOwnerId: UInt
-    var capsuleMember1Id: UInt
-    var capsuleMember2Id: UInt
-    var capsuleMember3Id: UInt
-    var capsuleMember4Id: UInt
-    var capsuleMember5Id: UInt
-    var capsuleMember1Sealed: Bool
-    var capsuleMember2Sealed: Bool
-    var capsuleMember3Sealed: Bool
-    var capsuleMember4Sealed: Bool
-    var capsuleMember5Sealed: Bool
-    var vessel: String
-    var name: String
-    var dateToOpen: String?
-    var emailSent: Bool
-    var sealed: String
+public struct APIBaseCapsule: Codable {
+    public var id: UInt
+    public var code: String
+    public var createdAt: String
+    public var isPublic: Bool
+    public var capsuleOwnerId: UInt
+    
+    public var capsuleMember1Id: UInt
+    public var capsuleMember2Id: UInt
+    public var capsuleMember3Id: UInt
+    public var capsuleMember4Id: UInt
+    public var capsuleMember5Id: UInt
+    
+    public var capsuleMember1Sealed: Bool
+    public var capsuleMember2Sealed: Bool
+    public var capsuleMember3Sealed: Bool
+    public var capsuleMember4Sealed: Bool
+    public var capsuleMember5Sealed: Bool
+    
+    public var vessel: String
+    public var name: String
+    public var dateToOpen: Date?
+    public var emailSent: Bool
+    public var sealed: String
+
+    public init(id: UInt = 0,
+                code: String = "",
+                createdAt: String = "",
+                isPublic: Bool = false,
+                capsuleOwnerId: UInt = 0,
+                capsuleMember1Id: UInt = 0,
+                capsuleMember2Id: UInt = 0,
+                capsuleMember3Id: UInt = 0,
+                capsuleMember4Id: UInt = 0,
+                capsuleMember5Id: UInt = 0,
+                capsuleMember1Sealed: Bool = false,
+                capsuleMember2Sealed: Bool = false,
+                capsuleMember3Sealed: Bool = false,
+                capsuleMember4Sealed: Bool = false,
+                capsuleMember5Sealed: Bool = false,
+                vessel: String = "",
+                name: String = "",
+                dateToOpen: Date? = nil,
+                emailSent: Bool = false,
+                sealed: String = "") {
+        self.id = id
+        self.code = code
+        self.createdAt = createdAt
+        self.isPublic = isPublic
+        self.capsuleOwnerId = capsuleOwnerId
+        self.capsuleMember1Id = capsuleMember1Id
+        self.capsuleMember2Id = capsuleMember2Id
+        self.capsuleMember3Id = capsuleMember3Id
+        self.capsuleMember4Id = capsuleMember4Id
+        self.capsuleMember5Id = capsuleMember5Id
+        self.capsuleMember1Sealed = capsuleMember1Sealed
+        self.capsuleMember2Sealed = capsuleMember2Sealed
+        self.capsuleMember3Sealed = capsuleMember3Sealed
+        self.capsuleMember4Sealed = capsuleMember4Sealed
+        self.capsuleMember5Sealed = capsuleMember5Sealed
+        self.vessel = vessel
+        self.name = name
+        self.dateToOpen = dateToOpen
+        self.emailSent = emailSent
+        self.sealed = sealed
+    }
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case code
+        case createdAt
+        case isPublic = "public"
+        case capsuleOwnerId = "capsuleOwnerId"
+        case capsuleMember1Id = "capsuleMember1Id"
+        case capsuleMember2Id = "capsuleMember2Id"
+        case capsuleMember3Id = "capsuleMember3Id"
+        case capsuleMember4Id = "capsuleMember4Id"
+        case capsuleMember5Id = "capsuleMember5Id"
+        case capsuleMember1Sealed = "capsuleMember1Sealed"
+        case capsuleMember2Sealed = "capsuleMember2Sealed"
+        case capsuleMember3Sealed = "capsuleMember3Sealed"
+        case capsuleMember4Sealed = "capsuleMember4Sealed"
+        case capsuleMember5Sealed = "capsuleMember5Sealed"
+        case vessel
+        case name
+        case dateToOpen
+        case emailSent
+        case sealed
+    }
 }
 
-struct APISong: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
+struct APISong: Codable, Equatable, Hashable {
+    var uploaded: Bool = true
+    var id: UInt?
+    var userId: UInt?
+    var capsuleId: UInt?
     var spotifyId: String
     var name: String
     var artistName: String
     var albumArtURL: String
-    var createdAt: String
+    var createdAt: String?
+    
+    public static func == (lhs: APISong, rhs: APISong) -> Bool {
+        return lhs.spotifyId == rhs.spotifyId
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(spotifyId)
+    }
 }
 
 struct APIQuestionAnswer: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
+    var uploaded: Bool = true
+    var edited: Bool = false
+    var id: UInt?
+    var userId: UInt?
+    var capsuleId: UInt?
     var prompt: String
     var answer: String
-    var createdAt: String
+    var createdAt: String?
 }
 
 struct APIWriting: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
+    var uploaded: Bool = true
+    var edited: Bool = false
+    var id: UInt?
+    var userId: UInt?
+    var capsuleId: UInt?
     var writing: String
-    var createdAt: String
+    var createdAt: String?
 }
 
 struct APIPhoto: Codable, Hashable {
@@ -91,30 +172,62 @@ struct APIDoodle: Codable {
     var createdAt: String
 }
 
-struct APIMiscFile: Codable {
-    var id: UInt
-    var userId: UInt
-    var capsuleId: UInt
-    var objectName: String
+struct APIMiscFile: Codable, Hashable {
+    var uploaded: Bool = true
+    var id: UInt?
+    var userId: UInt?
+    var capsuleId: UInt?
+    var objectName: String?
     var fileURL: String
-    var createdAt: String
+    var photo: UIImage?
+    var fileType: String = ""
+    var createdAt: String?
+    
+    enum CodingKeys: String, CodingKey {
+        case id
+        case userId
+        case capsuleId
+        case objectName
+        case fileURL
+        case createdAt
+    }
+        
+    public static func == (lhs: APIMiscFile, rhs: APIMiscFile) -> Bool {
+        return lhs.fileURL == rhs.fileURL
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(fileURL)
+    }
 }
 
 struct APICapsule: Codable {
-    var capsule: APIBaseCapsule
-    var song: [APISong]
+    var capsule: APIBaseCapsule 
+    var songs: [APISong]
     var questionAnswers: [APIQuestionAnswer]
     var writings: [APIWriting]
     var photos: [APIPhoto]
     var audios: [APIAudio]
     var doodles: [APIDoodle]
     var miscFiles: [APIMiscFile]
+    
+    public init() {
+        self.capsule = APIBaseCapsule()
+        self.songs = []
+        self.questionAnswers = []
+        self.writings = []
+        self.photos = []
+        self.audios = []
+        self.doodles = []
+        self.miscFiles = []
+    }
 }
 
 struct LocalCapsule {
     var vessel: String
     var name: String
     var collab: Bool
+    var openDate: Date
 }
 
 class GlobalState: ObservableObject {
@@ -161,16 +274,16 @@ class GlobalState: ObservableObject {
     }
     
     @Published var route: String = "/landing"
-    @Published var localCapsule: LocalCapsule = LocalCapsule(vessel: "box", name: "Jessica's Capsule", collab: false)
+    @Published var localCapsule: LocalCapsule = LocalCapsule(vessel: "box", name: "Jessica's Capsule", collab: false, openDate: Date())
     
     init() {
-        self.jwt = UserDefaults.standard.string(forKey: "jwt") ?? ""
+        self.jwt = UserDefaults.standard.string(forKey: "retrospect-space-client-jwt") ?? ""
         self.userCapsules = []
         self.reload()
     }
     
     func reload() {
-        self.jwt = UserDefaults.standard.string(forKey: "jwt") ?? ""
+        self.jwt = UserDefaults.standard.string(forKey: "retrospect-space-client-jwt") ?? ""
         print(self.jwt)
         
         if let userData = UserDefaults.standard.data(forKey: "retrospect-space-client-user") {
@@ -210,19 +323,22 @@ class GlobalState: ObservableObject {
         }
         
         //TODO: HANDLE LOGIC FOR FOCUS CAPSULE SAVING
+        print("BEGIN PRINTING>>>")
+        print(self.user)
+        print(self.jwt)
+        print(self.focusCapsule)
+        print(self.userCapsules)
         if self.user != nil {
             if(!self.isJWTExpired()){
                 UserAPIClient.shared.getUser(authorization: self.jwt){ userResult in
                        DispatchQueue.main.async {
                            switch(userResult) {
                            case .success (let user):
-                               print("c")
                                CapsuleAPIClient.shared.getCapsules(authorization: self.jwt)
                                { capsuleResult in
                                    DispatchQueue.main.async {
                                        switch(capsuleResult) {
                                        case .success (let capsuleArray):
-                                           print("d")
                                            self.user = user.user
                                            self.userCapsules = capsuleArray
                                            self.route = "/dashboard"
@@ -323,6 +439,22 @@ struct RetrospectApp: App {
                     Collab().environmentObject(globalState)
                 } else if globalState.route == "/capsule/preparing" {
                     Preparing().environmentObject(globalState)
+                } else if globalState.route == "/capsule/photo-select" {
+                    PhotoSelect().environmentObject(globalState)
+                } else if globalState.route == "/capsule/song-select" {
+                    SongSelect().environmentObject(globalState).environmentObject(SpotifyManager())
+                } else if globalState.route == "/capsule/answer-prompt" {
+                    AnswerPrompt().environmentObject(globalState)
+                } else if globalState.route == "/ag" {
+                    AdditionalGoodies().environmentObject(globalState)
+                } else if globalState.route == "/ag/add-text" {
+                    AddText().environmentObject(globalState)
+                } else if globalState.route == "/ag/add-file" {
+                    AddFile().environmentObject(globalState)
+                } else if globalState.route == "/capsule/set-date" {
+                    SetDate().environmentObject(globalState)
+                } else if globalState.route == "/capsule/seal" {
+                    SealCapsuleView().environmentObject(globalState)
                 }
             }
             .onAppear {

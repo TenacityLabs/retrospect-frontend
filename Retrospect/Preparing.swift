@@ -53,33 +53,48 @@ struct Preparing: View {
         }
         .onAppear {
             let body: [String: Any] = ["vessel": globalState.localCapsule.vessel, "public": globalState.localCapsule.collab]
-            CapsuleAPIClient.shared.create(
-                authorization: globalState.jwt,
+                CapsuleAPIClient.shared.create(
+                    authorization: globalState.jwt,
                 mediaType: .capsule,
                 body: body)
-            { result in
-                switch result {
-                case .success(let result):
-                    CapsuleAPIClient.shared.getCapsuleById(
-                        authorization: globalState.jwt,
-                        id: result.id)
-                    { result in
-                        switch result {
-                        case .success(let capsule):
-                            globalState.focusCapsule = capsule
-                            globalState.route = "/capsule/photo-select"
+                { result in
+                    switch result {
+                        case .success(let result):
+                            CapsuleAPIClient.shared.getCapsuleById(
+                                authorization: globalState.jwt,
+                            id: result.id)
+                            { result in
+                                switch result {
+                                    case .success(let capsule):
+                                    globalState.focusCapsule = capsule
+                                    let capsuleName = globalState.localCapsule.name
+                                        CapsuleAPIClient.shared.nameCapsule(
+                                            authorization: globalState.jwt,
+                                        capsuleId: capsule.capsule.id,
+                                        name: capsuleName)
+                                        { nameResult in
+                                            switch nameResult {
+                                                case .success(_):
+                                                    DispatchQueue.main.async {
+                                                        globalState.focusCapsule?.capsule.name = capsuleName
+                                                        globalState.route = "/capsule/photo-select"
+                                                    }
+                                                    break
+                                                case .failure(_):
+                                                    break
+                                            }
+                                        }
+                                    case .failure(let error):
+                                        print("ERR AT POINT B")
+                                        print(error)
+                                }
+                            }
                         case .failure(let error):
+                            print("ERR AT POINT A")
                             print(error)
-                        }
                     }
-                case .failure(let error):
-                    print(error)
                 }
-            }
         }
-
-        
-        
     }
 }
 

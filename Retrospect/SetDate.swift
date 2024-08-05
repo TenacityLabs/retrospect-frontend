@@ -18,6 +18,12 @@ struct SetDate: View {
     @State private var selectedYear = Calendar.current.component(.year, from: Date()) + 1
     @State private var selectedMonth = Calendar.current.component(.month, from: Date())
     @State private var selectedDay = Calendar.current.component(.day, from: Date())
+        
+    private var formatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        return formatter
+    }
     
     private var currentDate: Date {
         Date()
@@ -81,8 +87,7 @@ struct SetDate: View {
                 .frame(maxWidth: .infinity)
                 .onChange(of: selectedYear) {
                     adjustDayIfNeeded()
-                    selectedDate = setDate(year: selectedYear, month: selectedMonth, day: selectedDay)
-                    print(selectedDate)
+                    selectedDate = setDate()
                 }
                 .introspect(.picker(style: .wheel), on: .iOS(.v13, .v14, .v15, .v16, .v17)) { picker in
                     picker.subviews[1].backgroundColor = UIColor.clear
@@ -101,8 +106,7 @@ struct SetDate: View {
                 .frame(maxWidth: .infinity)
                 .onChange(of: selectedMonth) {
                     adjustDayIfNeeded()
-                    selectedDate = setDate(year: selectedYear, month: selectedMonth, day: selectedDay)
-                    print(selectedDate)
+                    selectedDate = setDate()
                 }
                 .introspect(.picker(style: .wheel), on: .iOS(.v13, .v14, .v15, .v16, .v17)) { picker in
                     picker.subviews[1].backgroundColor = UIColor.clear
@@ -121,7 +125,7 @@ struct SetDate: View {
                 .frame(maxWidth: .infinity)
                 .onChange(of: selectedDay) {
                     adjustDayIfNeeded()
-                    selectedDate = setDate(year: selectedYear, month: selectedMonth, day: selectedDay)
+                    selectedDate = setDate()
                 }
                 .introspect(.picker(style: .wheel), on: .iOS(.v13, .v14, .v15, .v16, .v17)) { picker in
                     picker.subviews[1].backgroundColor = UIColor.clear
@@ -135,8 +139,68 @@ struct SetDate: View {
             
             Spacer()
             
+            VStack {
+                HStack {
+                    Text("1 month from now")
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text(formatter.string(from: oneMonth))
+                        .foregroundColor(.white)
+                }
+                .padding()
+                .background(Color.black.opacity(0.7))
+                .cornerRadius(10)
+                .onTapGesture {
+                    selectedDay = Calendar.current.component(.day, from: oneMonth)
+                    selectedMonth = Calendar.current.component(.month, from: oneMonth)
+                    selectedYear = Calendar.current.component(.year, from: oneMonth)
+                    selectedDate = setDate()
+                    adjustDayIfNeeded()
+                }
+                
+                HStack {
+                    Text("6 months from now")
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text(formatter.string(from: sixMonth))
+                        .foregroundColor(.white)
+                }
+                .padding()
+                .background(Color.black.opacity(0.7))
+                .cornerRadius(10)
+                .onTapGesture {
+                    selectedDay = Calendar.current.component(.day, from: sixMonth)
+                    selectedMonth = Calendar.current.component(.month, from: sixMonth)
+                    selectedYear = Calendar.current.component(.year, from: sixMonth)
+                    selectedDate = setDate()
+                    adjustDayIfNeeded()
+                }
+                
+                HStack {
+                    Text("1 year from now")
+                        .foregroundColor(.white)
+                    Spacer()
+                    Text(formatter.string(from: oneYear))
+                        .foregroundColor(.white)
+                }
+                .padding()
+                .background(Color.black.opacity(0.7))
+                .cornerRadius(10)
+                .onTapGesture {
+                    selectedDay = Calendar.current.component(.day, from: oneYear)
+                    selectedMonth = Calendar.current.component(.month, from: oneYear)
+                    selectedYear = Calendar.current.component(.year, from: oneYear)
+                    selectedDate = setDate()
+                    adjustDayIfNeeded()
+                }
+            }
+            .padding(.horizontal, 10)
+
+            Spacer()
+            
             Button(action: {
-                globalState.route = "/capsule/seal-box"
+                globalState.localCapsule.openDate = selectedDate
+                globalState.route = "/capsule/seal"
             }) {
                 Text("I'm ready to seal!")
                     .foregroundColor(Color.black)
@@ -173,11 +237,11 @@ struct SetDate: View {
         }
     }
     
-    private func setDate(year: Int, month: Int, day: Int) -> Date {
+    private func setDate() -> Date {
         var components = DateComponents()
-        components.year = year
-        components.month = month
-        components.day = day
+        components.year = selectedYear
+        components.month = selectedMonth
+        components.day = selectedDay
         let calendar = Calendar(identifier: .gregorian)
         if let date = calendar.date(from: components) {
             return date
@@ -190,7 +254,6 @@ struct SetDate: View {
 #Preview {
     ZStack {
         BackgroundImageView()
-        SetDate() 
+        SetDate()
     }
 }
-

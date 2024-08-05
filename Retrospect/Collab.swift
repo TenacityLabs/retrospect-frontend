@@ -36,7 +36,7 @@ struct Collab: View {
                             .font(.custom("Syne-Regular", size: 24))
                             .padding(.top, 10)
                             .foregroundColor(.white)
-                            .opacity(globalState.focusCapsule?.capsule.public == true ? 0.5 : 1)
+                            .opacity(globalState.focusCapsule?.capsule.isPublic == true ? 0.5 : 1)
                     }
                     .padding()
                     .frame(width: (geometry.size.width - 60),  height: 210)
@@ -72,7 +72,7 @@ struct Collab: View {
                             .font(.custom("Syne-Regular", size: 24))
                             .padding(.top, 10)
                             .foregroundColor(.white)
-                            .opacity(globalState.focusCapsule?.capsule.public == true ? 1 : 0.5)
+                            .opacity(globalState.focusCapsule?.capsule.isPublic == true ? 1 : 0.5)
                     }
                     .padding()
                     .frame(width: (geometry.size.width - 60), height: 210)

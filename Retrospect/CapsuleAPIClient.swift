@@ -115,7 +115,7 @@ class CapsuleAPIClient {
         }
     }
     
-    func sealCapsule(authorization: String, capsuleId: UInt, dateToOpen: String, completion: @escaping (Result<Void, APIError>) -> Void) {
+    func sealCapsule(authorization: String, capsuleId: UInt, dateToOpen: Date, completion: @escaping (Result<Void, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules/seal") else {
             completion(.failure(.invalidURL))
             return
@@ -125,7 +125,11 @@ class CapsuleAPIClient {
         request.httpMethod = "POST"
         request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
         
-        let body: [String: Any] = ["capsuleId": capsuleId, "dateToOpen": dateToOpen]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let dateToOpenString = dateFormatter.string(from: dateToOpen)
+        
+        let body: [String: Any] = ["capsuleId": capsuleId, "dateToOpen": dateToOpenString]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         performRequest(request) { (result: Result<EmptyResponse, APIError>) in

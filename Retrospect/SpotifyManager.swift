@@ -11,7 +11,7 @@ import SpotifyWebAPI
 
 class SpotifyManager: ObservableObject {
     @Published var authorized = false
-    @Published var searchResults: [Song] = []
+    @Published var searchResults: [APISong] = []
     private var cancellables: Set<AnyCancellable> = []
     let spotify: SpotifyAPI<ClientCredentialsFlowManager>
     
@@ -64,7 +64,7 @@ class SpotifyManager: ObservableObject {
                 receiveValue: { [weak self] results in
                     guard let self = self else { return }
                     let tracks = results.tracks?.items.compactMap { track in
-                        Song(
+                        APISong(
                             uploaded: false,
                             spotifyId: track.id ?? "",
                             name: track.name,

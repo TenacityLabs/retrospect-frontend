@@ -9,7 +9,92 @@ import SwiftUI
 
 struct Dashboard: View {
     @EnvironmentObject var globalState: GlobalState
-    @State var capsules: [CapsuleData] = []
+    
+    var body: some View {
+        let capsules = globalState.userCapsules ?? []
+        if capsules.count <= 0 {
+            EmptyDashboard(globalState: globalState)
+        } else {
+            GeometryReader { geometry in
+                VStack {
+                    Text("new board")
+                        .font(.custom("IvyOraDisplay-Regular", size: 48))
+                        .foregroundColor(.white)
+                        .padding(.top, 80)
+                    
+                    Spacer()
+                    
+                    ScrollView {
+                        Button(action: {
+                            globalState.localCapsule = LocalCapsule(vessel: "box", name: "", collab: false, openDate: Date())
+                            globalState.route = "/capsule/icon-select"
+                        }) {
+                            VStack {
+                                Spacer()
+                                
+                                Image("emptybox")
+                                    .resizable()
+                                    .scaledToFit()
+                                    .frame(height: 130)
+                                    .shadow(color: .white, radius: 60, x: 0, y: 0)
+                                
+                                Spacer()
+                                
+                                Text("NEW CAPSULE BUTTON")
+                                    .foregroundColor(.white)
+                                    .font(.custom("Syne-Bold", size: 22))
+                                
+                                Spacer()
+                            }
+                            .frame(width: (geometry.size.width - 50), height: 250)
+                            .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
+                            .cornerRadius(10)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 10)
+                                    .inset(by: 0.5)
+                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                            )
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        
+                        ForEach(capsules.indices, id: \.self) { index in
+                            Button(action: {}) {
+                                VStack {
+                                    Spacer()
+                                    
+                                    Image(capsules[index].vessel)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(height: 130)
+                                        .shadow(color: .white, radius: 60, x: 0, y: 0)
+                                    
+                                    Spacer()
+                                    
+                                    Text(capsules[index].name)
+                                        .foregroundColor(.white)
+                                        .font(.custom("Syne-Bold", size: 22))
+                                    
+                                    Spacer()
+                                }
+                                .frame(width: (geometry.size.width - 50), height: 250)
+                                .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
+                                .cornerRadius(10)
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .inset(by: 0.5)
+                                        .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+struct EmptyDashboard: View {
+    var globalState: GlobalState
     
     var body: some View {
         GeometryReader { geometry in
@@ -22,6 +107,7 @@ struct Dashboard: View {
                 Spacer()
 
                 Button(action: {
+                    globalState.localCapsule = LocalCapsule(vessel: "box", name: "", collab: false, openDate: Date())
                     globalState.route = "/capsule/icon-select"
                 }) {
                     VStack {
@@ -104,7 +190,6 @@ struct Dashboard: View {
         }
         .edgesIgnoringSafeArea(.all)
     }
-
 }
 
 #Preview {
