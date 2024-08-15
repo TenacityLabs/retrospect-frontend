@@ -5,7 +5,7 @@
 //  Created by Andrew Durnford on 2024-07-14.
 //
 
-import Foundation
+import Foundation 
 import UIKit
 
 enum MediaType {
@@ -227,38 +227,5 @@ public struct File: Codable, Hashable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(fileURL)
-    }
-}
-
-public class APICapsule: ObservableObject, Codable {
-    public var capsule: CapsuleData
-    public var songs: [Song] = []
-    public var questionAnswers: [QuestionAnswer] = []
-    public var writings: [Writing] = []
-    public var photos: [File] = []
-    public var audios: [File] = []
-    public var doodles: [File] = []
-    public var miscFiles: [File] = []
-
-    enum CodingKeys: String, CodingKey {
-        case capsule = "capsule"
-        case songs = "songs"
-        case questionAnswers = "questionAnswers"
-        case writings = "writings"
-        case photos = "photos"
-        case audios = "audios"
-        case doodles = "doodles"
-        case miscFiles = "miscFiles"
-    }
-    
-    public init() {
-        self.capsule = CapsuleData()
-        self.songs = []
-        self.questionAnswers = []
-        self.writings = []
-        self.photos = []
-        self.audios = []
-        self.doodles = []
-        self.miscFiles = []
     }
 }

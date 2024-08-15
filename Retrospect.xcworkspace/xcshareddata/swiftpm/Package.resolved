@@ -1,4 +1,5 @@
 {
+  "originHash" : "6c3b434960f5f64367b6a40b59d9f494a66adc8651478e2e07e8d2c91cdf02aa",
   "pins" : [
     {
       "identity" : "opencombine",
@@ -50,10 +51,10 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/siteline/swiftui-introspect.git",
       "state" : {
-        "revision" : "668a65735751432b640260c56dfa621cec568368",
-        "version" : "1.2.0"
+        "revision" : "807f73ce09a9b9723f12385e592b4e0aaebd3336",
+        "version" : "1.3.0"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }

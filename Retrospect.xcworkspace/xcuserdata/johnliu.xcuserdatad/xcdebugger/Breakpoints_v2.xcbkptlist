@@ -7,17 +7,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "71A21C7A-D5E1-4B39-BF22-6C35B031B6F7"
-            shouldBeEnabled = "Yes"
+            uuid = "EF6D10C6-F6D6-4750-A8CB-A1D33D33D674"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "Retrospect/SealCapsule.swift"
+            filePath = "Retrospect/PhotoSelect.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "body"
-            landmarkType = "24">
+            startingLineNumber = "266"
+            endingLineNumber = "266"
+            landmarkName = "uploadPhotos(globalState:photoArray:completing:)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

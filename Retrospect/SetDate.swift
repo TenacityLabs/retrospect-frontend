@@ -10,7 +10,7 @@ import SwiftUIIntrospect
 import Foundation
 
 struct SetDate: View {
-    @Binding var state: String
+    @EnvironmentObject var globalState: GlobalState
     @State private var oneMonth: Date = Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()
     @State private var sixMonth: Date = Calendar.current.date(byAdding: .month, value: 6, to: Date()) ?? Date()
     @State private var oneYear: Date = Calendar.current.date(byAdding: .year, value: 1, to: Date()) ?? Date()
@@ -199,8 +199,8 @@ struct SetDate: View {
             Spacer()
             
             Button(action: {
-                openDate = selectedDate
-                state = "SealBox"
+                globalState.localCapsule.openDate = selectedDate
+                globalState.route = "/capsule/seal"
             }) {
                 Text("I'm ready to seal!")
                     .foregroundColor(Color.black)
@@ -254,7 +254,6 @@ struct SetDate: View {
 #Preview {
     ZStack {
         BackgroundImageView()
-        SetDate(state: .constant(""))
+        SetDate()
     }
 }
-

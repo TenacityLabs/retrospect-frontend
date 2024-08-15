@@ -40,11 +40,24 @@ struct AdditionalGoodiesRouter: View {
                     .transition(.slide)
                     .environmentObject(localCapsule)
             }
+            if ![].contains(AGstate) {
+                BackButton(action: {
+                    if AGstate == "AdditonalGoodies"{
+                        capsuleState = "AnswerPrompt"
+                    }
+                    else if ["AddText", "AddAudio", "CreateDrawing", "EditDrawing", "AddFile"].contains(AGstate) {
+                        AGstate = "AdditionalGoodies"
+                    }
+                })
+            }
         }
     }
 }
 
 #Preview {
-    AdditionalGoodiesRouter(capsuleState: .constant(""))
-        .environmentObject(Capsule())
+    ZStack {
+        BackgroundImageView()
+        AdditionalGoodiesRouter(capsuleState: .constant(""))
+            .environmentObject(Capsule())
+    }
 }

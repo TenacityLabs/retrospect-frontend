@@ -1,9 +1,7 @@
 import SwiftUI
 
 struct Collab: View {
-    @EnvironmentObject var localCapsule: Capsule
-    @State private var showSongSelectView = false
-    @Binding var state: String
+    @EnvironmentObject var globalState: GlobalState
 
     var body: some View {
         GeometryReader { geometry in
@@ -17,10 +15,10 @@ struct Collab: View {
                 Spacer()
                 
                 Button(action: {
-                    collab = false
+                    globalState.localCapsule.collab = false
                 }) {
                     VStack {
-                        if (collab == false) {
+                        if (globalState.localCapsule.collab == false) {
                             Image("Union")
                                 .resizable()
                                 .scaledToFit()
@@ -38,7 +36,7 @@ struct Collab: View {
                             .font(.custom("Syne-Regular", size: 24))
                             .padding(.top, 10)
                             .foregroundColor(.white)
-                            .opacity(localCapsule.collab ?? true ? 0.5 : 1)
+                            .opacity(globalState.focusCapsule?.capsule.isPublic == true ? 0.5 : 1)
                     }
                     .padding()
                     .frame(width: (geometry.size.width - 60),  height: 210)
@@ -53,10 +51,10 @@ struct Collab: View {
                 .padding(.bottom, 10)
 
                 Button(action: {
-                    collab = true
+                    globalState.localCapsule.collab = true
                 }) {
                     VStack {
-                        if (collab == true) {
+                        if (globalState.localCapsule.collab == true) {
                             Image("Group")
                                 .resizable()
                                 .scaledToFit()
@@ -74,7 +72,7 @@ struct Collab: View {
                             .font(.custom("Syne-Regular", size: 24))
                             .padding(.top, 10)
                             .foregroundColor(.white)
-                            .opacity(localCapsule.collab ?? false ? 1 : 0.5)
+                            .opacity(globalState.focusCapsule?.capsule.isPublic == true ? 1 : 0.5)
                     }
                     .padding()
                     .frame(width: (geometry.size.width - 60), height: 210)
@@ -90,7 +88,7 @@ struct Collab: View {
                 Spacer()
                 
                 Button(action: {
-                    state = "Preparing"
+                    globalState.route = "/capsule/preparing"
                 }) {
                     Text("I'm Ready to Go!")
                         .font(.custom("Syne-Regular", size: 18))
@@ -111,8 +109,7 @@ struct Collab: View {
 #Preview {
         ZStack {
             BackgroundImageView()
-            Collab(state: .constant(""))
-                .environmentObject(Capsule())
+            Collab()
         }
     
 }

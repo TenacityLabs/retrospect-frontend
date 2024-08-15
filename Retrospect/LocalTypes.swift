@@ -18,6 +18,21 @@ struct PathWithColor {
     @Published var container: String = "box"
     @Published var collab: Bool?
     @Published var audios: [Data] = []
-    @Published var drawings: [[PathWithColor]] = [[]]
+    @Published var doodles: [[PathWithColor]] = [[]]
+    @Published var songs: [Data] = []
+    @Published var writings: [Data] = []
+    @Published var photos: [Data] = []
+    @Published var miscFiles: [Data] = []
     @Published var date: Date = Date()
 }
+
+@MainActor class User: ObservableObject {
+    @Published var id: Int32? = nil
+    @Published var name: String = ""
+    @Published var email: String = ""
+    @Published var phone: String = ""
+    @Published var password: String = ""
+    @Published var referralCount: Int32? = nil
+    @Published var createdAt: String? = nil
+}
+

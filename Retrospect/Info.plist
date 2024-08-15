@@ -32,5 +32,7 @@
 		<string>IvyOraDisplay-Thin.ttf</string>
 		<string>IvyOraDisplay-ThinItalic.ttf</string>
 	</array>
+	<key>NSContactsUsageDescription</key>
+	<string>Retrospect needs access to your contacts to invite your friends.</string>
 </dict>
 </plist>

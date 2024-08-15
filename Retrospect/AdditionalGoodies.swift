@@ -9,9 +9,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct AdditionalGoodies: View {
-    @EnvironmentObject var localCapsule: Capsule
-    @Binding var state: String
-    @Binding var AGstate: String
+    @EnvironmentObject var globalState: GlobalState
     
     let buttonWidth: CGFloat = 100
     let buttonHeight: CGFloat = 100
@@ -29,7 +27,7 @@ struct AdditionalGoodies: View {
                 VStack(spacing: 20) {
                     HStack(spacing: 20) {
                         Button(action: {
-                            AGstate = "AddText"
+                            globalState.route = "/ag/add-text"
                         }) {
                             VStack {
                                 Image(systemName: "text.bubble")
@@ -45,7 +43,7 @@ struct AdditionalGoodies: View {
                         }
 
                         Button(action: {
-                            AGstate = "AddAudio"
+                            globalState.route = "/ag/add-audio"
                         }) {
                             VStack {
                                 Image(systemName: "waveform")
@@ -63,7 +61,7 @@ struct AdditionalGoodies: View {
 
                     HStack(spacing: 20) {
                         Button(action: {
-                            AGstate = "AddFile"
+                            globalState.route = "/ag/add-file"
                         }) {
                             VStack {
                                 Image(systemName: "doc")
@@ -71,22 +69,6 @@ struct AdditionalGoodies: View {
                                     .aspectRatio(contentMode: .fit)
                                     .frame(width: 50, height: 50)
                                 Text("Add File")
-                            }
-                            .frame(width: buttonWidth, height: buttonHeight)
-                            .padding()
-                            .background(Color(UIColor.systemGray5))
-                            .cornerRadius(15)
-                        }
-
-                        Button(action: {
-                            AGstate = "CreateDrawing"
-                        }) {
-                            VStack {
-                                Image(systemName: "pencil.tip")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 50, height: 50)
-                                Text("Create Drawing")
                             }
                             .frame(width: buttonWidth, height: buttonHeight)
                             .padding()
@@ -102,7 +84,7 @@ struct AdditionalGoodies: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        state = "SetDate"
+                        globalState.route = "/capsule/set-date"
                     }) {
                         Text("Done")
                             .foregroundColor(.white)
@@ -121,6 +103,5 @@ struct AdditionalGoodies: View {
 }
 
 #Preview {
-    AdditionalGoodies(state: .constant(""), AGstate: .constant(""))
-        .environmentObject(Capsule())
+    AdditionalGoodies()
 }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ChooseName: View {
     @State private var name: String = ""
-    @Binding var state: String
+    @EnvironmentObject var globalState: GlobalState
         
     var body: some View {
         VStack {
@@ -31,8 +31,8 @@ struct ChooseName: View {
                 .padding(.bottom, 50)
             
             Button(action: {
-                capsuleName = name
-                state = "Collab"
+                globalState.localCapsule.name = name
+                globalState.route = "/capsule/collab"
             }) {
                 Text("I'm ready to go!")
                     .foregroundColor(Color.black)
@@ -68,7 +68,7 @@ extension View {
 #Preview {
     ZStack {
         BackgroundImageView()
-        ChooseName(state: .constant(""))
+        ChooseName()
     }
 }
 
