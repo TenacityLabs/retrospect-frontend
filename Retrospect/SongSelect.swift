@@ -33,9 +33,9 @@ struct SongSelect: View {
                     })
                     .textFieldStyle(RoundedBorderTextFieldStyle())
                     .padding()
-                    .onChange(of: query) { newValue in
-                        if !newValue.isEmpty {
-                            spotifyManager.searchTracks(query: newValue)
+                    .onChange(of: query) {
+                        if !query.isEmpty {
+                            spotifyManager.searchTracks(query: query)
                         }
                     }
                     .toolbar {
@@ -93,8 +93,8 @@ struct SongSelect: View {
                             }
                         }
                     }
-                    .onChange(of: songs) { newValue in
-                        songs = Array(Set(newValue))
+                    .onChange(of: songs) {
+                        songs = Array(Set(songs))
                     }
                 }
             }

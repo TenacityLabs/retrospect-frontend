@@ -23,8 +23,5 @@ struct IntroText: View {
     ZStack {
         ColorImageView()
         IntroText()
-        BackButton(action: {
-            
-        })
     }
 }

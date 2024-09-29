@@ -82,8 +82,8 @@ struct IconSelect: View {
         .onAppear {
             selectedIndex = reapplySelection()
         }
-        .onChange(of: selectedIndex) { newIndex in
-            globalState.localCapsule.vessel = containers[newIndex]
+        .onChange(of: selectedIndex) {
+            globalState.localCapsule.vessel = containers[selectedIndex]
         }
     }
 }

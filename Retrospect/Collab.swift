@@ -109,7 +109,7 @@ struct Collab: View {
 #Preview {
         ZStack {
             BackgroundImageView()
-            Collab()
+            Collab().environmentObject(GlobalState())
         }
     
 }

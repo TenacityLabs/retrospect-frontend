@@ -32,7 +32,7 @@ struct AddText: View {
                                 .cornerRadius(15)
                                 .padding(.horizontal, 20)
                                 .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                .onChange(of: texts[index].writing) { newValue in
+                                .onChange(of: texts[index].writing) {
                                     texts[index].edited = true
                                 }
                                 .toolbar {

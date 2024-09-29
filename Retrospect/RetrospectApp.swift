@@ -419,43 +419,50 @@ struct RetrospectApp: App {
         WindowGroup {
             ZStack {
                 ColorImageView()
-                if globalState.route == "/landing" {
-                    Landing().environmentObject(globalState)
-                } else if globalState.route == "/login" {
-                    Login().environmentObject(globalState)
-                } else if globalState.route == "/signup" {
-                    SignUp().environmentObject(globalState)
-                } else if globalState.route == "/tutorial" {
-                    Tutorial().environmentObject(globalState)
-                } else if globalState.route == "/dashboard" {
-                    Dashboard().environmentObject(globalState)
-                } else if globalState.route == "/referrals" {
-                    ShareWithFriends().environmentObject(globalState)
-                } else if globalState.route == "/capsule/icon-select" {
-                    IconSelect().environmentObject(globalState)
-                } else if globalState.route == "/capsule/choose-name" {
-                    ChooseName().environmentObject(globalState)
-                } else if globalState.route == "/capsule/collab" {
-                    Collab().environmentObject(globalState)
-                } else if globalState.route == "/capsule/preparing" {
-                    Preparing().environmentObject(globalState)
-                } else if globalState.route == "/capsule/photo-select" {
-                    PhotoSelect().environmentObject(globalState)
-                } else if globalState.route == "/capsule/song-select" {
-                    SongSelect().environmentObject(globalState).environmentObject(SpotifyManager())
-                } else if globalState.route == "/capsule/answer-prompt" {
-                    AnswerPrompt().environmentObject(globalState)
-                } else if globalState.route == "/ag" {
-                    AdditionalGoodies().environmentObject(globalState)
-                } else if globalState.route == "/ag/add-text" {
-                    AddText().environmentObject(globalState)
-                } else if globalState.route == "/ag/add-file" {
-                    AddFile().environmentObject(globalState)
-                } else if globalState.route == "/capsule/set-date" {
-                    SetDate().environmentObject(globalState)
-                } else if globalState.route == "/capsule/seal" {
-                    SealCapsuleView().environmentObject(globalState)
-                }
+                switch globalState.route {
+                    case "/landing":
+                        Landing().environmentObject(globalState)
+                    case "/login":
+                        Login().environmentObject(globalState)
+                    case "/signup":
+                        SignUp().environmentObject(globalState)
+                    case "/tutorial":
+                        Tutorial().environmentObject(globalState)
+                    case "/dashboard":
+                        Dashboard().environmentObject(globalState)
+                    case "/referrals":
+                        ShareWithFriends().environmentObject(globalState)
+                    case "/capsule/icon-select":
+                        IconSelect().environmentObject(globalState)
+                    case "/capsule/choose-name":
+                        ChooseName().environmentObject(globalState)
+                    case "/capsule/collab":
+                        Collab().environmentObject(globalState)
+                    case "/capsule/preparing":
+                        Preparing().environmentObject(globalState)
+                    case "/capsule/photo-select":
+                        PhotoSelect().environmentObject(globalState)
+                    case "/capsule/song-select":
+                        SongSelect().environmentObject(globalState).environmentObject(SpotifyManager())
+                    case "/capsule/answer-prompt":
+                        AnswerPrompt().environmentObject(globalState)
+                    case "/ag":
+                        AdditionalGoodies().environmentObject(globalState)
+                    case "/ag/add-text":
+                        AddText().environmentObject(globalState)
+                    case "/ag/add-file":
+                        AddFile().environmentObject(globalState)
+                    case "/capsule/set-date":
+                        SetDate().environmentObject(globalState)
+                    case "/capsule/seal":
+                        SealCapsuleView().environmentObject(globalState)
+                    default:
+                        Landing().environmentObject(globalState)
+                            .onAppear {
+                                globalState.route = "/landing"
+                            }
+                    }
+                BackButton().environmentObject(globalState)
             }
             .onAppear {
                 globalState.reload()
@@ -483,13 +490,56 @@ struct ColorImageView: View {
 }
 
 struct BackButton: View {
-    var action: () -> Void;
+    @EnvironmentObject var globalState: GlobalState
+    
+    private var isVisible: Bool {
+        switch globalState.route {
+        case "/login", "/signup", "/tutorial", "/referrals", "/capsule/icon-select", "/capsule/choose-name", "/capsule/collab", "/capsule/song-select", "/capsule/answer-prompt", "/ag", "/ag/add-text", "/ag/add-file", "/capsule/set-date", "/capsule/seal":
+            return true
+        default:
+            return false
+        }
+    }
     
     var body: some View {
-        Button (action: action){
-            Image(systemName: "chevron.left")
-                .foregroundColor(.white)
-                .frame(width: 50, height: 50)
-        }.position(x: 25, y: 50)
+        if isVisible {
+            Button(action: {
+                switch globalState.route {
+                case "/login":
+                    globalState.route = "/landing"
+                case "/signup":
+                    globalState.route = "/landing"
+                case "/tutorial":
+                    globalState.route = "/login"
+                case "/referrals":
+                    globalState.route = "/tutorials"
+                case "/capsule/icon-select":
+                    globalState.route = "/dashboard"
+                case "/capsule/choose-name":
+                    globalState.route = "/capsule/icon-select"
+                case "/capsule/collab":
+                    globalState.route = "/capsule/choose-name"
+                case "/capsule/song-select":
+                    globalState.route = "/capsule/photo-select"
+                case "/capsule/answer-prompt":
+                    globalState.route = "/capsule/song-select"
+                case "/ag":
+                    globalState.route = "/capsule/answer-prompt"
+                case "/ag/add-text", "/ag/add-file":
+                    globalState.route = "/ag"
+                case "/capsule/set-date":
+                    globalState.route = "/ag"
+                case "/capsule/seal":
+                    globalState.route = "/capsule/set-date"
+                default:
+                    break
+                }
+            }) {
+                Image(systemName: "chevron.left")
+                    .foregroundColor(.white)
+                    .frame(width: 50, height: 50)
+            }
+            .position(x: 25, y: 50)
+        }
     }
 }

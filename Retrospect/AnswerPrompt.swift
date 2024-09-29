@@ -217,7 +217,7 @@ struct AnswerPrompt: View {
             { result in
                 DispatchQueue.main.async {
                     switch result {
-                    case .success(let result):
+                    case .success(_):
                         editCompleting(qaArray, index)
                     case .failure(let error):
                         print(error)
