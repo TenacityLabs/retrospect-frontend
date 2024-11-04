@@ -43,7 +43,7 @@
 //            }
 //
 //            Button(action: {
-//                AGstate = "AdditionalGoodies"
+////                AGstate = "AdditionalGoodies"
 //            }) {
 //                Text("I'm Done!")
 //                    .foregroundColor(.white)
@@ -59,14 +59,14 @@
 //            .padding(.horizontal, 20)
 //
 //            List {
-//                ForEach(localCapsule.audios.indices, id: \.self) { index in
+//                ForEach(globalState.audios.indices, id: \.self) { index in
 //                    VStack {
 //                        Text("Audio \(index + 1)")
-//                        WaveformView(levels: .constant(self.generateWaveform(from: localCapsule.audios[index])))
+//                        WaveformView(levels: .constant(self.generateWaveform(from: globalState.audios[index])))
 //                            .frame(height: 50)
 //                            .padding([.leading, .trailing])
 //                        Button(action: {
-//                            playAudio(data: localCapsule.audios[index])
+//                            playAudio(data: globalState.audios[index])
 //                        }) {
 //                            Text("Play Audio \(index + 1)")
 //                                .padding()
@@ -81,7 +81,7 @@
 //        }
 //        .sheet(isPresented: $showDocumentPicker) {
 //            DocumentPicker(audioURL: $audioURL)
-//                .environmentObject(localCapsule)
+//                .environmentObject(globalState)
 //        }
 //        .onAppear(perform: setupAudioSession)
 //    }

@@ -183,5 +183,6 @@ extension View {
 
 #Preview {
     SongSelect()
+        .environmentObject(GlobalState())
         .environmentObject(SpotifyManager())
 }

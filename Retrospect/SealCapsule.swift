@@ -133,6 +133,7 @@ struct SealCapsuleView_Previews: PreviewProvider {
         ZStack {
             BackgroundImageView()
             SealCapsuleView()
+                .environmentObject(GlobalState())
         }
     }
 }

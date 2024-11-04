@@ -19,6 +19,7 @@
 	</dict>
 	<key>UIAppFonts</key>
 	<array>
+		<string>PublicSans.ttf</string>
 		<string>Syne-Bold.ttf</string>
 		<string>Syne-Regular.ttf</string>
 		<string>IvyOraDisplay-Bold.ttf</string>
@@ -32,7 +33,5 @@
 		<string>IvyOraDisplay-Thin.ttf</string>
 		<string>IvyOraDisplay-ThinItalic.ttf</string>
 	</array>
-	<key>NSContactsUsageDescription</key>
-	<string>Retrospect needs access to your contacts to invite your friends.</string>
 </dict>
 </plist>

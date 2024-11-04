@@ -2,7 +2,7 @@ import SwiftUI
 
 struct IconSelect: View {
     @EnvironmentObject var globalState: GlobalState
-    @State private var containers = ["box", "suitcase", "guitar", "jar", "shoe"]
+    @State private var containers = ["box", "Suitcase", "Guitar", "Jar", "Shoe"]
     @State private var selectedIndex: Int = 0
     
     func reapplySelection() -> Int {

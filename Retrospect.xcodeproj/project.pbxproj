@@ -25,6 +25,8 @@
 		9D4D8C502C37559F00DB1091 /* Login.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D8C4F2C37559F00DB1091 /* Login.swift */; };
 		9D738D1D2C1D2B500019109E /* AnswerPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D738D1C2C1D2B500019109E /* AnswerPrompt.swift */; };
 		9D738D1F2C1D2C820019109E /* AdditionalGoodies.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D738D1E2C1D2C820019109E /* AdditionalGoodies.swift */; };
+		9DB1E9582CB326D1001952DF /* SendOff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DB1E9572CB326D1001952DF /* SendOff.swift */; };
+		9DB1E95A2CB3328C001952DF /* PublicSans.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9DB1E9592CB3328C001952DF /* PublicSans.ttf */; };
 		9DC782342C3B057C0017C893 /* SetDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC782332C3B057C0017C893 /* SetDate.swift */; };
 		9DC782372C3B186F0017C893 /* SwiftUIIntrospect in Frameworks */ = {isa = PBXBuildFile; productRef = 9DC782362C3B186F0017C893 /* SwiftUIIntrospect */; };
 		9DEA74F42BFFF9470027AB4A /* RetrospectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DEA74F32BFFF9470027AB4A /* RetrospectApp.swift */; };
@@ -106,6 +108,8 @@
 		9D4D8C4F2C37559F00DB1091 /* Login.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Login.swift; sourceTree = "<group>"; };
 		9D738D1C2C1D2B500019109E /* AnswerPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerPrompt.swift; sourceTree = "<group>"; };
 		9D738D1E2C1D2C820019109E /* AdditionalGoodies.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdditionalGoodies.swift; sourceTree = "<group>"; };
+		9DB1E9572CB326D1001952DF /* SendOff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendOff.swift; sourceTree = "<group>"; };
+		9DB1E9592CB3328C001952DF /* PublicSans.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PublicSans.ttf; sourceTree = "<group>"; };
 		9DC782332C3B057C0017C893 /* SetDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetDate.swift; sourceTree = "<group>"; };
 		9DEA74F02BFFF9470027AB4A /* Retrospect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Retrospect.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9DEA74F32BFFF9470027AB4A /* RetrospectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RetrospectApp.swift; sourceTree = "<group>"; };
@@ -262,6 +266,7 @@
 				9D4598922C2763AB00B34494 /* Songs */,
 				9D4598912C27631D00B34494 /* AdditionalGoodies */,
 				F7EEF2FC2C3B397F004DD5AA /* SealCapsule.swift */,
+				9DB1E9572CB326D1001952DF /* SendOff.swift */,
 			);
 			name = Capsule;
 			sourceTree = "<group>";
@@ -338,6 +343,7 @@
 				F746813D2C2FCBAA003A3F91 /* IvyOraDisplay-Bold.ttf */,
 				F746813E2C2FCBAA003A3F91 /* IvyOraDisplay-BoldItalic.ttf */,
 				F74681432C2FCBAB003A3F91 /* IvyOraDisplay-Light.ttf */,
+				9DB1E9592CB3328C001952DF /* PublicSans.ttf */,
 				F74681402C2FCBAA003A3F91 /* IvyOraDisplay-LightItalic.ttf */,
 				F746813F2C2FCBAA003A3F91 /* IvyOraDisplay-Medium.ttf */,
 				F74681412C2FCBAA003A3F91 /* IvyOraDisplay-MediumItalic.ttf */,
@@ -493,6 +499,7 @@
 				F746814B2C2FCBAB003A3F91 /* IvyOraDisplay-MediumItalic.ttf in Resources */,
 				F746814C2C2FCBAB003A3F91 /* IvyOraDisplay-Regular.ttf in Resources */,
 				F746814D2C2FCBAB003A3F91 /* IvyOraDisplay-Light.ttf in Resources */,
+				9DB1E95A2CB3328C001952DF /* PublicSans.ttf in Resources */,
 				9DEA74F82BFFF9490027AB4A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -594,6 +601,7 @@
 				9D01D6502C42FD8D00615767 /* Preparing.swift in Sources */,
 				F7E9517C2C44F6DE001EE069 /* OpenPhotos.swift in Sources */,
 				9D4D8C492C3626B800DB1091 /* SignUp.swift in Sources */,
+				9DB1E9582CB326D1001952DF /* SendOff.swift in Sources */,
 				9D01D6442C3B494A00615767 /* Landing.swift in Sources */,
 				F7E9517A2C44F5C4001EE069 /* IntroText.swift in Sources */,
 				9D01D64E2C42F64500615767 /* CapsuleAPIClient.swift in Sources */,
@@ -791,6 +799,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Retrospect/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSContactsUsageDescription = "Retrospect needs access to your contacts to invite your friends.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Retrospect requires access to your microphone to record audio.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -828,6 +837,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Retrospect/Info.plist;
 				INFOPLIST_KEY_LSSupportsOpeningDocumentsInPlace = YES;
+				INFOPLIST_KEY_NSContactsUsageDescription = "Retrospect needs access to your contacts to invite your friends.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Retrospect requires access to your microphone to record audio.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
