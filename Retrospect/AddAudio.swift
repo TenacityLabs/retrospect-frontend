@@ -59,7 +59,7 @@
 //            .padding(.horizontal, 20)
 //
 //            List {
-//                ForEach(globalState.audios.indices, id: \.self) { index in
+//                ForEach($globalState.focusCapsule.audios.indices, id: \.self) { index in
 //                    VStack {
 //                        Text("Audio \(index + 1)")
 //                        WaveformView(levels: .constant(self.generateWaveform(from: globalState.audios[index])))
