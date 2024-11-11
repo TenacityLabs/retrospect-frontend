@@ -87,20 +87,17 @@ struct PhotoSummary: View {
                     Spacer()
                     
                     HStack(alignment: .lastTextBaseline) {
-                        // Logo Image
                         Image("Logo White")
                             .resizable()
                             .frame(width: 24, height: 24)
                             .padding(.trailing, 10)
                         
-                        // "Retrospect" Title Text
                         Text("Retrospect")
                             .foregroundColor(.white)
                             .font(.custom("IvyOra Display", size: 24))
                         
                         Spacer()
                         
-                        // Website Text
                         Text("retrospect.space")
                             .foregroundColor(.white)
                             .font(.custom("Syne", size: 18))
