@@ -29,7 +29,7 @@ struct User: Decodable {
 class UserAPIClient {
     static let shared = UserAPIClient()
     
-    private let baseURL = "http://34.130.149.129/api/v1"
+    private let baseURL = "http://34.130.7.105/api/v1"
     
     private init() {}
     

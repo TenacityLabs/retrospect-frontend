@@ -56,14 +56,13 @@
 		F77347C82C2906760048E3C7 /* ShareWithFriends.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C72C2906760048E3C7 /* ShareWithFriends.swift */; };
 		F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */ = {isa = PBXBuildFile; fileRef = F77347C92C290B0D0048E3C7 /* Tutorial.swift */; };
 		F784F1072C1D238100E1123F /* ChooseName.swift in Sources */ = {isa = PBXBuildFile; fileRef = F784F1062C1D238100E1123F /* ChooseName.swift */; };
+		F7888E302CE005CC003373E7 /* OpenWriting.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7888E2F2CE005CC003373E7 /* OpenWriting.swift */; };
 		F7D96C9C2C30C2E000BB538A /* Dashboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D96C9B2C30C2E000BB538A /* Dashboard.swift */; };
 		F7E9517A2C44F5C4001EE069 /* IntroText.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E951792C44F5C4001EE069 /* IntroText.swift */; };
 		F7E9517C2C44F6DE001EE069 /* OpenPhotos.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E9517B2C44F6DE001EE069 /* OpenPhotos.swift */; };
 		F7E9517E2C44FE28001EE069 /* OpenSong.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E9517D2C44FE28001EE069 /* OpenSong.swift */; };
 		F7E951802C4500B8001EE069 /* OpenTextPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E9517F2C4500B8001EE069 /* OpenTextPrompt.swift */; };
 		F7E951822C4505C1001EE069 /* OpenSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E951812C4505C1001EE069 /* OpenSummary.swift */; };
-		F7E951842C450643001EE069 /* OpenAudio.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E951832C450643001EE069 /* OpenAudio.swift */; };
-		F7E951862C450650001EE069 /* OpenDrawing.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E951852C450650001EE069 /* OpenDrawing.swift */; };
 		F7E951882C450660001EE069 /* OpenFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7E951872C450660001EE069 /* OpenFile.swift */; };
 		F7EEF2FD2C3B397F004DD5AA /* SealCapsule.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7EEF2FC2C3B397F004DD5AA /* SealCapsule.swift */; };
 		FB2E2D9B0031A4CD2034FCBB /* Pods_Retrospect_RetrospectUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F0EEB07D32392C1EFF3945E4 /* Pods_Retrospect_RetrospectUITests.framework */; };
@@ -145,14 +144,13 @@
 		F77347C72C2906760048E3C7 /* ShareWithFriends.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareWithFriends.swift; sourceTree = "<group>"; };
 		F77347C92C290B0D0048E3C7 /* Tutorial.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tutorial.swift; sourceTree = "<group>"; };
 		F784F1062C1D238100E1123F /* ChooseName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseName.swift; sourceTree = "<group>"; };
+		F7888E2F2CE005CC003373E7 /* OpenWriting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenWriting.swift; sourceTree = "<group>"; };
 		F7D96C9B2C30C2E000BB538A /* Dashboard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dashboard.swift; sourceTree = "<group>"; };
 		F7E951792C44F5C4001EE069 /* IntroText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntroText.swift; sourceTree = "<group>"; };
 		F7E9517B2C44F6DE001EE069 /* OpenPhotos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenPhotos.swift; sourceTree = "<group>"; };
 		F7E9517D2C44FE28001EE069 /* OpenSong.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSong.swift; sourceTree = "<group>"; };
 		F7E9517F2C4500B8001EE069 /* OpenTextPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenTextPrompt.swift; sourceTree = "<group>"; };
 		F7E951812C4505C1001EE069 /* OpenSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenSummary.swift; sourceTree = "<group>"; };
-		F7E951832C450643001EE069 /* OpenAudio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenAudio.swift; sourceTree = "<group>"; };
-		F7E951852C450650001EE069 /* OpenDrawing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenDrawing.swift; sourceTree = "<group>"; };
 		F7E951872C450660001EE069 /* OpenFile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenFile.swift; sourceTree = "<group>"; };
 		F7EEF2FC2C3B397F004DD5AA /* SealCapsule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SealCapsule.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -362,12 +360,11 @@
 			isa = PBXGroup;
 			children = (
 				F7E951792C44F5C4001EE069 /* IntroText.swift */,
+				F7888E2F2CE005CC003373E7 /* OpenWriting.swift */,
 				F7E9517B2C44F6DE001EE069 /* OpenPhotos.swift */,
 				F7E9517D2C44FE28001EE069 /* OpenSong.swift */,
 				F7E9517F2C4500B8001EE069 /* OpenTextPrompt.swift */,
 				F7E951812C4505C1001EE069 /* OpenSummary.swift */,
-				F7E951832C450643001EE069 /* OpenAudio.swift */,
-				F7E951852C450650001EE069 /* OpenDrawing.swift */,
 				F7E951872C450660001EE069 /* OpenFile.swift */,
 			);
 			name = OpenCapsule;
@@ -598,7 +595,6 @@
 			files = (
 				9D01D6462C3B746600615767 /* CapsuleRouter.swift in Sources */,
 				9D0696652C040F9600AB1098 /* SpotifyManager.swift in Sources */,
-				F7E951862C450650001EE069 /* OpenDrawing.swift in Sources */,
 				F77347CA2C290B0D0048E3C7 /* Tutorial.swift in Sources */,
 				F7D96C9C2C30C2E000BB538A /* Dashboard.swift in Sources */,
 				9D01D6502C42FD8D00615767 /* Preparing.swift in Sources */,
@@ -613,7 +609,7 @@
 				9DEA74F42BFFF9470027AB4A /* RetrospectApp.swift in Sources */,
 				9D01D64A2C41DFE500615767 /* EditDrawing.swift in Sources */,
 				F7E951882C450660001EE069 /* OpenFile.swift in Sources */,
-				F7E951842C450643001EE069 /* OpenAudio.swift in Sources */,
+				F7888E302CE005CC003373E7 /* OpenWriting.swift in Sources */,
 				9DC782342C3B057C0017C893 /* SetDate.swift in Sources */,
 				9D01D6572C44734B00615767 /* APITypes.swift in Sources */,
 				9D738D1F2C1D2C820019109E /* AdditionalGoodies.swift in Sources */,

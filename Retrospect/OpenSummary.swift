@@ -15,7 +15,7 @@ struct OpenSummaryScreen: View {
             Text("how many of each item / how many you contributed (collab only)").font(.custom("Syne-Regular", size: 20))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
-            Spacer()
+            Spacer() 
             Text("how long the capsule was closed for").font(.custom("Syne-Regular", size: 20))
                 .foregroundColor(.white)
                 .multilineTextAlignment(.center)
