@@ -10,6 +10,31 @@ import UIKit
 import MobileCoreServices
 import UniformTypeIdentifiers
 
+struct RoundedTopCorners: Shape {
+    var radius: CGFloat = 5
+    
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        path.move(to: CGPoint(x: rect.minX, y: rect.maxY))
+        path.addLine(to: CGPoint(x: rect.minX, y: rect.minY + radius))
+        path.addArc(center: CGPoint(x: rect.minX + radius, y: rect.minY + radius),
+                    radius: radius,
+                    startAngle: .degrees(180),
+                    endAngle: .degrees(270),
+                    clockwise: false)
+        path.addLine(to: CGPoint(x: rect.maxX - radius, y: rect.minY))
+        path.addArc(center: CGPoint(x: rect.maxX - radius, y: rect.minY + radius),
+                    radius: radius,
+                    startAngle: .degrees(270),
+                    endAngle: .degrees(360),
+                    clockwise: false)
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.maxY))
+        path.closeSubpath()
+        
+        return path
+    }
+}
+
 func getIcon(for file: File) -> UIImage? {
     let url = URL(string: file.fileURL)
     let fileExtension = url?.pathExtension.lowercased() ?? ""
@@ -38,16 +63,18 @@ let pastelColors: [Color] = [
     Color(red: 0.98, green: 0.75, blue: 0.75), // Pastel Red
     Color(red: 0.70, green: 0.85, blue: 0.70), // Pastel Green
     Color(red: 0.67, green: 0.85, blue: 0.90), // Pastel Blue
-    Color(red: 1.00, green: 0.80, blue: 0.60)  // Pastel Orange
+    Color(red: 1.00, green: 0.80, blue: 0.60),  // Pastel Orange
+    Color(red: 0.90, green: 0.90, blue: 0.80)  // Pastel Yellow
 ]
 
 struct OpenFileData: View {
     let files: [File] = [
         File(id: 1, fileURL: "https://slimescholars.com/assets/audio/tracks/pillar-space.mp3", fileType: "audio/mpeg"),
-        File(id: 2, fileURL: "https://musopen.org/media/works/2/2/2222/2222.pdf", fileType: "application/pdf"),
-        File(id: 3, fileURL: "https://musopen.org/media/works/3/3/3333/3333.jpg", fileType: "image/jpeg"),
-        File(id: 4, fileURL: "https://musopen.org/media/works/4/4/4444/4444.txt", fileType: "text/plain"),
-        File(id: 5, fileURL: "https://musopen.org/media/works/5/5/5555/5555.zip", fileType: "application/zip")
+        File(id: 2, fileURL: "https://slimescholars.com/assets/audio/tracks/pillar-space.mp3", fileType: "audio/mpeg"),
+        File(id: 3, fileURL: "https://slimescholars.com/assets/audio/tracks/pillar-space.mp3", fileType: "audio/mpeg"),
+        File(id: 4, fileURL: "https://slimescholars.com/assets/audio/tracks/pillar-space.mp3", fileType: "audio/mpeg"),
+        File(id: 5, fileURL: "https://slimescholars.com/assets/audio/tracks/pillar-space.mp3", fileType: "audio/mpeg"),
+        File(id: 6, fileURL: "https://slimescholars.com/assets/audio/tracks/pillar-space.mp3", fileType: "audio/mpeg"),
     ]
     
     @State private var currentIndex = 0
@@ -66,25 +93,52 @@ struct OpenFileData: View {
                 ZStack(alignment: .bottom) {
                     ForEach(0..<files.count, id: \.self) { index in
                         let reversedIndex = files.count - 1 - index
-                        let cap: CGFloat = geometry.size.height - CGFloat(225 + (40 * files.count))
+                        let cap: CGFloat = geometry.size.height - CGFloat(185 + (40 * files.count))
                         let height: CGFloat = cap + CGFloat(40 * reversedIndex)
-                        let tabWidth: CGFloat = (geometry.size.width - 24) / CGFloat(files.count)
-                        let xOffset: CGFloat = CGFloat(index + 1) * tabWidth - CGFloat(geometry.size.width / 2 - 12) - CGFloat(tabWidth / 2)
+                        let tabWidth: CGFloat = max(1.25 * (geometry.size.width - 24) / CGFloat(files.count), CGFloat(geometry.size.width / 3.5))
+                        let tickDistance: CGFloat = CGFloat(geometry.size.width - 24 - tabWidth) / CGFloat(max(files.count - 1, 1))
+                        let xOffset: CGFloat =  
+                            CGFloat(tabWidth / 2) +
+                            CGFloat(reversedIndex) * tickDistance -
+                            CGFloat(geometry.size.width / 2 - 12)
                         
-                        VStack (spacing: 0) {
-                            HStack {
-                                Spacer()
-                                Rectangle()
-                                    .fill(pastelColors[reversedIndex])
-                                    .frame(width: tabWidth, height: 35)
-                                    .cornerRadius(2.5)
-                                    .offset(x: xOffset)
-                                Spacer()
-                            }
+                        ZStack(alignment: .top) {
                             FolderView(file: files[reversedIndex],
                                        index: reversedIndex,
                                        currentIndex: $currentIndex)
-                            .cornerRadius(12)
+                                .cornerRadius(12)
+                                .frame(width: geometry.size.width, height: height)
+                            
+                            if files.count > 1 {
+                                HStack {
+                                    Spacer()
+                                    
+                                    Button(action: {
+                                        currentIndex = index
+                                        print(currentIndex)
+                                    }) {
+                                        Rectangle()
+                                            .fill(pastelColors[reversedIndex])
+                                            .frame(width: tabWidth, height: 35)
+                                            .clipShape(RoundedTopCorners(radius: 2.5))
+                                            .overlay(
+                                                VStack {
+                                                    Color.black.opacity(0.15)
+                                                       .frame(height: 3)
+                                                        .blur(radius: 2)
+                                                        .offset(y: -1.5)
+                                                        .clipShape(RoundedTopCorners(radius: 2.5))
+                                                    Spacer()
+                                                }
+                                            )
+                                    }
+                                    .offset(x: xOffset, y: -30)
+                                    .buttonStyle(PlainButtonStyle())
+                                    
+                                    
+                                    Spacer()
+                                }
+                            }
                         }
                         .frame(width: geometry.size.width, height: height)
                         .alignmentGuide(.bottom) { d in d.height }
@@ -125,6 +179,15 @@ struct FolderView: View {
         .padding(.horizontal)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(pastelColors[index])
+        .overlay(
+            VStack {
+                Color.black.opacity(0.15)
+                    .frame(height: 3)
+                    .blur(radius: 2)
+                    .offset(y: -1.5)
+                Spacer()
+            }
+        )
     }
 }
 
