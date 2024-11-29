@@ -131,42 +131,42 @@ struct SendOff: View {
         guard let capsule = globalState.focusCapsule?.capsule else { return }
         
         // Count the number of non-zero member IDs
-        collaboratorsAdded = [
+        let collaborators = [
             capsule.capsuleMember1Id,
             capsule.capsuleMember2Id,
             capsule.capsuleMember3Id,
             capsule.capsuleMember4Id,
             capsule.capsuleMember5Id
-        ].filter { $0 != 0 }.count
+        ].filter { $0 != 0 }
+        collaboratorsAdded = collaborators.count
         
-        let urlString = "https://yourapi.com/user.name/\(capsule.id)"
         
-        guard let url = URL(string: urlString) else { return }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.addValue("Bearer YOUR_AUTH_TOKEN", forHTTPHeaderField: "Authorization")
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Error fetching data: \(String(describing: error))")
-                return
+        for (index, collaborator) in collaborators.enumerated() {
+            let userSealed: Bool
+            switch index {
+            case 0:
+                userSealed = capsule.capsuleMember1Id != 0
+            case 1:
+                userSealed = capsule.capsuleMember2Id != 0
+            case 2:
+                userSealed = capsule.capsuleMember3Id != 0
+            case 3:
+                userSealed = capsule.capsuleMember4Id != 0
+            case 4:
+                userSealed = capsule.capsuleMember5Id != 0
+            default:
+                userSealed = false
             }
-            
-            do {
-                if let responseArray = try JSONSerialization.jsonObject(with: data, options: []) as? [[String: Any]] {
-                    DispatchQueue.main.async {
-                        self.members = responseArray.compactMap { item in
-                            guard let username = item["username"] as? String,
-                                  let userSealed = item["userSealed"] as? Bool else { return nil }
-                            return (username, userSealed)
-                        }
-                    }
+            UserAPIClient.shared.getUserName(authorization: globalState.jwt, id: collaborator) { result in
+                switch result {
+                case .success(let userResponse):
+                    let username = userResponse.name
+                    self.members.append((username: username, userSealed: userSealed))
+                case .failure(let error):
+                    print("Error fetching user info for collaborator \(collaborator): \(error)")
                 }
-            } catch {
-                print("Failed to decode JSON: \(error)")
             }
-        }.resume()
+        }
     }
 }
 

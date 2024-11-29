@@ -15,6 +15,10 @@ struct UserGetResponse: Codable {
     let user: APIUser
 }
 
+struct UserNameGetResponse: Codable {
+    let name: String
+}
+
 struct EmptyResponse: Codable {}
 
 public enum APIError: Error {
@@ -71,6 +75,19 @@ class UserAPIClient {
     
     func getUser(authorization: String, completion: @escaping (Result<UserGetResponse, APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/user") else {
+            completion(.failure(.invalidURL))
+            return
+        }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "GET"
+        request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
+        
+        performRequest(request, completion: completion)
+    }
+    
+    func getUserName(authorization: String, id: UInt, completion: @escaping (Result<UserNameGetResponse, APIError>) -> Void) {
+        guard let url = URL(string: "\(baseURL)/\(String(id))") else {
             completion(.failure(.invalidURL))
             return
         }
