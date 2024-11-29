@@ -22,10 +22,9 @@ extension Binding where Value == String {
 }
 
 struct AnswerPrompt: View {
-    @EnvironmentObject var localCapsule: Capsule
+    @EnvironmentObject var globalState: GlobalState
     @State private var selectedIndex: Int = 0
-    @State private var prompts: [QuestionAnswer] = backendCapsule.questionAnswers
-    @Binding var state: String
+    @State private var prompts: [APIQuestionAnswer] = []
 
     var body: some View {
         VStack {
@@ -82,7 +81,7 @@ struct AnswerPrompt: View {
                 if prompts.count < 3 {
                     VStack {
                         Button(action: {
-                            prompts.append(QuestionAnswer(uploaded: false, prompt: "What item would you bring to a deserted island?", answer: ""))
+                            prompts.append(APIQuestionAnswer(uploaded: false, prompt: "What item would you bring to a deserted island?", answer: ""))
                             selectedIndex = prompts.count - 1
                         }) {
                             VStack {
@@ -121,8 +120,8 @@ struct AnswerPrompt: View {
 
             Button(action: {
                 if prompts[selectedIndex].uploaded {
-                    let body: [String: Any] = ["capsuleId": backendCapsule.capsule.id, "QuestionAnswerId": prompts[selectedIndex].id!]
-                    CapsuleAPIClient.shared.delete(authorization: jwt, mediaType: .prompt, body: body)
+                    let body: [String: Any] = ["capsuleId": globalState.focusCapsule?.capsule.id, "QuestionAnswerId": prompts[selectedIndex].id!]
+                    CapsuleAPIClient.shared.delete(authorization: globalState.jwt, mediaType: .prompt, body: body)
                     {_ in}
                 }
                 
@@ -148,9 +147,15 @@ struct AnswerPrompt: View {
             .disabled(prompts.count < 1 || selectedIndex == prompts.count)
 
             Button(action: {
-                backendCapsule.questionAnswers = prompts
-                uploadPrompts()
-                state = "AdditionalGoodies"
+                globalState.focusCapsule?.questionAnswers = prompts
+                uploadPrompts(globalState: globalState, qaArray: prompts, uploadCompleting: { arr, ind, newId in
+                    prompts[ind].id = newId
+                    prompts[ind].uploaded = true
+                }, editCompleting: { arr, ind in
+                    prompts[ind].uploaded = true
+                    prompts[ind].edited = false
+                })
+                globalState.route = "/ag"
             }) {
                 Text("I'm Done!")
                     .foregroundColor(.black)
@@ -165,65 +170,57 @@ struct AnswerPrompt: View {
             }
         }
         .onAppear {
+            prompts = globalState.focusCapsule?.questionAnswers ?? []
             if prompts.isEmpty {
-                prompts.append(QuestionAnswer(uploaded: false, prompt: "What item would you bring to a deserted island?", answer: ""))
+                prompts.append(APIQuestionAnswer(uploaded: false, prompt: "What item would you bring to a deserted island?", answer: ""))
             }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .center)
     }
 }
 
-@MainActor func uploadPrompts() {
-    for index in backendCapsule.questionAnswers.indices where (!backendCapsule.questionAnswers[index].uploaded || backendCapsule.questionAnswers[index].edited) {
+@MainActor func uploadPrompts(globalState: GlobalState, qaArray: [APIQuestionAnswer], uploadCompleting: @escaping([APIQuestionAnswer], Int, UInt) -> Void, editCompleting: @escaping([APIQuestionAnswer], Int) -> Void) {
+    for index in qaArray.indices where (!qaArray[index].uploaded || qaArray[index].edited) {
         
-        if !backendCapsule.questionAnswers[index].uploaded {
-            
+        if !qaArray[index].uploaded {
             let body: [String: Any] =
-                ["capsuleId": backendCapsule.capsule.id,
-                "prompt": backendCapsule.questionAnswers[index].prompt,
-                "answer": backendCapsule.questionAnswers[index].answer]
+            ["capsuleId": globalState.focusCapsule?.capsule.id,
+                "prompt": qaArray[index].prompt,
+                "answer": qaArray[index].answer]
             
             CapsuleAPIClient.shared.create(
-            authorization: jwt,
+                authorization: globalState.jwt,
             mediaType: .prompt,
             body: body)
             { result in
-                DispatchQueue.main.async {
-                    switch result {
-                        
-                        case .success(let result):
-                            backendCapsule.questionAnswers[index].id = result.id
-                            backendCapsule.questionAnswers[index].uploaded = true
-                        
-                        case .failure(let error):
-                            print(error)
-                        
+            DispatchQueue.main.async {
+                switch result {
+                    case .success(let createResult):
+                        uploadCompleting(qaArray, index, createResult.id)
+                    case .failure(let error):
+                        print(error)
                     }
                 }
             }
-        } else if backendCapsule.questionAnswers[index].edited {
+        } else if qaArray[index].edited {
             
             let body: [String: Any] =
-                ["capsuleId": backendCapsule.capsule.id,
-                 "QuestionAnswerId": backendCapsule.questionAnswers[index].id!,
-                "prompt": backendCapsule.questionAnswers[index].prompt,
-                "answer": backendCapsule.questionAnswers[index].answer]
+            ["capsuleId": globalState.focusCapsule?.capsule.id,
+                 "QuestionAnswerId": qaArray[index].id!,
+                "prompt": qaArray[index].prompt,
+                "answer": qaArray[index].answer]
             
             CapsuleAPIClient.shared.update(
-            authorization: jwt,
+                authorization: globalState.jwt,
             updateType: .QuestionAnswer,
             body: body)
             { result in
                 DispatchQueue.main.async {
                     switch result {
-                        
-                    case .success(let result):
-                        backendCapsule.questionAnswers[index].uploaded = true
-                        backendCapsule.questionAnswers[index].edited = false
-                        
+                    case .success(_):
+                        editCompleting(qaArray, index)
                     case .failure(let error):
                         print(error)
-                        
                     }
                 }
             }
@@ -234,7 +231,6 @@ struct AnswerPrompt: View {
 #Preview {
     ZStack {
         BackgroundImageView()
-        AnswerPrompt(state: .constant(""))
-            .environmentObject(Capsule())
+        AnswerPrompt()
     }
 }

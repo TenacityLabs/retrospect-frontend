@@ -3,10 +3,10 @@ import UniformTypeIdentifiers
 import PDFKit
 
 struct AddFile: View {
+    @EnvironmentObject var globalState: GlobalState
     @State private var isDocumentPickerPresented = false
-    @Binding var AGstate: String
     @State private var selectedIndex: Int = 0
-    @State private var files: [File] = backendCapsule.miscFiles
+    @State private var files: [APIMiscFile] = []
     
     var body: some View {
         VStack {
@@ -76,8 +76,8 @@ struct AddFile: View {
             
             Button(action: {
                 if files[selectedIndex].uploaded {
-                    let body: [String: Any] = ["capsuleId": backendCapsule.capsule.id, "miscFileId": files[selectedIndex].id!]
-                    CapsuleAPIClient.shared.delete(authorization: jwt, mediaType: .miscFile, body: body)
+                    let body: [String: Any] = ["capsuleId": globalState.focusCapsule?.capsule.id, "miscFileId": files[selectedIndex].id!]
+                    CapsuleAPIClient.shared.delete(authorization: globalState.jwt, mediaType: .miscFile, body: body)
                     {_ in}
                 }
                 
@@ -104,11 +104,14 @@ struct AddFile: View {
             .disabled(files.count < 1 || selectedIndex == files.count)
 
             Button(action: {
-                backendCapsule.miscFiles = files
-                uploadFiles()
-                AGstate = "AdditionalGoodies"
+                globalState.focusCapsule?.miscFiles = files
+                uploadFiles(globalState: globalState, fileArray: files, completing: { arr, ind, newId in
+                    files[ind].id = newId
+                    files[ind].uploaded = true
+                })
+                globalState.route = "/ag"
             }) {
-                Text("bogos binted")
+                Text("files uploaded")
                     .foregroundColor(Color.black)
                     .padding()
                     .frame(width: 300)
@@ -136,7 +139,7 @@ struct AddFile: View {
                     let fileSize = try url.resourceValues(forKeys: [.fileSizeKey]).fileSize ?? 0
                     let fileSizeInMB = Double(fileSize) / (1024 * 1024)
                     if fileSizeInMB <= 5 {
-                        let file = File(uploaded: false, fileURL: url.absoluteString, fileType: url.pathExtension.lowercased())
+                        let file = APIMiscFile(uploaded: false, fileURL: url.absoluteString, fileType: url.pathExtension.lowercased())
                         files.append(file)
                         print("File selected: \(url)")
                     } else {
@@ -224,36 +227,32 @@ class PDFPageView: UIView {
     }
 }
 
-@MainActor func uploadFiles() {
-    for index in backendCapsule.miscFiles.indices where !backendCapsule.miscFiles[index].uploaded {
+@MainActor func uploadFiles(globalState: GlobalState, fileArray: [APIMiscFile], completing: @escaping ([APIMiscFile], Int, UInt) -> Void) {
+    for index in fileArray.indices where !fileArray[index].uploaded {
         
         CapsuleAPIClient.shared.upload(
-        authorization: jwt,
-        fileURL:  URL(string: backendCapsule.miscFiles[index].fileURL)!,
-        fileType: backendCapsule.miscFiles[index].fileType)
+            authorization: globalState.jwt,
+        fileURL:  URL(string: fileArray[index].fileURL)!,
+        fileType: fileArray[index].fileType)
         { result in
             switch result {
                 
                 case .success(let result):
                     
                     let body: [String: Any] =
-                        ["authorization": jwt,
-                        "capsuleID": backendCapsule.capsule.id,
+                ["authorization": globalState.jwt,
+                 "capsuleID": globalState.focusCapsule?.capsule.id,
                         "objectName": result.objectName,
                         "fileURL": result.fileURL]
                     
                     CapsuleAPIClient.shared.create(
-                    authorization: jwt,
+                        authorization: globalState.jwt,
                     mediaType: .miscFile,
                     body: body)
                     { result in
                         switch result {
-                            
                         case .success(let result):
-                            print("Uploaded")
-                            backendCapsule.miscFiles[index].id = result.id
-                            backendCapsule.miscFiles[index].uploaded = true
-                            
+                            completing(fileArray, index, result.id)
                         case .failure(let error):
                             print(error)
                             
@@ -271,7 +270,6 @@ class PDFPageView: UIView {
 #Preview {
     ZStack {
         BackgroundImageView()
-        AddFile(AGstate: .constant(""))
-            .environmentObject(Capsule())
+        AddFile()
     }
 }

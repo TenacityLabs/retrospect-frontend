@@ -17,7 +17,7 @@ struct SignUp: View {
     @State private var password: String = ""
     @State private var isPasswordVisible: Bool = false
     @State private var err: String = " "
-    @Binding var state: String
+    @EnvironmentObject var globalState: GlobalState
     
     var body: some View {
         VStack {
@@ -165,7 +165,7 @@ struct SignUp: View {
                 Text("Already have an account?")
                     .foregroundColor(.white)
                 Button(action: {
-                    state = "Login"
+                    globalState.route = "/login"
                 }) {
                     Text("Login")
                         .foregroundColor(Color.white.opacity(0.5))
@@ -183,6 +183,7 @@ struct SignUp: View {
     }
     
     //FIXME: handle failure case
+    @MainActor
     private func register() {
 //        splitName()
         print(name, number, email, password)
@@ -190,7 +191,7 @@ struct SignUp: View {
             DispatchQueue.main.async {
                 switch result {
                 case .success:
-                    state = "Login"
+                    globalState.route = "/login"
                 case .failure(let error):
                     err = "Registration failed: \(error)"
                     print(err)
@@ -199,15 +200,16 @@ struct SignUp: View {
         }
     }
     
+    @MainActor
     private func login() {
         UserAPIClient.shared.login(email: email, password: password) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let token):
-                    jwt = token.token
-                    state = "Dashboard"
+                    globalState.jwt = token.token
+                    globalState.route = "/dashboard"
                 case .failure(_):
-                    state = "Login"
+                    globalState.route = "/login"
                 }
             }
         }
@@ -235,7 +237,7 @@ struct SignUp: View {
 #Preview {
     ZStack {
         BackgroundImageView()
-        SignUp(state: .constant(""))
+        SignUp()
     }
 }
  

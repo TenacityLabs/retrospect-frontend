@@ -55,11 +55,39 @@ struct CapsuleRouter: View {
                     .transition(.slide)
                     .environmentObject(localCapsule)
             }
+            if !["IconSelect", "Preparing", "AdditionalGoodies"].contains(capsuleState) {
+                BackButton(action: {
+                    if capsuleState == "ChooseName"{
+                        capsuleState = "IconSelect"
+                    }
+                    else if capsuleState == "Collab" {
+                        capsuleState = "ChooseName"
+                    }
+                    else if capsuleState == "PhotoSelect" {
+                        capsuleState = "ChooseName"
+                    }
+                    else if capsuleState == "SongSelect" {
+                        capsuleState = "PhotoSelect"
+                    }
+                    else if capsuleState == "AnswerPrompt" {
+                        capsuleState = "SongSelect"
+                    }
+                    else if capsuleState == "SetDate" {
+                        capsuleState = "AdditionalGoodies"
+                    }
+                    else if capsuleState == "SealBox" {
+                        capsuleState = "SetDate"
+                    }
+                })
+            }
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
 #Preview {
-    CapsuleRouter()
+    ZStack {
+        BackgroundImageView()
+        CapsuleRouter()
+    }
 }

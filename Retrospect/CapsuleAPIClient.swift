@@ -43,7 +43,7 @@ class CapsuleAPIClient {
     
     private init() {}
     
-    func getCapsules(authorization: String, completion: @escaping (Result<[CapsuleData], APIError>) -> Void) {
+    func getCapsules(authorization: String, completion: @escaping (Result<[APIBaseCapsule], APIError>) -> Void) {
         guard let url = URL(string: "\(baseURL)/capsules") else {
             completion(.failure(.invalidURL))
             return
@@ -125,7 +125,11 @@ class CapsuleAPIClient {
         request.httpMethod = "POST"
         request.setValue("Bearer \(authorization)", forHTTPHeaderField: "Authorization")
         
-        let body: [String: Any] = ["capsuleId": capsuleId, "dateToOpen": dateToOpen]
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ssZ"
+        let dateToOpenString = dateFormatter.string(from: dateToOpen)
+        
+        let body: [String: Any] = ["capsuleId": capsuleId, "dateToOpen": dateToOpenString]
         request.httpBody = try? JSONSerialization.data(withJSONObject: body)
         
         performRequest(request) { (result: Result<EmptyResponse, APIError>) in
@@ -307,6 +311,7 @@ public func performRequest<T: Decodable>(_ request: URLRequest, completion: @esc
         
         do {
             let decodedResponse = try JSONDecoder().decode(T.self, from: data)
+            print("Decoded Response: \(decodedResponse)")
             completion(.success(decodedResponse))
         } catch {
             completion(.failure(.decodingFailed(error)))

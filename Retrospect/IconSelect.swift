@@ -1,17 +1,19 @@
-//
-//  IconSelect.swift
-//  Retrospect
-//
-//  Created by Andrew Durnford on 2024-05-24.
-//
-
 import SwiftUI
 
 struct IconSelect: View {
-    @Binding var state: String
-    @EnvironmentObject var localCapsule: Capsule
+    @EnvironmentObject var globalState: GlobalState
+    @State private var containers = ["box", "Suitcase", "Guitar", "Jar", "Shoe"]
     @State private var selectedIndex: Int = 0
-    @State private var containers = ["box", "suitcase", "guitar", "jar", "shoe"]
+    
+    func reapplySelection() -> Int {
+        if let index = containers.firstIndex(where: { item in
+            item == globalState.localCapsule.vessel
+        }) {
+            return index
+        } else {
+            return 0
+        }
+    }
     
     var body: some View {
         VStack {
@@ -26,22 +28,22 @@ struct IconSelect: View {
             TabView(selection: $selectedIndex) {
                 ForEach(containers.indices, id: \.self) { index in
                     GeometryReader { geometry in
-                            VStack {
-                                Image(containers[index])
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(height: 300)
-                                    .padding()
-                                    .shadow(color: .white, radius: 30, x: 0, y: 0)
-                            }
-                            .padding()
-                            .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
-                            .cornerRadius(15)
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 10)
-                                    .inset(by: 0.5)
-                                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
-                            )
+                        VStack {
+                            Image(containers[index])
+                                .resizable()
+                                .scaledToFit()
+                                .frame(height: 300)
+                                .padding()
+                                .shadow(color: .white, radius: 30, x: 0, y: 0)
+                        }
+                        .padding()
+                        .background(Color(red: 44/255, green: 44/255, blue: 44/255).opacity(0.9))
+                        .cornerRadius(15)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 10)
+                                .inset(by: 0.5)
+                                .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                        )
                     }
                 }
                 .padding(.horizontal, 10)
@@ -61,8 +63,7 @@ struct IconSelect: View {
             Spacer()
             
             Button(action: {
-                vessel = containers[selectedIndex]
-                state = "ChooseName"
+                globalState.route = "/capsule/choose-name"
             }) {
                 Text("Confirm Selection")
                     .foregroundColor(Color.black)
@@ -78,14 +79,18 @@ struct IconSelect: View {
             .padding(.bottom, 80)
         }
         .padding(.horizontal)
+        .onAppear {
+            selectedIndex = reapplySelection()
+        }
+        .onChange(of: selectedIndex) {
+            globalState.localCapsule.vessel = containers[selectedIndex]
+        }
     }
 }
 
 #Preview {
     ZStack {
         BackgroundImageView()
-        IconSelect(state: .constant(""))
-            .environmentObject(Capsule())
+        IconSelect().environmentObject(GlobalState())
     }
 }
-
